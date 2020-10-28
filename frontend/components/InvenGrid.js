@@ -1,6 +1,23 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 
+const test = [1, 2, 3, 4]
+
+{/* <Image style={styles.tinyLogo} source={require('@expo/snack-static/react-native-logo.png')} /> */}
+{/* <Image
+style={styles.tinyLogo}
+source={{
+  uri: 'https://reactnative.dev/img/tiny_logo.png',
+}}
+/> */}
+
+const ItemGrid = (props) => {
+  const number1 = props.number1
+  const number2 = props.number2
+  console.log(number1, number2)
+  return <Image style={styles.tinyLogo} source={require('../assets/splash.png')} />
+  // return <Text>{number1}, {number2}</Text>
+}
 
 export default function InvenGrid() {
   // const [isInventory, setIsInventory] = useState(true);
@@ -12,10 +29,11 @@ export default function InvenGrid() {
 
       <View style={ styles.testGrid }>
         <View style={ styles.testGridContainer }>
-          {[0, 1, 2, 3].map((number) =>
-            <View key={number.toString()} style={ styles.testGridRow }>
-              {[0, 1, 2 ,3 ,4].map((number) =>
-                <View key={number.toString()} style={ styles.testGridCell }>
+          {[0, 1, 2, 3].map((number1) =>
+            <View key={number1.toString()} style={ styles.testGridRow }>
+              {[0, 1, 2 ,3 ,4].map((number2) =>
+                <View key={number2.toString()} style={ styles.testGridCell }>
+                  <ItemGrid number1={number1} number2={number2} />
                 </View>
               )}
             </View>
@@ -26,6 +44,10 @@ export default function InvenGrid() {
 }
 
 const styles = StyleSheet.create({
+  tinyLogo: {
+    width: 60,
+    height: 60,
+  },
 
   testGrid: {
     color: '#776e65',
