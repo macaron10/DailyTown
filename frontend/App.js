@@ -6,9 +6,9 @@ import MissionModal from './components/MissionModal';
 export default function App() {
   return (
     <View style={styles.container}>
+      <MissionModal />
       <Text>공허의 숲!!!</Text>
       <StatusBar style="auto" />
-      <MissionModal />
     </View>
   );
 }

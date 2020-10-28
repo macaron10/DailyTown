@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   View
 } from "react-native";
+import MissionList from "./MissionList";
 
 export default function MissionModal() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -22,8 +23,7 @@ export default function MissionModal() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
-
+              <MissionList />
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
@@ -50,7 +50,8 @@ export default function MissionModal() {
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
+    // flex: 1,
+    // flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22
