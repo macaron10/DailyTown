@@ -1,50 +1,57 @@
-import React from "react";
-import { StyleSheet, View } from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import InvenGrid from './InvenGrid'
+
+function CheckInventory(props) {
+  const isInventory = props.isInventory
+
+  if (isInventory) {
+    return <InvenGrid/>
+  }
+  else {
+    return <InvenGrid/>
+  }
+
+}
 
 export default function Inventory() {
+  const [isInventory, setIsInventory] = useState(true);
+  const [isStore, setIsStore] = useState(false);
+  const clickInventory = () => { setIsInventory(() => true); setIsStore(() => false) };
+  const clickStore = () => { setIsStore(() => true ); setIsInventory(() => false) };
+  // isStore
+
   return (
-    <View style={ styles.testGrid }>
-      <View style={ styles.testGridContainer }>
-        {[0, 1, 2, 3].map((number) =>
-          <View key={number.toString()} style={ styles.testGridRow }>
-            {[0, 1, 2 ,3 ,4].map((number) =>
-              <View key={number.toString()} style={ styles.testGridCell }>
-              </View>
-            )}
-          </View>
-        )}
+    <View style={styles.containerUnder}>
+
+      <View style={{ flexDirection: 'row' }}>
+        <TouchableOpacity
+          onPress={() => clickInventory()}
+          style={{ backgroundColor: 'red', width: '50%' }}
+        >
+          <Text style={{ color: '#fff', textAlign: 'center' }}>Inven</Text>
+
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => clickStore()}
+          style={{ backgroundColor: 'blue', width: '50%',  }}
+        >
+          <Text style={{ color: '#fff', textAlign: 'center' }}>Store</Text>
+
+        </TouchableOpacity>
       </View>
+      <CheckInventory isInventory={ isInventory } />
+
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  testGrid: {
-    color: '#776e65',
-    position: 'relative',
-    backgroundColor: '#bbada0',
-    width: '100%',
-    height: 300,
+  containerUnder: {
+    flex: 1,
+    justifyContent: 'flex-end'
   },
-  testGridContainer: {
-    color: '#776e65',
-    position: 'absolute',
-    zIndex: 1,
-  },
-  testGridRow: {
-    color: '#776e65',
-    paddingHorizontal: 10,
-    paddingVertical: 9,
-    flexDirection: 'row',
-  },
-  testGridCell: {
-    color: '#776e65',
-    width: 56.25,
-    height: 56.25,
-    marginRight: 15,
-    borderRadius: 3,
-    backgroundColor: 'rgba(238, 228, 218, 0.35)',
-  }
 
 })
 
