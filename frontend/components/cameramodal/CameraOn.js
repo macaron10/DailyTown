@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TouchableOpacity, Alert } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
+// import * as MediaLibrary from 'expo-media-library';
 
 
 export default function CameraOn({ setIsCameraOn, setPhotoInfo }) {
@@ -11,13 +12,25 @@ export default function CameraOn({ setIsCameraOn, setPhotoInfo }) {
     setIsCameraOn( prevStatus => !prevStatus )
   };
   const [hasPermission, setHasPermission] = useState(null);
+  // const [hasPermission2, setHasPermission2] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
   const snap = async () => {
     if (camera) {
       const { uri } = await camera.current.takePictureAsync()
+      // const asset = await MediaLibrary.createAssetAsync(uri);
+      // console.log('abcd', uri)
+      // console.log(asset)
+      // 로컬 핸드폰에 저장로직만들어둠(혹시나해서)
       setPhotoInfo({uri: uri})
       clickCameraOn()
+      // MediaLibrary.createAlbumAsync('Expo', asset)
+      // .then(() => {
+      //   Alert.alert('Album created!')
+      // })
+      // .catch(error => {
+      //   Alert.alert('An Error Occurred!')
+      // });
     }
   };
 
@@ -27,7 +40,9 @@ export default function CameraOn({ setIsCameraOn, setPhotoInfo }) {
   useEffect(() => {
     (async () => {
       let { status } = await Permissions.askAsync(Permissions.CAMERA);
+      // let { status2 } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       setHasPermission(status === 'granted');
+      // setHasPermission2(status2 === 'granted');
     })();
   }, []);
 
