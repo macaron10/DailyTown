@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { ImageBackground, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { View, Button, Text } from 'react-native';
 import Board from '../components/MainPageBoard'
 
-const image = require('../assets/공허의숲.png')
-
-export default function Main() {
-
+export default function Main({navigation}) {
   return (
     <View>
       <Board />
+      <Button
+        title="LoginPage(for Dev)"
+        onPress={() => navigation.navigate('Login')}
+      />
     </View>
   );
 }

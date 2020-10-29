@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { ImageBackground, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, TouchableOpacity, Button } from 'react-native';
 
 import * as Google from 'expo-google-app-auth';
 
 const image = require('../assets/voidforest.png')
 
-export default function LoginSample() {
+export default function LoginSample({ navigation }) {
   // const [userInfo, setUserInfo] = 
   const [checkBtn, setCheckBtn] = useState(0)
   const onPress = async () => {
@@ -23,6 +23,10 @@ export default function LoginSample() {
       <TouchableOpacity onPress={onPress} style={styles.loginBtn}>
         <Text style={styles.loginText}>Google LOGIN</Text>
       </TouchableOpacity>
+      <Button
+        title="NextPage(for Dev)"
+        onPress={() => navigation.navigate('Main')}
+      />
       </ImageBackground>
     </View>
   );
