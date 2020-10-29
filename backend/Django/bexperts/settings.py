@@ -41,6 +41,14 @@ INSTALLED_APPS = [
     #DRF
     'rest_framework',
 
+    #Authentication
+    'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+
     #MyAPP
     'accounts',
     'items',

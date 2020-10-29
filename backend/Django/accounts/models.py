@@ -2,27 +2,30 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 
 class UserManager(BaseUserManager):
-    use_in_migration = True
+    """
+    Custom user model manager where email is the unique identifiers
+    for authentication instead of usernames.
+    """
 
-    def create_user(self, email, password, is_superuser, name):
-        user = self.model(
-            email = self.normalize_email(email),
-            name = name
-        )
+    def create_user(self, email, password, name, **extra_fields):
+        if not email:
+            raise ValueError('The Email must be required')
+        email = self.nomalize_email(email)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, email, name, password):
-        user = self.create_user(
-            email = self.nomalize_email(email),
-            name = name,
-            password = password
-        )
-        user.is_admin = True
-        user.is_superuser = True
-        user.save(using=self._db)
-        return user
+    def create_superuser(self, email, password, name):
+        extra_fields.setdefault('is_staff', True),
+        extra_fields.setdefault('is_superuser', True),
+        extra_fields.setdefault('is_active', True),
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Super User must is_staff == True')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Super User must is_superuser == True')
+        return self.create_user(email, password, **extra_fields)
 
 class User(AbstractUser, PermissionMixin):
     objects = UserManager()
