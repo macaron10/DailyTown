@@ -11,7 +11,8 @@ export default function LoginSample() {
     <View style={styles.container}>
       <ImageBackground source={image} style={styles.image}>
       <Text style={styles.logo}>
-        {checkBtn}
+        {/* 여기에 타이틀 추가 */}
+        {/* {checkBtn} */}
       </Text>
       <TouchableOpacity onPress={onPress} style={styles.loginBtn}>
         <Text style={styles.loginText}>Google LOGIN</Text>
