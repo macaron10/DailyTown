@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image } from 'react-native';
 
-export default function ImageModal({ photoInfo, setPhotoInfo }) {
+export default function CameraModal({ photoInfo, setPhotoInfo }) {
   const [modalVisible, setModalVisible] = useState(true);
   return (
     <View style={styles.centeredView}>
