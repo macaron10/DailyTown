@@ -1,5 +1,7 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionMixin
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from items.models import Item
+from missions.models import Mission
 
 class UserManager(BaseUserManager):
     """
@@ -27,7 +29,7 @@ class UserManager(BaseUserManager):
             raise ValueError('Super User must is_superuser == True')
         return self.create_user(email, password, **extra_fields)
 
-class User(AbstractUser, PermissionMixin):
+class User(AbstractUser):
     objects = UserManager()
     email = models.EmailField(max_length=255, null=False, unique=True)
     name = models.CharField(max_length=20, null=False)
@@ -37,8 +39,20 @@ class User(AbstractUser, PermissionMixin):
     signupdate = models.DateTimeField(auto_now_add=True)
     gold = models.IntegerField(default=0),  # 사용자가 가진 돈
     farm_theme = models.IntegerField(default=1)  # 사용자가 가진 농장의 테마 // 추후 업데이트 요소임
-    USERNAME_FIELD = 'name'
-    REQUIRED_FIELDS = ['email', 'name']
+    # USERNAME_FIELD = 'name'
+    REQUIRED_FIELDS = ['email', 'name'],
+    myitems = models.ManyToManyField(Item, through='MyItem')
+    mymissions = models.ManyToManyField(Mission, through='MyMission')
     
 
+class MyItem(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    isinfarm = models.BooleanField(default=False)
+    location = models.IntegerField()
 
+class MyMission(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    mission = models.ForeignKey(Mission, on_delete=models.CASCADE)
+    iscleared = models.BooleanField(default=False)
