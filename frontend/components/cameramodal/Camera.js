@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert, Image } from 'react-native';
+import CameraOn from './components/CameraOn';
+
+function CheckCamera(props) {
+  const isCameraOn = props.isCameraOn
+  if ( isCameraOn ) {
+    return <CameraOn setIsCameraOn={ props.setIsCameraOn } setPhotoInfo={ props.setPhotoInfo }/>
+  }
+  else {
+    Alert.alert('Camera off')
+    return <Text>Nothing carmera On</Text>
+  }
+}
 
 export default function App() {
   const [isCameraOn, setIsCameraOn] = useState(false);
@@ -28,6 +40,7 @@ export default function App() {
 
           </TouchableOpacity>
         </View>
+        <CheckCamera isCameraOn={ isCameraOn } setIsCameraOn={ setIsCameraOn } setPhotoInfo={ setPhotoInfo } />
       </View>
     </View>
   );
