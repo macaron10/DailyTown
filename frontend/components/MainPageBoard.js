@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     backgroundColor: '#fff',
-    alignItems: 'center',    
+    alignItems: 'center',
+    height: '60vh'
   },
 });
