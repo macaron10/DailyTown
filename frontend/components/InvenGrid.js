@@ -14,7 +14,7 @@ source={{
 const ItemGrid = (props) => {
   const number1 = props.number1
   const number2 = props.number2
-  console.log(number1, number2)
+  // console.log(number1, number2)
   return <Image style={styles.tinyLogo} source={require('../assets/splash.png')} />
   // return <Text>{number1}, {number2}</Text>
 }
