@@ -62,6 +62,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#fff',
     alignItems: 'center',
-    height: '60vh'
+    height: 400
   },
 });
