@@ -50,11 +50,11 @@ export default function MissionModal() {
 
 const styles = StyleSheet.create({
   centeredView: {
-    // flex: 1,
+    flex: 1,
     // flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
   openButton: {
     backgroundColor: "#F194FF",
