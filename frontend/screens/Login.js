@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { ImageBackground, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-const image = require('../assets/공허의숲.png')
+import * as Google from 'expo-google-app-auth';
+
+const image = require('../assets/voidforest.png')
 
 export default function LoginSample() {
   // const [userInfo, setUserInfo] = 
   const [checkBtn, setCheckBtn] = useState(0)
-  const onPress = () => setCheckBtn(v => v+1);
+  const onPress = async () => {
+    const { type, accessToken, user } = await Google.logInAsync(
+      {androidClientId: 'Your Android Client Id'});
+    console.log(type, accessToken, user);
+  };
   return (
     <View style={styles.container}>
       <ImageBackground source={image} style={styles.image}>
