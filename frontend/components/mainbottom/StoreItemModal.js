@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Alert,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View
-} from "react-native";
+import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
 export default function StoreItemModal({ itemInfo, setItemInfo }) {
   const [modalVisible, setModalVisible] = useState(true);
