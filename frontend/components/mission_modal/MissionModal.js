@@ -18,7 +18,7 @@ export default function MissionModal() {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          setModalVisible(false);
         }}
       >
         <View style={styles.centeredView}>
@@ -51,7 +51,7 @@ export default function MissionModal() {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    // flexDirection: "row",
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 35,  
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
