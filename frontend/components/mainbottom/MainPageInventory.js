@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import InvenGrid from './MainPageInvenGrid'
+import StoreItem from './StoreItem.json'
 
 function CheckInventory(props) {
   const isInventory = props.isInventory
+  const items = StoreItem
 
   if (isInventory) {
-    return <InvenGrid/>
+    return <InvenGrid isInventory={ isInventory } />
   }
   else {
-    return <InvenGrid/>
+    return <InvenGrid isInventory={ isInventory } items={ items }/>
   }
 
 }

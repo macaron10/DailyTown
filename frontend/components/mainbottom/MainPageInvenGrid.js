@@ -14,12 +14,19 @@ source={{
 const ItemGrid = (props) => {
   const number1 = props.number1
   const number2 = props.number2
-  // console.log(number1, number2)
+  const isInventory = props.isInventory
+  const items = props.items
+  // store 인 경우.
+  // col이 5개라고 가정
+  if ( !isInventory && items[number1*5 + number2]) {
+    console.log(items[number1*5 + number2])
+  }
+  
   return <Image style={styles.tinyLogo} source={require('../../assets/splash.png')} />
   // return <Text>{number1}, {number2}</Text>
 }
 
-export default function InvenGrid() {
+export default function InvenGrid({ items, isInventory }) {
   // const [isInventory, setIsInventory] = useState(true);
   // const [isStore, setIsStore] = useState(false);
   // const clickInventory = () => setIsInventory(() => true); setIsStore(() => false);
@@ -33,7 +40,7 @@ export default function InvenGrid() {
             <View key={number1.toString()} style={ styles.testGridRow }>
               {[0, 1, 2 ,3 ,4].map((number2) =>
                 <View key={number2.toString()} style={ styles.testGridCell }>
-                  <ItemGrid number1={number1} number2={number2} />
+                  <ItemGrid number1={ number1 } number2={ number2 } items={ items } isInventory={ isInventory }/>
                 </View>
               )}
             </View>
