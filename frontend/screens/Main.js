@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Button, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Board from '../components/MainPageBoard'
-import Inventory from '../components/mainbottom/MainPageInventory'
+import MainPageInventory from '../components/mainbottom/MainPageInventory'
 
 export default function Main({navigation}) {
   return (
@@ -13,7 +13,7 @@ export default function Main({navigation}) {
         <Text style={{ color: '#fff', textAlign: 'center' }}>LoginPage(for Dev)</Text>
       </TouchableOpacity>
       <Board />
-      <Inventory/>
+      <MainPageInventory/>
     </View>
   );
 }
