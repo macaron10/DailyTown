@@ -53,7 +53,7 @@ export default function CameraOn({ setIsCameraOn, setPhotoInfo }) {
     return <Text>No access to camera</Text>;
   }
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ height: "100%" }}>
       <Camera style={{ flex: 1 }} type={type}
         ref={camera}      
       >

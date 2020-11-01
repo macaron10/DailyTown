@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { IconButton } from 'react-native-paper';
+
 import MissionList from "./MissionList";
-import { FontAwesome } from '@expo/vector-icons';
 
 
 export default function MissionModal() {
@@ -30,23 +31,22 @@ export default function MissionModal() {
           </View>
         </View>
       </Modal>
-      <FontAwesome
-        name="envelope"
+      <IconButton
+        icon="email-outline"
         style={styles.showButton}
         onPress={() => {
           setModalVisible(true);
         }}
-        size={32}
-      >
-      </FontAwesome>
+        size={40}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
-    justifyContent: "center",
+    // flex: 1,
+    // justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
   },
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,  
-    alignItems: "center",
+    // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
   },
   showButton: {
     position: "absolute",
-    top: 30,
-    left: 30,
-    zIndex: 5,
+    // top: 20,
+    left: 5,
+    zIndex: 999,
   },
 });
