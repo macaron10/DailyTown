@@ -9,7 +9,6 @@ function CheckCamera(props) {
     return <CameraOn setIsCameraOn={ props.setIsCameraOn } setPhotoInfo={ props.setPhotoInfo }/>
   }
   else {
-    Alert.alert('Camera off')
     return <Text>Nothing carmera On</Text>
   }
 }
@@ -39,13 +38,6 @@ export default function Camera() {
       <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } />
       <View style={styles.containerUnder}>
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity
-            onPress={() => alert('Hello, world!')}
-            style={{ backgroundColor: 'red', width: '50%' }}
-          >
-            <Text style={{ color: '#fff', textAlign: 'center' }}>Test</Text>
-
-          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => clickCameraOn()}
             style={{ backgroundColor: 'blue', width: '50%',  }}

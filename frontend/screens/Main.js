@@ -13,10 +13,12 @@ export default function Main({navigation}) {
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>LoginPage(for Dev)</Text>
       </TouchableOpacity>
-      <View>
-        <MissionModal />
+      <View style={ styles.containerTop }>
+        <View style={ styles.infoContainer }>
+          <MissionModal />
+        </View>
+        <Board />
       </View>
-      <Board />
       <MainPageInventory/>
     </View>
   );
@@ -26,9 +28,9 @@ export default function Main({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // flexDirection: 'column'
-    // height: '100%',
+    // flex: 1,
+    // flexDirection: 'column',
+    height: '100%',
   },
   button: {
     position: 'absolute',
@@ -36,4 +38,12 @@ const styles = StyleSheet.create({
     zIndex: 100,
     backgroundColor: 'black',
   },
+  containerTop: {
+    // flex: 1,
+    // justifyContent: 'flex-start',
+    height: "50%"
+  },
+  infoContainer: {
+    // height: "10%",
+  }
 });
