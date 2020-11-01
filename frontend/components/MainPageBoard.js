@@ -11,6 +11,7 @@ const Tile = (props) => {
   const onPress = () => {console.log(props.x, props.y, props.xMove, props.yMove)}
   return (
     <Image
+      onStartShouldSetResponder={onPress}
       style={{height:height, width:width, left:props.xMove, top:props.yMove, zIndex: props.z}}
       source={require('../assets/tileImage/' + 'grass' + '.png')}          
     />
