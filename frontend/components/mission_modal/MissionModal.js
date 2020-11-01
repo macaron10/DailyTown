@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import {
-  Alert,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View
-} from "react-native";
+import { Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import MissionList from "./MissionList";
+import { FontAwesome } from '@expo/vector-icons';
+
 
 export default function MissionModal() {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -35,15 +30,15 @@ export default function MissionModal() {
           </View>
         </View>
       </Modal>
-
-      <TouchableHighlight
-        style={styles.openButton}
+      <FontAwesome
+        name="envelope"
+        style={styles.showButton}
         onPress={() => {
           setModalVisible(true);
         }}
+        size={32}
       >
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </TouchableHighlight>
+      </FontAwesome>
     </View>
   );
 }
@@ -51,7 +46,6 @@ export default function MissionModal() {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
@@ -85,5 +79,11 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
-  }
+  },
+  showButton: {
+    position: "absolute",
+    top: 30,
+    left: 30,
+    zIndex: 5,
+  },
 });

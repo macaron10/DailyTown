@@ -1,6 +1,5 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native';
-import MissionModal from './mission_modal/MissionModal';
 
 const height = 40
 const width = 40
@@ -53,7 +52,6 @@ const Landscape = () => {
 export default function Board() {
   return (
     <View style={styles.container}>
-      <MissionModal />
       <Landscape />
     </View>
   );

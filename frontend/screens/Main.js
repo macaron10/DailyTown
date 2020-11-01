@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Button, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Board from '../components/MainPageBoard'
 import MainPageInventory from '../components/mainbottom/MainPageInventory'
+import MissionModal from '../components/mission_modal/MissionModal';
 
 export default function Main({navigation}) {
   return (
@@ -12,6 +13,9 @@ export default function Main({navigation}) {
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>LoginPage(for Dev)</Text>
       </TouchableOpacity>
+      <View>
+        <MissionModal />
+      </View>
       <Board />
       <MainPageInventory/>
     </View>
@@ -22,13 +26,14 @@ export default function Main({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    flex: 1,
+    // flexDirection: 'column'
+    // height: '100%',
   },
   button: {
     position: 'absolute',
     top: 100,
     zIndex: 100,
     backgroundColor: 'black',
-  }
-
+  },
 });

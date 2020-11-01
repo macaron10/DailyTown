@@ -54,16 +54,16 @@ export default function MissionList() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0.8,
     backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
   },
   cardContainer: {
-    flexGrow: 1,
+    // flexGrow: 1,
   },
   card: {
-    flexGrow: 1,
+    // flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
   },
