@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Board from '../components/MainPageBoard'
 import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
+import MyGold from '../components/MyGold';
 
 export default function Main({navigation}) {
   return (
@@ -18,6 +19,7 @@ export default function Main({navigation}) {
           <MissionModal />
         </View>
         <Board />
+        <MyGold/>
       </View>
       <MainPageInventory/>
     </View>
@@ -35,6 +37,7 @@ const styles = StyleSheet.create({
   button: {
     position: 'absolute',
     top: 100,
+    left: '70%',
     zIndex: 100,
     backgroundColor: 'black',
   },
