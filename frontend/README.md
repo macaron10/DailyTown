@@ -16,3 +16,5 @@
 5. expo 권한 제어 모듈
   - expo install expo-permissions
   - MIT
+6. react-native UI 라이브러리
+  - npm i react-native-paper
