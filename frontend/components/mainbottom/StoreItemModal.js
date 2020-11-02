@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
-export default function StoreItemModal({ itemInfo, setItemInfo }) {
+export default function StoreItemModal({ itemInfo, setItemInfo, setGoldStatus }) {
   const [modalVisible, setModalVisible] = useState(true);
   return (
     <View style={styles.centeredView}>
@@ -17,8 +17,8 @@ export default function StoreItemModal({ itemInfo, setItemInfo }) {
           <View style={styles.modalView}>
 
 
-            <Text style={styles.modalText}> 넘버: { itemInfo['itemNumber'] } </Text>
-            <Text style={styles.modalText}> 이름: { itemInfo['itemName'] } </Text>
+            <Text style={styles.modalText}> 이름: { itemInfo['name'] } </Text>
+            <Text style={styles.modalText}> 가격: { itemInfo['price'] } </Text>
 
             <View style={{ display: 'flex', flexDirection: 'row'}}>
               <TouchableHighlight
@@ -26,6 +26,7 @@ export default function StoreItemModal({ itemInfo, setItemInfo }) {
                 onPress={() => {
                   setModalVisible(!modalVisible)
                   setItemInfo(null)
+                  setGoldStatus( prev => prev - itemInfo['price'] )
                 }}
               >
                 <Text style={styles.textStyle}>아이템 사기</Text>
