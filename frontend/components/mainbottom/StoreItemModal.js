@@ -17,8 +17,8 @@ export default function StoreItemModal({ itemInfo, setItemInfo }) {
           <View style={styles.modalView}>
 
 
-            <Text style={styles.modalText}> 넘버: { itemInfo['itemNumber'] } </Text>
-            <Text style={styles.modalText}> 이름: { itemInfo['itemName'] } </Text>
+            <Text style={styles.modalText}> 이름: { itemInfo['name'] } </Text>
+            <Text style={styles.modalText}> 가격: { itemInfo['price'] } </Text>
 
             <View style={{ display: 'flex', flexDirection: 'row'}}>
               <TouchableHighlight

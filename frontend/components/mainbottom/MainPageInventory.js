@@ -8,7 +8,7 @@ function CheckInventory(props) {
   const items = StoreItem
   // 여기서 store Item과 user item이 필요하다.
   if ( isInventory ) {
-    return <MainPageInvenGrid isInventory={ isInventory } />
+    return <MainPageInvenGrid isInventory={ isInventory } items={ items } />
   }
   else {
     // inven grid 형태로 넘겨준다. isInventory를 넘겨주는 것은, 컴포넌트를 최대한 활용하기위함
