@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import { Transition, Transitioning } from "react-native-reanimated";
+import { Card } from 'react-native-paper';
+
 import missionData from "./MissionData";
 import CameraOn from '../cameramodal/CameraOn';
 import ImageModal from '../cameramodal/CameraModal';
+
 
 function CheckCamera(props) {
   const isCameraOn = props.isCameraOn
@@ -79,6 +82,9 @@ export default function MissionList() {
                   <Text style={[styles.body, { color }]}>
                     {contents}
                   </Text>
+                  <Card>
+                    <Card.Cover source={require('../../assets/test_img/노랑뚱땡이.png')} />
+                  </Card>
                   <Camera setIsCameraOn={ setIsCameraOn } />
                 </View>
               )}
@@ -112,9 +118,10 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
   },
   heading: {
-    fontSize: 38,
+    fontSize: 30,
     fontWeight: "900",
     // textTransform: "uppercase",
+    textAlign: "center",
     letterSpacing: -2,
   },
   body: {
@@ -124,5 +131,10 @@ const styles = StyleSheet.create({
   },
   contentsContainer: {
     marginTop: 20,
-  }
+  },
+  testImg: {
+    width: 100,
+    height: 100,
+    // zIndex: 999,
+  },
 });
