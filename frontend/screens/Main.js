@@ -17,9 +17,9 @@ export default function Main({navigation}) {
         <Text style={{ color: '#fff', textAlign: 'center' }}>LoginPage(for Dev)</Text>
       </TouchableOpacity>
       <View style={ styles.containerTop }>
-        {/* <View style={ styles.infoContainer }>
+        <View style={ styles.infoContainer }>
           <MissionModal />
-        </View> */}
+        </View>
         <Board />
         <MyGold goldStatus={ goldStatus } />
       </View>
