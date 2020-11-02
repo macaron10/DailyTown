@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Image, TouchableHighlight, Alert } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableHighlight, Alert, ScrollView  } from 'react-native';
 import StoreItemModal from './StoreItemModal'
 
 {/* <Image style={styles.tinyLogo} source={require('@expo/snack-static/react-native-logo.png')} /> */}
@@ -56,8 +56,7 @@ export default function InvenGrid({ items, isInventory, setGoldStatus }) {
 
   return (
       <View style={ styles.testGrid }>
-        <ClickStoreItem itemInfo={ itemInfo } setItemInfo={ setItemInfo } setGoldStatus={ setGoldStatus }/>
-        <View style={ styles.testGridContainer }>
+        <ScrollView contentContainerStyle={ styles.testGridContainer }>
           {[0, 1, 2, 3].map((number1) =>
             <View key={number1.toString()} style={ styles.testGridRow }>
               {[0, 1, 2 ,3 ,4].map((number2) =>
@@ -74,7 +73,8 @@ export default function InvenGrid({ items, isInventory, setGoldStatus }) {
               )}
             </View>
           )}
-        </View>
+        </ScrollView>
+        <ClickStoreItem itemInfo={ itemInfo } setItemInfo={ setItemInfo } setGoldStatus={ setGoldStatus }/>
       </View>
   );
 }
@@ -86,11 +86,12 @@ const styles = StyleSheet.create({
   },
 
   testGrid: {
+    flex: 0.8,
     color: '#776e65',
     position: 'relative',
     backgroundColor: '#bbada0',
-    width: '100%',
-    height: '80%',
+    // width: '100%',
+    // height: '50%',
   },
   testGridContainer: {
     color: '#776e65',
