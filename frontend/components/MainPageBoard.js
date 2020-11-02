@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, Image, Dimensions, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
+import MyForest from './MainPageMyForest';
 
 
 const deviceWidth = Dimensions.get('window').width
@@ -47,8 +48,10 @@ const Landscape = () => {
 }
 
 export default function Board() {
+
   return (
     <View style={styles.container}>
+      <MyForest width={width} yStartPoint={yStartPoint+width/3 - 0.08*width}  />
       <Landscape />
     </View>
   );
