@@ -8,43 +8,51 @@ class UserManager(BaseUserManager):
     Custom user model manager where email is the unique identifiers
     for authentication instead of usernames.
     """
+    use_in_migrations = True
 
-    def create_user(self, email, password, name, **extra_fields):
+    def create_user(self, email, name, password=None):
         if not email:
             raise ValueError('The Email must be required')
-        email = self.nomalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        
+        user = self.model(
+            email = self.normalize_email(email),
+            name = name
+            )
         user.set_password(password)
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, email, password, name):
-        extra_fields.setdefault('is_staff', True),
-        extra_fields.setdefault('is_superuser', True),
-        extra_fields.setdefault('is_active', True),
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Super User must is_staff == True')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Super User must is_superuser == True')
-        return self.create_user(email, password, **extra_fields)
+    def create_superuser(self, email, name, password):
+        user = self.create_user(
+            email = self.normalize_email(email),
+            name = name,
+            password = password
+        )
+        user.is_admin = True
+        user.is_superuser = True
+        user.is_staff = True
+        user.save(using=self._db)
+        return user
 
 class User(AbstractUser):
     objects = UserManager()
     email = models.EmailField(max_length=255, null=False, unique=True)
-    name = models.CharField(max_length=20, null=False)
-    is_active = models.BooleanField(default=True)  # Django 유저모델 필수요소
-    is_admin = models.BooleanField(default=False)  # Django 유저모델 필수요소
-    is_superuser = models.BooleanField(default=False)
+    username = models.CharField(max_length=20)
     signupdate = models.DateTimeField(auto_now_add=True)
     gold = models.IntegerField(default=0),  # 사용자가 가진 돈
     farm_theme = models.IntegerField(default=1)  # 사용자가 가진 농장의 테마 // 추후 업데이트 요소임
-    # USERNAME_FIELD = 'name'
-    REQUIRED_FIELDS = ['email', 'name'],
+
+    is_active = models.BooleanField(default=True)  # Django 유저모델 필수요소
+    is_admin = models.BooleanField(default=False)  # Django 유저모델 필수요소
+    is_superuser = models.BooleanField(default=False)  # Django 유저모델 필수요소
+    is_staff = models.BooleanField(default=False)  # Django 유저모델 필수요소
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
     myitems = models.ManyToManyField(Item, through='MyItem')
     mymissions = models.ManyToManyField(Mission, through='MyMission')
     
-
 class MyItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

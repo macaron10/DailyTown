@@ -51,6 +51,8 @@ MANIFEST
 *.manifest
 *.spec
 
+test/Sangeun/
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
