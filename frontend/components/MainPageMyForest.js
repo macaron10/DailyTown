@@ -1,24 +1,42 @@
-import React from 'react'
-import { StyleSheet, View, Image, Dimensions, TouchableNativeFeedback, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback, Text, Modal, TouchableHighlight } from 'react-native'
+
+// Data를 Array로 입력받는다고 가정
+const data = [
+  { x: 0, y: 0 },
+  { x: 0, y: 1 },
+  { x: 8, y: 8 },
+  { x: 8, y: 4 },
+  { x: 5, y: 4 },
+]
+
 
 export default function MyForest(props) {
-  const x = 5
-  const y = 7
-  const width = props.width
+  const deviceWidth = Dimensions.get('window').width
+  const width = (deviceWidth - 20) / 9
+  const onPressIn = () => { console.log('in') }
+  const onPressOut = () => { console.log('out') }
   return (
-    <View>
-      <Image
-        style={{
-          height: width, 
-          width: width, 
-          top: props.yStartPoint + x*width/3 + y*width/3 - (x+y)*width*0.08, 
-          left: x*width*0.5 - y*width*0.5, 
-          zIndex: x + y + 100
-        }}
-        source={require('../assets/test_img/' + '나무' + '.png')} 
-      />
-    </View>
+    data.map((d) => {
+      return (
+        <TouchableWithoutFeedback
+          onPressIn={() => { onPressIn() }}
+          onPressOut={() => { onPressOut() }}
+        >
+          <Image key={`${d.x}${d.y}`}
+            style={{
+              position: 'absolute',
+              alignContent: 'center',
+              height: width,
+              width: width,
+              top: props.yStartPoint - width * 2 / 3 + d.x * width / 3 + d.y * width / 3 - (d.x + d.y) * width * 0.07,
+              left: deviceWidth * 0.5 - width * 0.5 + d.x * width * 0.5 - d.y * width * 0.5,
+              zIndex: d.x + d.y + 200
+            }}
+            source={require('../assets/test_img/' + '나무' + '.png')}
+          />
+        </TouchableWithoutFeedback>
+      )
+    })
   )
 }
-
-

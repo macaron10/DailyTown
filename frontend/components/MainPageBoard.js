@@ -57,7 +57,7 @@ export default function Board() {
 
   return (
     <View style={styles.container}>
-      <MyForest width={width} yStartPoint={yStartPoint+width/3 - 0.08*width}  />
+      <MyForest yStartPoint={yStartPoint} />
       <Landscape />
     </View>
   );
