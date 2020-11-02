@@ -6,6 +6,8 @@ import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
 
 export default function Main({navigation}) {
+  const [goldStatus, setGoldStatus] = useState(10000)
+
   return (
     <View style={ styles.container }>
       <TouchableOpacity
@@ -19,9 +21,9 @@ export default function Main({navigation}) {
           <MissionModal />
         </View>
         <Board />
-        <MyGold/>
+        <MyGold goldStatus={ goldStatus } />
       </View>
-      <MainPageInventory/>
+      <MainPageInventory setGoldStatus={ setGoldStatus }/>
     </View>
   );
 }

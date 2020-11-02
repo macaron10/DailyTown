@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function MyGold() {
-  const [goldStatus, setGoldStatus] = useState(10000)
+export default function MyGold({ goldStatus }) {
   return (
     <View>
       <TouchableOpacity

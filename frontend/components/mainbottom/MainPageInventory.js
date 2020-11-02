@@ -8,16 +8,16 @@ function CheckInventory(props) {
   const items = StoreItem
   // 여기서 store Item과 user item이 필요하다.
   if ( isInventory ) {
-    return <MainPageInvenGrid isInventory={ isInventory } items={ items } />
+    return <MainPageInvenGrid isInventory={ isInventory } items={ items } setGoldStatus={ props.setGoldStatus } />
   }
   else {
     // inven grid 형태로 넘겨준다. isInventory를 넘겨주는 것은, 컴포넌트를 최대한 활용하기위함
-    return <MainPageInvenGrid isInventory={ isInventory } items={ items }/>
+    return <MainPageInvenGrid isInventory={ isInventory } items={ items } setGoldStatus={ props.setGoldStatus }/>
   }
 
 }
 
-export default function Inventory() {
+export default function Inventory({ setGoldStatus }) {
   const [isInventory, setIsInventory] = useState(true);
   // isStore는 현재는 필요없으나, 나중에 필요하게 될수 있기 때문에 넣어둔다. 왜냐면 isInventory로 다 분기가 가능하기 때문.
   const [isStore, setIsStore] = useState(false);
@@ -43,7 +43,7 @@ export default function Inventory() {
 
         </TouchableOpacity>
       </View>
-      <CheckInventory isInventory={ isInventory } />
+      <CheckInventory isInventory={ isInventory } setGoldStatus={ setGoldStatus } />
 
 
     </View>

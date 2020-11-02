@@ -13,7 +13,7 @@ source={{
 function ClickStoreItem(props) {
   const itemInfo = props.itemInfo
   if ( itemInfo ) {
-    return <StoreItemModal itemInfo={ itemInfo } setItemInfo={ props.setItemInfo }/>
+    return <StoreItemModal itemInfo={ itemInfo } setItemInfo={ props.setItemInfo } setGoldStatus={ props.setGoldStatus }/>
   }
   else {
     return <View/>
@@ -44,25 +44,32 @@ function ItemGrid(props) {
   // store 인 경우.
   // col이 5개라고 가정
   if ( !isInventory && items[number1*5 + number2]) {
-    return <ShowItem item={ items[number1*5 + number2] } setItemInfo={ setItemInfo }/>
+    return <ShowItem item={ items[number1*5 + number2] } setItemInfo={ setItemInfo } setGoldStatus={ props.setGoldStatus }/>
   }
   else {
-    return <ShowItem item={ items[1] }setItemInfo={ setItemInfo }/>
+    return <ShowItem item={ items[1] }setItemInfo={ setItemInfo } setGoldStatus={ props.setGoldStatus }/>
   }
 }
 
-export default function InvenGrid({ items, isInventory }) {
+export default function InvenGrid({ items, isInventory, setGoldStatus }) {
   const [itemInfo, setItemInfo] = useState(null)
 
   return (
       <View style={ styles.testGrid }>
-        <ClickStoreItem itemInfo={ itemInfo } setItemInfo={ setItemInfo }/>
+        <ClickStoreItem itemInfo={ itemInfo } setItemInfo={ setItemInfo } setGoldStatus={ setGoldStatus }/>
         <View style={ styles.testGridContainer }>
           {[0, 1, 2, 3].map((number1) =>
             <View key={number1.toString()} style={ styles.testGridRow }>
               {[0, 1, 2 ,3 ,4].map((number2) =>
                 <View key={number2.toString()} style={ styles.testGridCell }>
-                  <ItemGrid number1={ number1 } number2={ number2 } items={ items } isInventory={ isInventory } setItemInfo={ setItemInfo } />
+                  <ItemGrid
+                    number1={ number1 }
+                    number2={ number2 }
+                    items={ items }
+                    isInventory={ isInventory }
+                    setItemInfo={ setItemInfo }
+                    setGoldStatus={ setGoldStatus }
+                  />
                 </View>
               )}
             </View>
