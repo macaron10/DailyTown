@@ -1,20 +1,26 @@
-import React from 'react'
-import { StyleSheet, View, Image, Dimensions, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react'
+import { StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback } from 'react-native';
 
 
 const deviceWidth = Dimensions.get('window').width
 const height = (deviceWidth-20) / 9
 const width = (deviceWidth-20) / 9
-const yStartPoint = 150
+const yStartPoint = 100
 
 const Tile = (props) => {
-  const onPress = () => {console.log(props.x, props.y, props.xMove, props.yMove)}
+  const [changeOpacity, setChangeOpacity] = useState(1);
+  const onPressIn = () => { setChangeOpacity(0) }
+  const onPressOut = () => { setChangeOpacity(1) }
   return (
-    <Image
-      onStartShouldSetResponder={onPress}
-      style={{height:height, width:width, left:props.xMove, top:props.yMove, zIndex: props.z}}
-      source={require('../assets/tileImage/' + 'grass' + '.png')}          
-    />
+    <TouchableWithoutFeedback
+      onPressIn={ () => { onPressIn() } }
+      onPressOut={ () => { onPressOut() } }
+    >
+      <Image
+        style={{height:height, width:width, left:props.xMove, top:props.yMove, zIndex: props.z, opacity: changeOpacity}}
+        source={require('../assets/tileImage/' + 'grass' + '.png')}          
+      />
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -56,10 +62,6 @@ export default function Board() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#fff',
     alignItems: 'center',
-    height: 400
   },
 });
