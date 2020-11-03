@@ -3,11 +3,11 @@ import { Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native"
 import { IconButton } from 'react-native-paper';
 
 import MissionList from "./MissionList";
-// import TestMissionList from "./TestMissionList";
 
 
 export default function MissionModal() {
   const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -21,7 +21,6 @@ export default function MissionModal() {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
               <MissionList />
-              {/* <TestMissionList /> */}
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
@@ -40,7 +39,7 @@ export default function MissionModal() {
           setModalVisible(true);
         }}
         size={40}
-      />
+      ></IconButton>
     </View>
   );
 }
