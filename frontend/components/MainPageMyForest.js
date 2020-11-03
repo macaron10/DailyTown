@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback, Text, Modal, TouchableHighlight } from 'react-native'
+import React from 'react'
+import {Image, Dimensions, TouchableWithoutFeedback} from 'react-native'
 
 // Data를 Array로 입력받는다고 가정
 const data = [
