@@ -18,7 +18,7 @@ export default function MyForest(props) {
   const onPressOut = () => { console.log('out') }
   return (
     data.map((d) => {
-      const url = require('../assets/test_img/나무.png')
+      const url = require('../assets/test_img/tree.png')
       const image = Image.resolveAssetSource(url)
       const height = image.height*width/image.width
       return (
@@ -37,7 +37,7 @@ export default function MyForest(props) {
               left: deviceWidth * 0.5 - width * 0.5 + d.x * width * 0.5 - d.y * width * 0.5,
               zIndex: d.x + d.y + 200
             }}
-            source={require('../assets/test_img/' + '나무' + '.png')}
+            source={require('../assets/test_img/' + 'tree' + '.png')}
           />
         </TouchableWithoutFeedback>
       )
