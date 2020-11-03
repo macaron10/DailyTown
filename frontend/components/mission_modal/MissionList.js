@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
-import { Transition, Transitioning } from "react-native-reanimated";
-import { Card } from 'react-native-paper';
+import React, { useState, useRef } from 'react';
+import { StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
+import { List, Card, IconButton, Paragraph } from 'react-native-paper';
 
-import missionData from "./MissionData";
 import CameraOn from '../cameramodal/CameraOn';
 import ImageModal from '../cameramodal/CameraModal';
 
@@ -32,109 +30,109 @@ function CheckImage(props) {
 function Camera({ setIsCameraOn }) {
   const clickCameraOn = () => setIsCameraOn(prevStatus => !prevStatus);
   return (
-    <TouchableOpacity
-      onPress={() => clickCameraOn()}
-      style={{ backgroundColor: 'blue', }}
-    >
-      <Text style={{ color: '#fff', textAlign: 'center' }}>Picture</Text>
-    </TouchableOpacity>
+    <IconButton
+        icon="camera"
+        // style={styles.showButton}
+        onPress={() => {
+          clickCameraOn();
+        }}
+        size={40}
+      ></IconButton>
+    // <TouchableOpacity
+    //   onPress={() => {
+    //     clickCameraOn()
+    //   }}
+    //   style={{ backgroundColor: 'blue', }}
+    // >
+    //   <Text style={{ color: '#fff', textAlign: 'center' }}>Picture</Text>
+    // </TouchableOpacity>
   );
 }
 
-const transition = (
-  <Transition.Together>
-    <Transition.In type="fade" durationMs={200} />
-    <Transition.Change />
-    <Transition.Out type="fade" durationMs={200} />
-  </Transition.Together>
-);
-
 export default function MissionList() {
-  const ref = React.useRef(true);
-  const [currentIndex, setCurrentIndex] = React.useState(null);
+  const ref = useRef(true);
+
+  const [expanded1, setExpanded1] = useState(true);
+  const [expanded2, setExpanded2] = useState(false);
+  const [expanded3, setExpanded3] = useState(false);
+
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [photoInfo, setPhotoInfo] = useState(null);
 
-  return (
-    <Transitioning.View
-      ref={ref}
-      transition={transition}
-      style={styles.container}
-    >
-      <CheckCamera isCameraOn={ isCameraOn } setIsCameraOn={ setIsCameraOn } setPhotoInfo={ setPhotoInfo } />
-      <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } />
-
-      {missionData.map(({ bg, color, title, contents }, index) => {
-        return (
-          <TouchableOpacity
-          key={title}
+  if (isCameraOn) {
+    return(
+      <View style={ styles.container }>
+        <CheckCamera isCameraOn={ isCameraOn } setIsCameraOn={ setIsCameraOn } setPhotoInfo={ setPhotoInfo } />
+        <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } />
+      </View>
+    );
+  } else {
+    return (
+      <List.Section
+      style={ styles.container }
+      title="오늘의 미션"
+      >
+        <List.Accordion
+          title="꽃 사진을 찍으세요."
+          // left={props => <List.Icon {...props} icon="folder" />}
+          expanded={expanded1}
           onPress={() => {
-            ref.current.animateNextTransition();
-            setCurrentIndex(index === currentIndex ? null : index);
+            setExpanded1(!expanded1)
+            setExpanded2(false)
+            setExpanded3(false)
           }}
-          style={styles.cardContainer}
-          activeOpacity={0.9}
           >
-            <View style={[styles.card, { backgroundColor: bg }]}>
-              <Text style={[styles.heading, { color }]}>{title}</Text>
-              {index === currentIndex && (
-                <View style={styles.contentsContainer}>
-                  <Text style={[styles.body, { color }]}>
-                    {contents}
-                  </Text>
-                  <Card>
-                    <Card.Cover source={require('../../assets/test_img/노랑뚱땡이.png')} />
-                  </Card>
-                  <Camera setIsCameraOn={ setIsCameraOn } />
-                </View>
-              )}
-            </View>
-          </TouchableOpacity>
-        );
-      })}
-    </Transitioning.View>
-  )
+          <Card>
+            <Card.Title
+              title="보상"
+            >
+            </Card.Title>
+            <Card.Cover source={require('../../assets/test_img/노랑뚱땡이.png')} />
+            <Card.Content>
+              <Camera setIsCameraOn={ setIsCameraOn } />
+            </Card.Content>
+          </Card>
+        </List.Accordion>
+  
+        <List.Accordion
+          title="Controlled Accordion"
+          // left={props => <List.Icon {...props} icon="folder" />}
+          expanded={expanded2}
+          onPress={() => {
+            setExpanded1(false)
+            setExpanded2(!expanded2)
+            setExpanded3(false)
+          }}
+          >
+          <List.Item title="First item" />
+          <List.Item title="Second item" />
+        </List.Accordion>
+  
+        <List.Accordion
+          title="Controlled Accordion"
+          // left={props => <List.Icon {...props} icon="folder" />}
+          expanded={expanded3}
+          onPress={() => {
+            setExpanded1(false)
+            setExpanded2(false)
+            setExpanded3(!expanded3)
+          }}
+        >
+          <List.Item title="First item" />
+          <List.Item title="Second item" />
+        </List.Accordion>
+      </List.Section>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     // backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
     width: 300,
-    // height: 500,
-  },
-  cardContainer: {
-    // flexGrow: 1,
-    // width: 300,
-  },
-  card: {
-    // flexGrow: 1,
-    marginTop: 20,
-    marginBottom: 20,
-    // width: 300,
-    // alignItems: "center",
-    // justifyContent: "center",
-  },
-  heading: {
-    fontSize: 30,
-    fontWeight: "900",
-    // textTransform: "uppercase",
-    textAlign: "center",
-    letterSpacing: -2,
-  },
-  body: {
-    fontSize: 20,
-    lineHeight: 20 * 1.5,
-    textAlign: "center",
-  },
-  contentsContainer: {
-    marginTop: 20,
-  },
-  testImg: {
-    width: 100,
-    height: 100,
-    // zIndex: 999,
+    height: 500,
   },
 });
