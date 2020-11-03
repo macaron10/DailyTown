@@ -18,8 +18,8 @@ const Tile = (props) => {
       onPressOut={ () => { onPressOut() } }
     >
       <Image
-        style={{height:height, width:width, left:props.xMove, top:props.yMove, zIndex: props.z, opacity: changeOpacity}}
-        source={require('../assets/tileImage/' + 'grass' + '.png')}          
+        style={{resizeMode:'contain', height:height, width:width, left:props.xMove, top:props.yMove, zIndex: props.z, opacity: changeOpacity}}
+        source={require('../assets/tileImage/' + 'grass_line' + '.png')}          
       />
     </TouchableWithoutFeedback>
   );
@@ -57,7 +57,7 @@ export default function Board() {
 
   return (
     <View style={styles.container}>
-      <MyForest width={width} yStartPoint={yStartPoint+width/3 - 0.08*width}  />
+      <MyForest yStartPoint={yStartPoint} />
       <Landscape />
     </View>
   );

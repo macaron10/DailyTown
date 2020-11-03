@@ -52,10 +52,10 @@ export default function StoreItemModal({ itemInfo, setItemInfo, setGoldStatus })
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
-    justifyContent: "center",
+    // display: "flex",
+    // justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    top: 150
   },
   modalView: {
     margin: 20,

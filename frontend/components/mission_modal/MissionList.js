@@ -87,7 +87,7 @@ export default function MissionList() {
               title="보상"
             >
             </Card.Title>
-            <Card.Cover source={require('../../assets/test_img/노랑뚱땡이.png')} />
+            <Card.Cover source={require('../../assets/test_img/pica.png')} />
             <Card.Content>
               <Camera setIsCameraOn={ setIsCameraOn } />
             </Card.Content>
