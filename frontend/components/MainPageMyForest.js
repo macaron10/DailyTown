@@ -4,7 +4,7 @@ import { StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback, Text, Mo
 // Data를 Array로 입력받는다고 가정
 const data = [
   { x: 0, y: 0 },
-  { x: 0, y: 1 },
+  { x: 2, y: 1 },
   { x: 8, y: 8 },
   { x: 8, y: 4 },
   { x: 5, y: 4 },
@@ -19,11 +19,11 @@ export default function MyForest(props) {
   return (
     data.map((d) => {
       return (
-        <TouchableWithoutFeedback
+        <TouchableWithoutFeedback key={`${d.x}${d.y}`}
           onPressIn={() => { onPressIn() }}
           onPressOut={() => { onPressOut() }}
         >
-          <Image key={`${d.x}${d.y}`}
+          <Image
             style={{
               position: 'absolute',
               alignContent: 'center',
