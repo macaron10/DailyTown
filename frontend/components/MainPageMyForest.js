@@ -33,7 +33,7 @@ export default function MyForest(props) {
               resizeMode:'contain',
               height: height,
               width: width,
-              top: props.yStartPoint - height + width * 1 / 3 -0.07*width + d.x * width / 3 + d.y * width / 3 - (d.x + d.y) * width * 0.07,
+              top: props.yStartPoint - height + width * 1 / 3 +0.08*width + d.x * width / 3 + d.y * width / 3 - (d.x + d.y) * width * 0.08,
               left: deviceWidth * 0.5 - width * 0.5 + d.x * width * 0.5 - d.y * width * 0.5,
               zIndex: d.x + d.y + 200
             }}
