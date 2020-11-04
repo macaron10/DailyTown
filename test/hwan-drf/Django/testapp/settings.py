@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_extensions',
     # DRF
     'rest_framework',
 
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     
     # cumtom app
     'imageAI',
+    'test_image'
 ]
 
 MIDDLEWARE = [
