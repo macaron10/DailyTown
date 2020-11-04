@@ -30,7 +30,7 @@ function ShowItem(props) {
         >
           <View>
             {/* 여기는 아이템 이미지가 들어갈 영역입니다. splash 대신 위에 들어갈 object에서 뽑아야합니다 */}
-            <Image style={styles.tinyLogo} source={require('../../assets/splash.png')} />
+            <Image style={styles.tinyLogo} source={require(`../../assets/` + ( item['image'] ? item['image'] : 'splash.png' ) )} />
           </View>
         </TouchableHighlight>
 }
@@ -47,7 +47,7 @@ function ItemGrid(props) {
     return <ShowItem item={ items[number1*5 + number2] } setItemInfo={ setItemInfo } setGoldStatus={ props.setGoldStatus }/>
   }
   else {
-    return <ShowItem item={ items[1] }setItemInfo={ setItemInfo } setGoldStatus={ props.setGoldStatus }/>
+    return <ShowItem item={ items[0] } setItemInfo={ setItemInfo } setGoldStatus={ props.setGoldStatus }/>
   }
 }
 
