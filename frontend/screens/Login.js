@@ -13,17 +13,37 @@ export default function LoginSample({ navigation }) {
   const onPress = async () => {
     const res = await Google.logInAsync(
       {androidClientId: env.AND_KEY});
-    console.log(res);
+    // console.log(res);
+  
+  if (res.type === 'success') {
+    let data = {
+      username: res.user.name,
+      first_name: res.user.givenName,
+      last_name: res.user.familyName,
+      email: res.user.email,
+      password: res.user.id,
+      provider: 'google'
+    };
+    // console.log(data);
 
-  let data = {
-    username: res.user.name,
-    first_name: res.user.givenName,
-    last_name: res.user.familyName,
-    email: res.user.email,
-    password: res.user.id,
-    provider: 'google'
-  };
-  console.log(data);
+    let userInfo = await fetch(`http://${env.IP_ADDRESS}:8000/account/create/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;'
+      },
+      body: JSON.stringify(data),
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log(json)
+    })
+    .catch(error => {
+      console.log(error);
+      console.log('에러');
+      window.gapi && window.gapi.auth2.getAuthInstance().signOut();
+    });  
+
+  }
 
 
 
