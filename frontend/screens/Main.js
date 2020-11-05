@@ -40,8 +40,8 @@ export default function Main({navigation}) {
         <View style={ styles.infoContainer }>
           <MissionModal />
         </View>
-        <Board />
         <MyGold goldStatus={ goldStatus } />
+        <Board />
       </View>
       <MainPageInventory myItems={ myItems } setMyItems={ setMyItems } setGoldStatus={ setGoldStatus }/>
     </View>

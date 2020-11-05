@@ -1,4 +1,4 @@
-const dynamicItems = {
+const DynamicItems = {
   'default': require(`../../assets/splash.png`),
   'splash': require(`../../assets/splash.png`),
   'test1': require(`../../assets/test_img/cat.png`),
@@ -10,4 +10,4 @@ const dynamicItems = {
 //   "test1": "require(`../../assets/test_img/cat.png`)",
 //   "test2": "require(`../../assets/test_img/lion.png`)"
 // }
-export default dynamicItems
+export default DynamicItems
