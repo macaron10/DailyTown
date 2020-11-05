@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { ImageBackground, StyleSheet, View, Text, TouchableOpacity, Button } from 'react-native';
 
 import * as Google from 'expo-google-app-auth';
+import * as env from '../env';
+import * as SecureStore from 'expo-secure-store'
 
 const image = require('../assets/voidforest.png')
 
