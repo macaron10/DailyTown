@@ -11,9 +11,22 @@ export default function LoginSample({ navigation }) {
   // const [userInfo, setUserInfo] = 
   const [checkBtn, setCheckBtn] = useState(0)
   const onPress = async () => {
-    const { type, accessToken, user } = await Google.logInAsync(
-      {androidClientId: 'Your Android Client Id'});
-    console.log(type, accessToken, user);
+    const res = await Google.logInAsync(
+      {androidClientId: env.AND_KEY});
+    console.log(res);
+
+  let data = {
+    username: res.user.name,
+    first_name: res.user.givenName,
+    last_name: res.user.familyName,
+    email: res.user.email,
+    password: res.user.id,
+    provider: 'google'
+  };
+  console.log(data);
+
+
+
   };
   return (
     <View style={styles.container}>
