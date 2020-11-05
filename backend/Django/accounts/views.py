@@ -1,39 +1,53 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.contrib.auth.models import User
-from rest_framework import permissions, status
-from rest_framework.decorators import api_view
+from rest_framework import status, permissions
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken
 
-@api_view(['GET'])
-def current_user(request):
+from .serializers import UserCreateSerializer, UserLoginSerializer
+from .models import User
 
-    serializer = UserSerializer(request.user)
-    return Response(serializer.data)
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def createUser(request):
+    if request.method == 'POST':
+        serializer = UserCreateSerializer(data=request.data)
+        if not serializer.is_valid(raise_exception=True):
+            return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
 
-class UserList(APIView):
-    print(APIView)
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        nickname = request.user.username
-        serializer = UserSerializerWithToken(data=request.data, *nickname)
-        print(request.data, serializer, 'hihi')
-        if serializer.is_valid():
+        if User.objects.filter(email=serializer.validated_data['email']).first() is None:
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "ok"}, status=status.HTTP_201_CREATED)
+        return Response({"message": "duplicate email"}, status=status.HTTP_409_CONFLICT)
 
-@api_view(['GET'])
-def validate_jwt_token(request):
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def login(request):
+    if request.method == 'POST':
+        serializer = UserLoginSerializer(data=request.data)
+        if not serializer.is_valid(raise_exception=True):
+            return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
+        if serializer.validated_data['email'] == "None":
+            return Response({'message': 'fail'}, status=status.HTTP_200_OK)
 
-    try:
-        token = request.META['HTTP_AUTHORIZATION']
-        data = {'token': token.split()[1]}
-        valid_data = VerifyJSONWebTokenSerializer().validate(data)
-    except Exception as e:
-        return Response(e)
+        response = {
+            'success': 'True',
+            'token': serializer.data['token']
+        }
+        return Response(response, status=status.HTTP_200_OK)
 
-    return Response(status=status.HTTP_200_OK)
+class Gold(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        user = User.objects.get(email=request.user.email)
+        info = {'gold': user.gold}
+        return Response(info, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        user = User.objects.get(email=request.user.email)
+        nowgold = user.gold
+        user.gold = nowgold + int(request.data['price'])
+        user.save()
+        info = {'gold': user.gold}
+        return Response(info, status=status.HTTP_200_OK)
+

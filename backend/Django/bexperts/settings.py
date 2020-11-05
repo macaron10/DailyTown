@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-# for JWT
-import datetime
+# for JWT\
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +28,9 @@ SECRET_KEY = '&%i6*h!^efcd8yegbrr62hrtzzn)5&@a*rwo^#qb#rs(b*#hiz'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+    #     "http://localhost:8080",
+    # "http://localhost:3306",
+    # "http://localhost:3000",]
 
 
 # Application definition
@@ -42,11 +45,7 @@ INSTALLED_APPS = [
 
     #DRF
     'rest_framework',
-
-    #Authentication
-    'rest_framework.authtoken',
-    'rest_auth',
-    'rest_auth.registration',
+    'rest_framework_jwt',
     
     #CORS
     'corsheaders',
@@ -66,37 +65,20 @@ INSTALLED_APPS = [
     'accounts',
     'items',
     'missions',
-
-    'social_django',
 ]
-#allauth
-#https://juni-in.tistory.com/3
-SOCIALACCOUNT_PROVIDERS = {
-    'kakao': {
-        'APP': {
-            # 따로보관
-            'client_id': '19025a0008ae5dacea5f6d0732ef0e34',
-            'secret': 498856,
-            'key': ''
-        }
-    }
-}
-
-ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
-LOGIN_REDIRECT_URL = "/"
-ACCOUNT_AUTHENTICATED_LOGOUT_REDIRECTS = True
-ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 
 SITE_ID = 1
 
 #CORS Policy
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8080",
-    "http://localhost:3306",
-    "http://localhost:3000",
-      
-]
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS=True
+
+# CORS_ORIGIN_WHITELIST = [
+#     "http://localhost:8080",
+#     "http://localhost:3306",
+#     "http://localhost:3000",
+# ]
+
 CORS_ALLOW_METHODS = (
     'DELETE',
     'GET',
@@ -108,7 +90,7 @@ CORS_ALLOW_METHODS = (
 CORS_ALLOW_HEADERS = (
     'accept',
     'accept-encoding',
-    'authorization',
+    'Authorization',
     'access-control-request-method',
     'access-control-request-headers',
     'content-type',
@@ -133,14 +115,61 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser'
+    ]
 }
+
+JWT_AUTH = {
+    'JWT_ENCODE_HANDLER':
+        'rest_framework_jwt.utils.jwt_encode_handler',
+
+    'JWT_DECODE_HANDLER':
+        'rest_framework_jwt.utils.jwt_decode_handler',
+
+    'JWT_PAYLOAD_HANDLER':
+        'rest_framework_jwt.utils.jwt_payload_handler',
+
+    'JWT_PAYLOAD_GET_USER_ID_HANDLER':
+        'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+
+    'JWT_RESPONSE_PAYLOAD_HANDLER':
+        'rest_framework_jwt.utils.jwt_response_payload_handler',
+
+    'JWT_SECRET_KEY': 'SECRET_KEY',
+    'JWT_GET_USER_SECRET_KEY': None,
+    'JWT_PUBLIC_KEY': None,
+    'JWT_PRIVATE_KEY': None,
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_VERIFY': True,
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_LEEWAY': 0,
+    'JWT_EXPIRATION_DELTA': timedelta(days=30),
+    'JWT_AUDIENCE': None,
+    'JWT_ISSUER': None,
+
+    'JWT_ALLOW_REFRESH': False,
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30),
+
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+    'JWT_AUTH_COOKIE': None,
+}
+
 
 ROOT_URLCONF = 'bexperts.urls'
 
@@ -168,19 +197,9 @@ AUTHENTICATION_BACKENDS = {
     # Needed to login by username in django admin, regardless of allauth
     'django.contrib.auth.backends.ModelBackend',
 
-    'social_core.backends.google.GoogleOAuth2',
-
     # allauth specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 }
-
-LOGIN_URL = '/auth/login/google-oauth2/'
-LOGOUT_REDIRECT_URL = '/'
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '313616826122-kh1k0caprm28kesb1gn13esgcv2edgeh.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'sAZWRbTJBmgjsueIc4GKdIUc'
-
 
 WSGI_APPLICATION = 'bexperts.wsgi.application'
 
@@ -199,43 +218,6 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-JWT_AUTH = {
-    # If the secret is wrong, it will raise a jwt.DecodeError telling you as such. You can still get at the payload by setting the JWT_VERIFY to False.
-    'JWT_VERIFY': True,
-    # You can turn off expiration time verification by setting JWT_VERIFY_EXPIRATION to False.
-    # If set to False, JWTs will last forever meaning a leaked token could be used by an attacker indefinitely.
-    'JWT_VERIFY_EXPIRATION': True,
-    # This is an instance of Python's datetime.timedelta. This will be added to datetime.utcnow() to set the expiration time.
-    # Default is datetime.timedelta(seconds=300)(5 minutes).
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=3),
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_AUTH_HEADER_PREFIX': 'JWT',
-}
-REST_USE_JWT = True
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
-
 LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = 'UTC'
@@ -245,10 +227,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 
