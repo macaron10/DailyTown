@@ -18,3 +18,6 @@
   - MIT
 6. react-native UI 라이브러리
   - npm i react-native-paper
+7. expo 암호화 저장소
+  - expo install expo-secure-store
+  - MIT
