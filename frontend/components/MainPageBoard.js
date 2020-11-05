@@ -4,8 +4,9 @@ import MyForest from './MainPageMyForest';
 
 
 const deviceWidth = Dimensions.get('window').width
-const height = (deviceWidth-20) / 9
-const width = (deviceWidth-20) / 9
+const xyCount = 6
+const height = (deviceWidth-20) / xyCount
+const width = (deviceWidth-20) / xyCount
 const yStartPoint = 100
 
 const Tile = (props) => {
@@ -19,7 +20,7 @@ const Tile = (props) => {
     >
       <Image
         style={{resizeMode:'contain', height:height, width:width, left:props.xMove, top:props.yMove, zIndex: props.z, opacity: changeOpacity}}
-        source={require('../assets/tileImage/' + 'grass_line' + '.png')}          
+        source={require('../assets/tileImage/' + 'grass' + '.png')}          
       />
     </TouchableWithoutFeedback>
   );
@@ -27,8 +28,8 @@ const Tile = (props) => {
 
 const Landscape = () => {
   const tiles = [];
-  for (let i = 9; i > 0; i--) {
-    tiles.push(Array(9).fill('road'));    
+  for (let i = xyCount; i > 0; i--) {
+    tiles.push(Array(xyCount).fill('road'));    
   }
   let yPoint = yStartPoint
   let xPoint = 0
@@ -38,7 +39,7 @@ const Landscape = () => {
         let xMove = -width*0.5 + xPoint
         let yMove = width*0.5/4*6 + yPoint
         xPoint -= width * 0.5
-        yPoint -= 8 * height + height*2/3 + height*0.08
+        yPoint -= (xyCount-1) * height + height*2/3 + height*0.08
         return row.map((tile, x) => {
           const z = x + 100;
           xMove += width * 0.5
