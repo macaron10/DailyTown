@@ -12,8 +12,9 @@ source={{
 
 function ClickStoreItem(props) {
   const itemInfo = props.itemInfo
+  const setMyItem = props.setMyItem
   if ( itemInfo ) {
-    return <StoreItemModal itemInfo={ itemInfo } setItemInfo={ props.setItemInfo } setGoldStatus={ props.setGoldStatus }/>
+    return <StoreItemModal itemInfo={ itemInfo } setMyItem={ props.setMyItem } setItemInfo={ props.setItemInfo } setGoldStatus={ props.setGoldStatus }/>
   }
   else {
     return <View/>
@@ -51,7 +52,7 @@ function ItemGrid(props) {
   }
 }
 
-export default function InvenGrid({ items, isInventory, setGoldStatus }) {
+export default function InvenGrid({ items, setMyItem, isInventory, setGoldStatus }) {
   const [itemInfo, setItemInfo] = useState(null)
 
   return (
@@ -65,6 +66,7 @@ export default function InvenGrid({ items, isInventory, setGoldStatus }) {
                     number1={ number1 }
                     number2={ number2 }
                     items={ items }
+                    setMyItem={ setMyItem }
                     isInventory={ isInventory }
                     setItemInfo={ setItemInfo }
                     setGoldStatus={ setGoldStatus }

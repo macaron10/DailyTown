@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
-export default function StoreItemModal({ itemInfo, setItemInfo, setGoldStatus }) {
+export default function StoreItemModal({ itemInfo, setMyItem, setItemInfo, setGoldStatus }) {
   const [modalVisible, setModalVisible] = useState(true);
   return (
     <View style={styles.centeredView}>

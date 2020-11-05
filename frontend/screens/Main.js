@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Board from '../components/MainPageBoard'
 import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
+import axios from 'axios'
 
 export default function Main({navigation}) {
-  const [goldStatus, setGoldStatus] = useState(10000)
+  const [goldStatus, setGoldStatus] = useState(0)
+  const [myItem, setMyItem] = useState({})
+
+  // 맨처음 한번만 받아올 예정
+  // useEffect( () => {
+  //   axios.get('http://k3b305.p.ssafy.io:8080/items/getInventory')
+  //     .then(res => {
+  //       setGoldStatus( res.data.gold )
+  //       setMyItem( res.data )
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //     })
+  // }, [])
 
   return (
     <View style={ styles.container }>
@@ -23,7 +37,7 @@ export default function Main({navigation}) {
         <Board />
         <MyGold goldStatus={ goldStatus } />
       </View>
-      <MainPageInventory setGoldStatus={ setGoldStatus }/>
+      <MainPageInventory myItem={ myItem } setMyItem={ setMyItem } setGoldStatus={ setGoldStatus }/>
     </View>
   );
 }
