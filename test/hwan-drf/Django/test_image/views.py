@@ -8,11 +8,12 @@ from Keras_model.fruit_model import classification
 @api_view(['POST'])
 def ImageAPI(request):  
   print('------------')  
+  print(request.GET['id'])
   now_person = Image.objects.get(id=1)
   fruit_object = classification.qwnkld()
   print(classification.qwnkld())
-  if fruit_object == '바나나':
-    print('-----yes-------')
+  # if fruit_object == '바나나':
+  #   print('-----yes-------')
   print(now_person)
   # .get(id=request.POST['id'])
   serializer = ImageSerializer(now_person)

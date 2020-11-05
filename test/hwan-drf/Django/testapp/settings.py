@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     
     # cumtom app
     'imageAI',
-    'test_image'
+    'test_image',
+    'test_hong',
 ]
 
 MIDDLEWARE = [

@@ -13,6 +13,9 @@ class PostSerializer(serializers.ModelSerializer):
    def create(self, validated_data):
       images_data = self.context['request'].FILES
       post = Post.objects.create(**validated_data)
-      for image_data in images_data.getlist('image'):
-         PostImage.objects.create(post=post, image=image_data)
+      print(images_data.get('image'))
+      # for image_data in images_data.getlist('image'):
+         # PostImage.objects.create(post=post, image=image_data)
+      PostImage.objects.create(post=post, image=images_data.get('image'))
+
       return post
