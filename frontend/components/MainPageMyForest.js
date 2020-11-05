@@ -5,8 +5,8 @@ import { Image, Dimensions, TouchableWithoutFeedback, Alert, Platform } from 're
 const data = [
   { x: 1, y: 0 },
   { x: 2, y: 1 },
-  { x: 8, y: 8 },
-  { x: 7, y: 4 },
+  { x: 5, y: 3 },
+  { x: 1, y: 4 },
   { x: 5, y: 4 },
 ]
 
@@ -26,7 +26,7 @@ function ImageModal(xyInfo) {
 
 export default function MyForest(props) {
   const deviceWidth = Dimensions.get('window').width
-  const width = (deviceWidth - 20) / 9
+  const width = (deviceWidth - 20) / 6
   return (
     data.map((xyInfo) => {
       const url = require('../assets/test_img/tree.png')
