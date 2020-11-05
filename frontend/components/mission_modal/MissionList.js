@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, ScrollView, Image, Text } from 'react-native';
 import { List, IconButton } from 'react-native-paper';
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { Modal, StyleSheet, View } from "react-native";
 import { IconButton } from 'react-native-paper';
 
 import MissionList from "./MissionList";
