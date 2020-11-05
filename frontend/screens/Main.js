@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import * as SecureStore from 'expo-secure-store'
+import * as Google from 'expo-google-app-auth';
+import * as SecureStore from 'expo-secure-store';
+import * as env from '../env';
 
 import Board from '../components/MainPageBoard'
 import MainPageInventory from '../components/mainbottom/MainPageInventory'
@@ -33,6 +35,18 @@ export default function Main({navigation}) {
       <TouchableOpacity
         style={ styles.logoutButton }
         onPress={async () => {
+          const accessToken = await SecureStore.getItemAsync('access_token')
+          await Google.logOutAsync({ accessToken, androidClientId: env.AND_KEY}); // 나중에 따로 config 설정해줘야함
+          // ------------------------ access token 만료 확인용 -------------------------------
+          // let userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+          //   headers: { Authorization: `Bearer ${accessToken}` },
+          // })
+          // .then(
+          //   res => res.json()
+          // )
+          // .then(
+          //   json => {console.log(json)}
+          // );
           await SecureStore.deleteItemAsync('token')
           await SecureStore.deleteItemAsync('access_token')
         }}
