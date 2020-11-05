@@ -8,7 +8,17 @@ import * as env from '../env';
 const image = require('../assets/voidforest.png')
 
 export default function LoginSample({ navigation }) {
-  // const [userInfo, setUserInfo] = 
+  async function check () {
+    const jwt = await SecureStore.getItemAsync('token')
+    console.log(jwt)
+    if (jwt !== null) {
+      navigation.navigate('Main')
+    } else {
+      console.log('로그인하세요')
+    }
+  }
+  check()
+// const [userInfo, setUserInfo] = 
   const [checkBtn, setCheckBtn] = useState(0)
   const onPress = async () => {
     const res = await Google.logInAsync(
@@ -49,8 +59,8 @@ export default function LoginSample({ navigation }) {
           console.log('2차 제이슨', json.token)
           if (secure_available === true) {
             SecureStore.setItemAsync('token', json.token)
-            console.log('access_token 밑에', res.accessToken)
             SecureStore.setItemAsync('access_token', res.accessToken)
+            navigation.navigate('Main')
           } else {
             console.log('자동로그인이 지원되지않는 안드로이드 버젼입니다.')
           }
@@ -60,9 +70,7 @@ export default function LoginSample({ navigation }) {
           console.log('Login 에러')
           console.log(error);
           window.gapi && window.gapi.auth2.getAuthInstance().signOut();
-        });   
-
-
+        }); 
       })
       .catch(error => {
         // Signup 에러
@@ -70,12 +78,9 @@ export default function LoginSample({ navigation }) {
         console.log(error);
         window.gapi && window.gapi.auth2.getAuthInstance().signOut();
       });  
-
-  }
-
-
-
   };
+};
+
   return (
     <View style={styles.container}>
       <ImageBackground source={image} style={styles.image}>

@@ -12,7 +12,6 @@ import MyGold from '../components/MyGold';
 export default function Main({navigation}) {
   const [goldStatus, setGoldStatus] = useState(10000)
 
-
   return (
     <View style={ styles.container }>
       {/* 로그인 페이지로 이동 버튼(임시) */}
