@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Alert, ScrollView } from 'react-native';
 import { List, Card, IconButton, Paragraph } from 'react-native-paper';
 
 import CameraOn from '../cameramodal/CameraOn';
@@ -72,55 +72,57 @@ export default function MissionList() {
       style={ styles.container }
       title="오늘의 미션"
       >
-        <List.Accordion
-          title="꽃 사진을 찍으세요."
-          // left={props => <List.Icon {...props} icon="folder" />}
-          expanded={expanded1}
-          onPress={() => {
-            setExpanded1(!expanded1)
-            setExpanded2(false)
-            setExpanded3(false)
-          }}
-          >
-          <Card>
-            <Card.Title
-              title="보상"
+        <ScrollView>
+          <List.Accordion
+            title="꽃 사진을 찍으세요."
+            // left={props => <List.Icon {...props} icon="folder" />}
+            expanded={expanded1}
+            onPress={() => {
+              setExpanded1(!expanded1)
+              setExpanded2(!expanded1)
+              setExpanded3(!expanded1)
+            }}
             >
-            </Card.Title>
-            <Card.Cover source={require('../../assets/test_img/pica.png')} />
-            <Card.Content>
-              <Camera setIsCameraOn={ setIsCameraOn } />
-            </Card.Content>
-          </Card>
-        </List.Accordion>
-  
-        <List.Accordion
-          title="Controlled Accordion"
-          // left={props => <List.Icon {...props} icon="folder" />}
-          expanded={expanded2}
-          onPress={() => {
-            setExpanded1(false)
-            setExpanded2(!expanded2)
-            setExpanded3(false)
-          }}
+            <Card>
+              <Card.Title
+                title="보상"
+              >
+              </Card.Title>
+              <Card.Cover source={require('../../assets/test_img/pica.png')} />
+              <Card.Content>
+                <Camera setIsCameraOn={ setIsCameraOn } />
+              </Card.Content>
+            </Card>
+          </List.Accordion>
+
+          <List.Accordion
+            title="Controlled Accordion"
+            // left={props => <List.Icon {...props} icon="folder" />}
+            expanded={expanded2}
+            onPress={() => {
+              setExpanded1(false)
+              setExpanded2(!expanded2)
+              setExpanded3(false)
+            }}
+            >
+            <List.Item title="First item" />
+            <List.Item title="Second item" />
+          </List.Accordion>
+
+          <List.Accordion
+            title="Controlled Accordion"
+            // left={props => <List.Icon {...props} icon="folder" />}
+            expanded={expanded3}
+            onPress={() => {
+              setExpanded1(false)
+              setExpanded2(false)
+              setExpanded3(!expanded3)
+            }}
           >
-          <List.Item title="First item" />
-          <List.Item title="Second item" />
-        </List.Accordion>
-  
-        <List.Accordion
-          title="Controlled Accordion"
-          // left={props => <List.Icon {...props} icon="folder" />}
-          expanded={expanded3}
-          onPress={() => {
-            setExpanded1(false)
-            setExpanded2(false)
-            setExpanded3(!expanded3)
-          }}
-        >
-          <List.Item title="First item" />
-          <List.Item title="Second item" />
-        </List.Accordion>
+            <List.Item title="First item" />
+            <List.Item title="Second item" />
+          </List.Accordion>
+        </ScrollView>
       </List.Section>
     );
   }
@@ -128,11 +130,10 @@ export default function MissionList() {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    marginTop: 10,
+    flex: 1,
     // backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
-    width: 300,
-    height: 500,
   },
 });

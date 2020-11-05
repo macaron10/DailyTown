@@ -20,15 +20,23 @@ export default function MissionModal() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-              <MissionList />
-            <TouchableHighlight
+            <IconButton
+              icon="close"
+              style={styles.closeModal}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+              size={30}
+            ></IconButton>
+            <MissionList />
+            {/* <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
                 setModalVisible(!modalVisible);
               }}
             >
               <Text style={styles.textStyle}>Hide Modal</Text>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
           </View>
         </View>
       </Modal>
@@ -46,8 +54,8 @@ export default function MissionModal() {
 
 const styles = StyleSheet.create({
   centeredView: {
-    // flex: 1,
-    // justifyContent: "center",
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
   },
@@ -65,12 +73,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    height: "95%",
+    width: "90%"
   },
   openButton: {
     backgroundColor: "#F194FF",
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   textStyle: {
     color: "white",
@@ -87,4 +97,8 @@ const styles = StyleSheet.create({
     left: 5,
     zIndex: 1,
   },
+  closeModal: {
+    position: "absolute",
+    right: 3,
+  }
 });
