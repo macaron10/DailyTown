@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import * as SecureStore from 'expo-secure-store'
+
 import Board from '../components/MainPageBoard'
 import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
@@ -7,6 +9,7 @@ import MyGold from '../components/MyGold';
 
 export default function Main({navigation}) {
   const [goldStatus, setGoldStatus] = useState(10000)
+  const test = SecureStore.getItemAsync('token')
 
   return (
     <View style={ styles.container }>
@@ -15,6 +18,12 @@ export default function Main({navigation}) {
         onPress={() => navigation.navigate('Login')}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>LoginPage(for Dev)</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ position: 'absolute', top:100, backgroundColor: '#000000', zIndex:100}}
+        onPress={() => {console.log(test,'이게 스토어의 값')}}
+      >
+        <Text style={{ color: '#fff', textAlign: 'center' }}>저장값꺼내기</Text>
       </TouchableOpacity>
       <View style={ styles.containerTop }>
         <View style={ styles.infoContainer }>
