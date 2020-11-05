@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image,  } from "react-native";
+import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image, Button,  } from "react-native";
 import DynamicItems from "./DynamicItems"
 import { IconButton } from 'react-native-paper';
 
@@ -39,11 +39,14 @@ function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGold
 
   return  <View style={styles.modalView}>
             <View style={{ display: 'flex', flexDirection: 'row'}}>
-              <Image
-                style={ styles.tinyLogo }
-                resizeMode="contain"
-                source={image}
-              />
+              <View style={{ display: 'flex' }}>
+                <Image
+                  style={ styles.tinyLogo }
+                  resizeMode="contain"
+                  source={image}
+                />
+                <Text>가격표시</Text>
+              </View>
               <View style={{ display: 'flex' }}>
                 <IconButton
                   icon="arrow-up-drop-circle"
@@ -61,7 +64,10 @@ function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGold
                 </IconButton>
 
               </View>
-              <Text>{ count }개</Text>
+              <View>
+                <Text>{ count }개</Text>
+                <Text>총 가격표시: { itemInfo['price']*count } </Text>
+              </View>
 
               {/* <Text style={styles.modalText}> 이름: { itemInfo['name'] } </Text>
               <Text style={styles.modalText}> 가격: { itemInfo['price'] } </Text> */}
@@ -71,17 +77,17 @@ function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGold
 
             <View style={{ display: 'flex', flexDirection: 'row'}}>
               <TouchableHighlight
-                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                style={{ ...styles.openButton, backgroundColor: "#2196F3", width: '50%', marginRight: 10 }}
                 onPress={() => {
                   setModalVisible(prev => !prev)
                   setItemInfo(null)
-                  setGoldStatus( prev => prev - itemInfo['price'] )
+                  setGoldStatus( prev => prev - itemInfo['price']*count )
                 }}
               >
                 <Text style={styles.textStyle}>구매</Text>
               </TouchableHighlight>
               <TouchableHighlight
-                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                style={{ ...styles.openButton, backgroundColor: "#2196F3", width: '50%' }}
                 onPress={() => {
                   setModalVisible(prev => !prev)
                   setItemInfo(null)
@@ -152,7 +158,7 @@ const styles = StyleSheet.create({
   },
   openButton: {
     backgroundColor: "#F194FF",
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 10,
     elevation: 2
   },
