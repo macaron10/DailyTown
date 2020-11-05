@@ -25,6 +25,12 @@ export default function Main({navigation}) {
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>저장값꺼내기</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={{ position: 'absolute', right:0, top:50, backgroundColor: '#000000', zIndex:100}}
+        onPress={() => {SecureStore.deleteItemAsync('token')}}
+      >
+        <Text style={{ color: '#fff', textAlign: 'center' }}>Logout</Text>
+      </TouchableOpacity>
       <View style={ styles.containerTop }>
         <View style={ styles.infoContainer }>
           <MissionModal />
