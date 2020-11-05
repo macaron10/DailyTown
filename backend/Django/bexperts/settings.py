@@ -17,21 +17,12 @@ from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '&%i6*h!^efcd8yegbrr62hrtzzn)5&@a*rwo^#qb#rs(b*#hiz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-    #     "http://localhost:8080",
-    # "http://localhost:3306",
-    # "http://localhost:3000",]
-
 
 # Application definition
 
@@ -72,12 +63,6 @@ SITE_ID = 1
 #CORS Policy
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS=True
-
-# CORS_ORIGIN_WHITELIST = [
-#     "http://localhost:8080",
-#     "http://localhost:3306",
-#     "http://localhost:3000",
-# ]
 
 CORS_ALLOW_METHODS = (
     'DELETE',
