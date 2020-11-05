@@ -15,14 +15,19 @@ from Keras_model.fruit_model.classification import qwnkld
 
 @api_view(['POST'])
 def test(request):
-	temp = {
-		'test1': 1
+	result = {
+		'ans': False
 	}
+	# target = title = 바나나, 
+	keyword = request.data['category']
+	target = request.data['title']
+	if keyword == 'fruit':
+		result['ans'] = qwnkld(request, target)
+  		
 	print(request)
 	print(request.data)
 	# print(request.data['image'])
 	print(request.FILES)
 	print(request.FILES['image'])
 	# qwnkld(request.FILES['image'])
-	qwnkld(request)
-	return JsonResponse(temp)
+	return JsonResponse(result)

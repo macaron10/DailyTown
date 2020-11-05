@@ -2,7 +2,7 @@ import keras
 import cv2
 import numpy as np 
 
-def qwnkld(request):
+def qwnkld(request, target):
   # print('filename', file, type(file))
   reconstructed_model = keras.models.load_model("/code/Keras_model/fruit_model/fruit_model")
   # reconstructed_model = keras.models.load_model("./fruit_model")
@@ -23,6 +23,7 @@ def qwnkld(request):
   print(reconstructed_model.predict(img))
   predict = reconstructed_model.predict(img)
   print('predict=', predict)
-  output = { 0:'apple',1:'banana',2:'mixed',3:'orange'}
+  output = { 0:'사과',1:'바나나',2:'mixed',3:'오렌지'}
   print("Predicted :- ",output[np.argmax(predict)])
-  return output[np.argmax(predict)]
+  output[np.argmax(predict)]
+  return output[np.argmax(predict)] == target
