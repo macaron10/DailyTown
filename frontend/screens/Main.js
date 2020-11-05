@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     height: "50%"
   },
   infoContainer: {
+    position: "relative",
     // height: "10%",
   }
 });

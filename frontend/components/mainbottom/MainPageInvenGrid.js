@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Image, TouchableHighlight, Alert } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableHighlight, Alert, ScrollView  } from 'react-native';
 import StoreItemModal from './StoreItemModal'
 
 {/* <Image style={styles.tinyLogo} source={require('@expo/snack-static/react-native-logo.png')} /> */}
@@ -56,8 +56,7 @@ export default function InvenGrid({ items, isInventory, setGoldStatus }) {
 
   return (
       <View style={ styles.testGrid }>
-        <ClickStoreItem itemInfo={ itemInfo } setItemInfo={ setItemInfo } setGoldStatus={ setGoldStatus }/>
-        <View style={ styles.testGridContainer }>
+        <ScrollView contentContainerStyle={ styles.testGridContainer }>
           {[0, 1, 2, 3].map((number1) =>
             <View key={number1.toString()} style={ styles.testGridRow }>
               {[0, 1, 2 ,3 ,4].map((number2) =>
@@ -74,7 +73,8 @@ export default function InvenGrid({ items, isInventory, setGoldStatus }) {
               )}
             </View>
           )}
-        </View>
+        </ScrollView>
+        <ClickStoreItem itemInfo={ itemInfo } setItemInfo={ setItemInfo } setGoldStatus={ setGoldStatus }/>
       </View>
   );
 }
@@ -86,28 +86,32 @@ const styles = StyleSheet.create({
   },
 
   testGrid: {
+    flex: 0.8,
     color: '#776e65',
     position: 'relative',
     backgroundColor: '#bbada0',
-    width: '100%',
-    height: 300,
+    // width: '100%',
+    // height: '50%',
   },
   testGridContainer: {
     color: '#776e65',
     position: 'absolute',
     zIndex: 1,
+    width: '100%',
+    paddingBottom: 9,
   },
   testGridRow: {
     color: '#776e65',
-    paddingHorizontal: 10,
-    paddingVertical: 9,
+    paddingTop: 9,
     flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-evenly'
   },
   testGridCell: {
     color: '#776e65',
-    width: 56.25,
-    height: 56.25,
-    marginRight: 15,
+    // width: 56.25,
+    // height: 56.25,
+    // marginRight: 15,
     borderRadius: 3,
     backgroundColor: 'rgba(238, 228, 218, 0.35)',
   }

@@ -6,7 +6,8 @@ import MissionList from "./MissionList";
 
 
 export default function MissionModal() {
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -38,7 +39,7 @@ export default function MissionModal() {
           setModalVisible(true);
         }}
         size={40}
-      />
+      ></IconButton>
     </View>
   );
 }
@@ -84,6 +85,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     // top: 20,
     left: 5,
-    zIndex: 999,
+    zIndex: 1,
   },
 });
