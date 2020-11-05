@@ -1,34 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Image, Dimensions, TouchableWithoutFeedback, Alert, Platform } from 'react-native'
 
-// Data를 Array로 입력받는다고 가정
-const data = [
-  { x: 1, y: 0 },
-  { x: 2, y: 1 },
-  { x: 5, y: 3 },
-  { x: 1, y: 4 },
-  { x: 5, y: 4 },
-]
-
-function ImageModal(xyInfo) {
-  Alert.alert(
-    'X:' + String(xyInfo.x) + ', Y:' + String(xyInfo.y),
-    "어떤 작업을 하시겠습니까?",
-    [
-      { text: "취소" },
-      { text: "이동", onPress: () => [console.log("좌표이동")] },
-      { text: "삭제", onPress: () => { console.log("전체배열에서 삭제하고 인벤토리로 옮기는 로직") } },
-    ],
-    { cancelable: true }
-  );
-}
-
+const xyCount = 6
 
 export default function MyForest(props) {
   const deviceWidth = Dimensions.get('window').width
-  const width = (deviceWidth - 20) / 6
+  const width = (deviceWidth - 20) / xyCount
+  const [data, setData] = useState([
+    { x: 0, y: 1 },
+    { x: 2, y: 3 },
+    { x: 5, y: 1 },
+    { x: 1, y: 3 },
+    { x: 3, y: 4 },
+  ])
   return (
-    data.map((xyInfo) => {
+    data.map((xyInfo, idx) => {
       const url = require('../assets/test_img/tree.png')
       let height
       if (Platform.OS === 'web') {
@@ -43,7 +29,27 @@ export default function MyForest(props) {
       // const height = image.height*width/image.width
       return (
         <TouchableWithoutFeedback key={`${xyInfo.x}${xyInfo.y}`}
-          onPressIn={() => { ImageModal(xyInfo) }}
+          onPressIn={() => {
+            Alert.alert(
+              'X:' + String(xyInfo.x) + ', Y:' + String(xyInfo.y),
+              "어떤 작업을 하시겠습니까?",
+              [
+                { text: "취소" },
+                { text: "이동", onPress: () => [console.log("좌표이동")] },
+                {
+                  text: "삭제",
+                  onPress: () => {
+                    const newData = [...data]
+                    newData.splice(idx, 1)
+                    setData(newData)
+                    // 인벤토리로 내리고 좌표 axios
+                  }
+                },
+              ],
+              { cancelable: true }
+            )
+          }
+          }
         >
           <Image
             style={{
