@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Alert, ScrollView } from 'react-native';
-import { List, Card, IconButton, Paragraph } from 'react-native-paper';
+import { StyleSheet, View, ScrollView, Image, Text } from 'react-native';
+import { List, IconButton } from 'react-native-paper';
 
 import CameraOn from '../cameramodal/CameraOn';
 import ImageModal from '../cameramodal/CameraModal';
+import missionData from "./MissionData";
 
 
 function CheckCamera(props) {
@@ -19,7 +20,7 @@ function CheckCamera(props) {
 function CheckImage(props) {
   const photoInfo = props.photoInfo
   if ( photoInfo ) {
-    Alert.alert('New Image Detect')
+    // Alert.alert('New Image Detect')
     return <ImageModal photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo }/>
   }
   else {
@@ -50,11 +51,6 @@ function Camera({ setIsCameraOn }) {
 }
 
 export default function MissionList() {
-  const ref = useRef(true);
-
-  const [expanded1, setExpanded1] = useState(true);
-  const [expanded2, setExpanded2] = useState(false);
-  const [expanded3, setExpanded3] = useState(false);
 
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [photoInfo, setPhotoInfo] = useState(null);
@@ -68,62 +64,26 @@ export default function MissionList() {
     );
   } else {
     return (
-      <List.Section
-      style={ styles.container }
-      title="오늘의 미션"
-      >
-        <ScrollView>
-          <List.Accordion
-            title="꽃 사진을 찍으세요."
-            // left={props => <List.Icon {...props} icon="folder" />}
-            expanded={expanded1}
-            onPress={() => {
-              setExpanded1(!expanded1)
-              setExpanded2(!expanded1)
-              setExpanded3(!expanded1)
-            }}
-            >
-            <Card>
-              <Card.Title
-                title="보상"
-              >
-              </Card.Title>
-              <Card.Cover source={require('../../assets/test_img/pica.png')} />
-              <Card.Content>
-                <Camera setIsCameraOn={ setIsCameraOn } />
-              </Card.Content>
-            </Card>
-          </List.Accordion>
-
-          <List.Accordion
-            title="Controlled Accordion"
-            // left={props => <List.Icon {...props} icon="folder" />}
-            expanded={expanded2}
-            onPress={() => {
-              setExpanded1(false)
-              setExpanded2(!expanded2)
-              setExpanded3(false)
-            }}
-            >
-            <List.Item title="First item" />
-            <List.Item title="Second item" />
-          </List.Accordion>
-
-          <List.Accordion
-            title="Controlled Accordion"
-            // left={props => <List.Icon {...props} icon="folder" />}
-            expanded={expanded3}
-            onPress={() => {
-              setExpanded1(false)
-              setExpanded2(false)
-              setExpanded3(!expanded3)
-            }}
+          <List.Section
+          style={ styles.container }
+          title="오늘의 미션"
           >
-            <List.Item title="First item" />
-            <List.Item title="Second item" />
-          </List.Accordion>
-        </ScrollView>
-      </List.Section>
+            <ScrollView>
+              {missionData.map(({ title, contents, imgUrl }, index) => {
+                return (
+                  <List.Accordion
+                    key={title}
+                    title={title}
+                    // left={props => <List.Icon {...props} icon="folder" />}
+                    >
+                    <Text>보상</Text>
+                    <Image style={{width:200, height:200}} source={imgUrl} />
+                    <Camera setIsCameraOn={ setIsCameraOn } />
+                  </List.Accordion>
+                )
+              })}
+            </ScrollView>
+          </List.Section>
     );
   }
 }
