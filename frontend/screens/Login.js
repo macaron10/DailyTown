@@ -14,55 +14,60 @@ export default function LoginSample({ navigation }) {
     const res = await Google.logInAsync(
       {androidClientId: env.AND_KEY});
     // console.log(res);
-  
-  if (res.type === 'success') {
-    let data = {
-      username: res.user.name,
-      first_name: res.user.givenName,
-      last_name: res.user.familyName,
-      email: res.user.email,
-      password: res.user.id,
-      provider: 'google'
-    };
-    // console.log(data);
+    const secure_available = await SecureStore.isAvailableAsync()
+    if (res.type === 'success') {
+      let data = {
+        username: res.user.name,
+        first_name: res.user.givenName,
+        last_name: res.user.familyName,
+        email: res.user.email,
+        password: res.user.id,
+        provider: 'google'
+      };
+      // console.log(data);
 
-    let userInfo = await fetch(`http://${env.IP_ADDRESS}:8000/account/create/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;'
-      },
-      body: JSON.stringify(data),
-    })
-    .then(res => res.json())
-    .then(json => {
-      console.log(json)  // ok -> 최초 로그인 // duplicate email -> 이후 로그인
-      // Login
-      fetch(`http://${env.IP_ADDRESS}:8000/account/login/`, {  
-      method: 'POST',
+      let userInfo = await fetch(`http://${env.IP_ADDRESS}:8000/account/create/`, {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json;'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       })
       .then(res => res.json())
       .then(json => {
-        console.log('2차 제이슨', json)
+        console.log(json)  // ok -> 최초 로그인 // duplicate email -> 이후 로그인
+        // Login
+        fetch(`http://${env.IP_ADDRESS}:8000/account/login/`, {  
+        method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(json => {
+          console.log('2차 제이슨', json.token)
+          if (secure_available === true) {
+            SecureStore.setItemAsync('token', json.token)
+          } else {
+            console.log('자동로그인이 지원되지않는 안드로이드 버젼입니다.')
+          }
+        })
+        .catch(error => {
+          // Login 에러
+          console.log('Login 에러')
+          console.log(error);
+          window.gapi && window.gapi.auth2.getAuthInstance().signOut();
+        });   
+
+
       })
       .catch(error => {
-        // Login 에러
-        console.log('Login 에러')
+        // Signup 에러
+        console.log('Signup 에러')
         console.log(error);
         window.gapi && window.gapi.auth2.getAuthInstance().signOut();
-      });   
-
-
-    })
-    .catch(error => {
-      // Signup 에러
-      console.log('Signup 에러')
-      console.log(error);
-      window.gapi && window.gapi.auth2.getAuthInstance().signOut();
-    });  
+      });  
 
   }
 
