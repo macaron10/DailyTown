@@ -35,11 +35,32 @@ export default function LoginSample({ navigation }) {
     })
     .then(res => res.json())
     .then(json => {
-      console.log(json)
+      console.log(json)  // ok -> 최초 로그인 // duplicate email -> 이후 로그인
+      // Login
+      fetch(`http://${env.IP_ADDRESS}:8000/account/login/`, {  
+      method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(json => {
+        console.log('2차 제이슨', json)
+      })
+      .catch(error => {
+        // Login 에러
+        console.log('Login 에러')
+        console.log(error);
+        window.gapi && window.gapi.auth2.getAuthInstance().signOut();
+      });   
+
+
     })
     .catch(error => {
+      // Signup 에러
+      console.log('Signup 에러')
       console.log(error);
-      console.log('에러');
       window.gapi && window.gapi.auth2.getAuthInstance().signOut();
     });  
 
