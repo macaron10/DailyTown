@@ -12,7 +12,7 @@ export default function Main({navigation}) {
     "0": {
     "name": "임시1",
     "price": 500,
-    "image": "splash.png"
+    "image": "splash"
     }
   })
 

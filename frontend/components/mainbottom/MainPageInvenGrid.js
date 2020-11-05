@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableHighlight, Alert, ScrollView  } from 'react-native';
 import StoreItemModal from './StoreItemModal'
+import dynamicItems  from './dynamicItems'
 
 {/* <Image style={styles.tinyLogo} source={require('@expo/snack-static/react-native-logo.png')} /> */}
 {/* <Image
@@ -24,6 +25,10 @@ function ClickStoreItem(props) {
 function ShowItem(props) {
   const setItemInfo = props.setItemInfo
   const item = props.item
+  console.log(item)
+  // 동적할당을 위한 노가다가 필요하다.
+  const image = item['image'] ? dynamicItems[item['image']] : dynamicItems['default']
+
   return <TouchableHighlight
           onPress={() => {
             setItemInfo(item);
@@ -31,7 +36,9 @@ function ShowItem(props) {
         >
           <View>
             {/* 여기는 아이템 이미지가 들어갈 영역입니다. splash 대신 위에 들어갈 object에서 뽑아야합니다 */}
-            <Image style={styles.tinyLogo} source={require(`../../assets/` + ( item['image'] ? item['image'] : 'splash.png' ) )} />
+            <Image style={styles.tinyLogo} source={image} />
+            {/* <Image style={styles.tinyLogo} source={require(`../../assets/` + item.image)} /> */}
+            {/* <Image style={styles.tinyLogo} source={require(`../../assets/` + ( item.image ? item.image : 'splash.png' ))} /> */}
           </View>
         </TouchableHighlight>
 }
