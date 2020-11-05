@@ -47,10 +47,6 @@ INSTALLED_APPS = [
     #allauth
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    
-    #provider
-    'allauth.socialaccount.providers.kakao',
 
     #MyAPP
     'accounts',

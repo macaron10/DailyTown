@@ -9,7 +9,7 @@ from .models import Item as ItemModel, ItemCategory
 from .serializers import ItemCategorySerializer, ItemSerializer
 
 class Category(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         categories = ItemCategory.objects.all()
         print(categories)
