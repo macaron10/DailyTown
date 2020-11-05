@@ -4,38 +4,8 @@ import DynamicItems from "./DynamicItems"
 import { IconButton } from 'react-native-paper';
 
 
-// 가방의경우, 이동하기, 판매하기 -> 수량 선택및 금액 표시. 판매, 닫기
-// 상점의경우, 이미지, 수량 구매, 닫기
-function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus, setModalVisible, storeImage }) {
+function SellingMode({ itemInfo, setCount, count, setModalVisible, setItemInfo, setGoldStatus, isSellingMode }) {
   const image = itemInfo['image'] ? DynamicItems[itemInfo['image']] : DynamicItems['default']
-  const [count, setCount] = useState(1)
-
-  if (isInventory) {
-    return  <View style={styles.modalView}>
-              <View style={{ display: 'flex', flexDirection: 'row'}}>
-                <TouchableHighlight
-                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                  onPress={() => {
-                    setModalVisible(prev => !prev)
-                    setItemInfo(null)
-                    // setGoldStatus( prev => prev - itemInfo['price'] )
-                  }}
-                >
-                  <Text style={styles.textStyle}>이동하기</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                  onPress={() => {
-                    setModalVisible(prev => !prev)
-                    setItemInfo(null)
-                  }}
-                >
-                  <Text style={styles.textStyle}>판매하기</Text>
-                </TouchableHighlight>
-
-              </View>
-            </View>
-          }
 
   return  <View style={styles.modalView}>
             <View style={{ display: 'flex', flexDirection: 'row'}}>
@@ -45,7 +15,7 @@ function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGold
                   resizeMode="contain"
                   source={image}
                 />
-                <Text>가격표시</Text>
+                <Text>{ itemInfo['price'] }</Text>
               </View>
               <View style={{ display: 'flex' }}>
                 <IconButton
@@ -81,10 +51,10 @@ function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGold
                 onPress={() => {
                   setModalVisible(prev => !prev)
                   setItemInfo(null)
-                  setGoldStatus( prev => prev - itemInfo['price']*count )
+                  setGoldStatus( prev => isSellingMode ? prev + itemInfo['price']*count : prev - itemInfo['price']*count  )
                 }}
               >
-                <Text style={styles.textStyle}>구매</Text>
+                <Text style={styles.textStyle}>{ isSellingMode ? '판매' : '구매' }</Text>
               </TouchableHighlight>
               <TouchableHighlight
                 style={{ ...styles.openButton, backgroundColor: "#2196F3", width: '50%' }}
@@ -98,6 +68,46 @@ function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGold
 
             </View>
           </View>
+}
+
+// 가방의경우, 이동하기, 판매하기 -> 수량 선택및 금액 표시. 판매, 닫기
+// 상점의경우, 이미지, 수량 구매, 닫기
+function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus, setModalVisible }) {
+  const [count, setCount] = useState(1)
+  const [sellingItem, setSellingItem] = useState(null)
+
+  if (isInventory && sellingItem === null) {
+    return  <View style={styles.modalView}>
+              <View style={{ display: 'flex', flexDirection: 'row'}}>
+                <TouchableHighlight
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {
+                    setModalVisible(prev => !prev)
+                    setItemInfo(null)
+                  }}
+                >
+                  <Text style={styles.textStyle}>이동하기</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {
+                    // setModalVisible(prev => !prev)
+                    setSellingItem(itemInfo)
+                    setItemInfo(itemInfo)
+                  }}
+                >
+                  <Text style={styles.textStyle}>판매하기</Text>
+                </TouchableHighlight>
+
+              </View>
+            </View>
+          
+  }
+  if ( sellingItem ) {
+    return <SellingMode isSellingMode={ true } itemInfo={ sellingItem } setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} setGoldStatus={setGoldStatus} />
+  }
+
+  return <SellingMode itemInfo={itemInfo} setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} setGoldStatus={setGoldStatus}/>
 }
 
 export default function StoreItemModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus, storeImage }) {
