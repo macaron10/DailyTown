@@ -9,7 +9,7 @@ import MyGold from '../components/MyGold';
 
 export default function Main({navigation}) {
   const [goldStatus, setGoldStatus] = useState(10000)
-  const test = SecureStore.getItemAsync('token')
+
 
   return (
     <View style={ styles.container }>
@@ -21,13 +21,21 @@ export default function Main({navigation}) {
       </TouchableOpacity>
       <TouchableOpacity
         style={{ position: 'absolute', top:100, backgroundColor: '#000000', zIndex:100}}
-        onPress={() => {console.log(test,'이게 스토어의 값')}}
+        onPress={async () => {
+          const test = await SecureStore.getItemAsync('token')
+          console.log(test,'이게 스토어의 토큰');
+          const test2 = await SecureStore.getItemAsync('access_token')
+          console.log(test2,'이게 스토어의 액세스 토큰');
+        }}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>저장값꺼내기</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={ styles.logoutButton }
-        onPress={() => {SecureStore.deleteItemAsync('token')}}
+        onPress={async () => {
+          await SecureStore.deleteItemAsync('token')
+          await SecureStore.deleteItemAsync('access_token')
+        }}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>Logout</Text>
       </TouchableOpacity>

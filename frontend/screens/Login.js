@@ -13,7 +13,7 @@ export default function LoginSample({ navigation }) {
   const onPress = async () => {
     const res = await Google.logInAsync(
       {androidClientId: env.AND_KEY});
-    // console.log(res);
+    console.log(res);
     const secure_available = await SecureStore.isAvailableAsync()
     if (res.type === 'success') {
       let data = {
@@ -49,6 +49,8 @@ export default function LoginSample({ navigation }) {
           console.log('2차 제이슨', json.token)
           if (secure_available === true) {
             SecureStore.setItemAsync('token', json.token)
+            console.log('access_token 밑에', res.accessToken)
+            SecureStore.setItemAsync('access_token', res.accessToken)
           } else {
             console.log('자동로그인이 지원되지않는 안드로이드 버젼입니다.')
           }
