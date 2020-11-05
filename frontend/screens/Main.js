@@ -14,7 +14,7 @@ export default function Main({navigation}) {
   return (
     <View style={ styles.container }>
       <TouchableOpacity
-        style={ styles.button }
+        style={ styles.devbutton }
         onPress={() => navigation.navigate('Login')}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>LoginPage(for Dev)</Text>
@@ -26,7 +26,7 @@ export default function Main({navigation}) {
         <Text style={{ color: '#fff', textAlign: 'center' }}>저장값꺼내기</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={{ position: 'absolute', right:0, top:50, backgroundColor: '#000000', zIndex:100}}
+        style={ styles.logoutButton }
         onPress={() => {SecureStore.deleteItemAsync('token')}}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>Logout</Text>
@@ -51,12 +51,19 @@ const styles = StyleSheet.create({
     // flexDirection: 'column',
     height: '100%',
   },
-  button: {
+  devbutton: {
     position: 'absolute',
     top: 100,
     left: '70%',
     zIndex: 100,
     backgroundColor: 'black',
+  },
+  logoutButton:{
+    position: 'absolute',
+    right:0,
+    top:50,
+    backgroundColor: '#000000',
+    zIndex:100
   },
   containerTop: {
     // flex: 1,
