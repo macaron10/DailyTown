@@ -9,6 +9,4 @@ class Item(models.Model):
     sell_price = models.IntegerField()
     buy_price = models.IntegerField()
     image_dir = models.TextField()
-    isinshop = models.BooleanField(default=False)
-
-                                                                                                                                     
+    isinshop = models.BooleanField(default=False)                                                                                                                                     

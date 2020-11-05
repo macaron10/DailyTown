@@ -104,6 +104,7 @@ class MyItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     isinfarm = models.BooleanField(default=False)
+    quantity = models.IntegerField()
     location = models.IntegerField()
 
 class MyMission(models.Model):

@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
 from .serializers import UserCreateSerializer, UserLoginSerializer
 from .models import User
@@ -39,12 +40,12 @@ def login(request):
 class Gold(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        user = User.objects.get(email=request.user.email)
+        user = get_object_or_404(User, email=request.user.email)
         info = {'gold': user.gold}
         return Response(info, status=status.HTTP_200_OK)
 
     def post(self, request):
-        user = User.objects.get(email=request.user.email)
+        user = get_object_or_404(User, email=request.user.email)
         nowgold = user.gold
         user.gold = nowgold + int(request.data['price'])
         user.save()
