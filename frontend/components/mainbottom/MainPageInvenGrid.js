@@ -28,6 +28,7 @@ function ShowItem(props) {
 
   // 동적할당을 위한 노가다가 필요하다.
   const image = item['image'] ? DynamicItems[item['image']] : DynamicItems['default']
+
   return <TouchableHighlight
           onPress={() => {
             setItemInfo(item);

@@ -1,21 +1,21 @@
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image } from "react-native";
+import DynamicItems from "./DynamicItems"
 
 // 가방의경우, 이동하기, 판매하기 -> 수량 선택및 금액 표시. 판매, 닫기
 // 상점의경우, 이미지, 수량 구매, 닫기
-function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus, setModalVisible }) {
+function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus, setModalVisible, storeImage }) {
+  const image = itemInfo['image'] ? DynamicItems[itemInfo['image']] : DynamicItems['default']
+
   if (isInventory) {
     return  <View style={styles.modalView}>
-              <Text style={styles.modalText}> 이름: { itemInfo['name'] } </Text>
-              <Text style={styles.modalText}> 가격: { itemInfo['price'] } </Text>
-
               <View style={{ display: 'flex', flexDirection: 'row'}}>
                 <TouchableHighlight
                   style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                   onPress={() => {
                     setModalVisible(prev => !prev)
                     setItemInfo(null)
-                    setGoldStatus( prev => prev - itemInfo['price'] )
+                    // setGoldStatus( prev => prev - itemInfo['price'] )
                   }}
                 >
                   <Text style={styles.textStyle}>이동하기</Text>
@@ -35,14 +35,24 @@ function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGold
           }
 
   return  <View style={styles.modalView}>
-            <Text style={styles.modalText}> 이름: { itemInfo['name'] } </Text>
-            <Text style={styles.modalText}> 가격: { itemInfo['price'] } </Text>
+            <View style={{ display: 'flex', flexDirection: 'row'}}>
+              <Image
+                style={ styles.tinyLogo }
+                resizeMode="contain"
+                source={image}
+              />
+
+              {/* <Text style={styles.modalText}> 이름: { itemInfo['name'] } </Text>
+              <Text style={styles.modalText}> 가격: { itemInfo['price'] } </Text> */}
+            
+            </View>
+
 
             <View style={{ display: 'flex', flexDirection: 'row'}}>
               <TouchableHighlight
                 style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                 onPress={() => {
-                  setModalVisible(!modalVisible)
+                  setModalVisible(prev => !prev)
                   setItemInfo(null)
                   setGoldStatus( prev => prev - itemInfo['price'] )
                 }}
@@ -63,7 +73,7 @@ function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGold
           </View>
 }
 
-export default function StoreItemModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus }) {
+export default function StoreItemModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus, storeImage }) {
   const [modalVisible, setModalVisible] = useState(true);
   return (
     <View style={styles.centeredView}>
@@ -83,6 +93,7 @@ export default function StoreItemModal({ itemInfo, isInventory, setMyItems, setI
             setItemInfo={setItemInfo}
             setGoldStatus={setGoldStatus}
             setModalVisible={setModalVisible}
+            storeImage={storeImage}
           />
 
         </View>
@@ -93,6 +104,10 @@ export default function StoreItemModal({ itemInfo, isInventory, setMyItems, setI
 };
 
 const styles = StyleSheet.create({
+  tinyLogo: {
+    width: 65,
+    height: 65,
+  },
   centeredView: {
     // display: "flex",
     // justifyContent: "center",
