@@ -8,7 +8,13 @@ import axios from 'axios'
 
 export default function Main({navigation}) {
   const [goldStatus, setGoldStatus] = useState(0)
-  const [myItem, setMyItem] = useState({})
+  const [myItems, setMyItems] = useState({
+    "0": {
+    "name": "임시1",
+    "price": 500,
+    "image": "splash.png"
+    }
+  })
 
   // 맨처음 한번만 받아올 예정
   // useEffect( () => {
@@ -37,7 +43,7 @@ export default function Main({navigation}) {
         <Board />
         <MyGold goldStatus={ goldStatus } />
       </View>
-      <MainPageInventory myItem={ myItem } setMyItem={ setMyItem } setGoldStatus={ setGoldStatus }/>
+      <MainPageInventory myItems={ myItems } setMyItems={ setMyItems } setGoldStatus={ setGoldStatus }/>
     </View>
   );
 }

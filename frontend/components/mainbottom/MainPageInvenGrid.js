@@ -52,7 +52,7 @@ function ItemGrid(props) {
   }
 }
 
-export default function InvenGrid({ items, setMyItem, isInventory, setGoldStatus }) {
+export default function InvenGrid({ items, setMyItems, isInventory, setGoldStatus }) {
   const [itemInfo, setItemInfo] = useState(null)
 
   return (
@@ -66,7 +66,7 @@ export default function InvenGrid({ items, setMyItem, isInventory, setGoldStatus
                     number1={ number1 }
                     number2={ number2 }
                     items={ items }
-                    setMyItem={ setMyItem }
+                    setMyItems={ setMyItems }
                     isInventory={ isInventory }
                     setItemInfo={ setItemInfo }
                     setGoldStatus={ setGoldStatus }
