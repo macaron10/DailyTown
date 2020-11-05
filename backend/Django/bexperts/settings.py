@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
 
+    #Swagger
+   'drf_yasg',
+
     #MyAPP
     'accounts',
     'items',

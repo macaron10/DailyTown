@@ -11,6 +11,10 @@ from .models import User
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def createUser(request):
+    '''
+    create User
+    /return => message : Success or Fail(Error)
+    '''
     if request.method == 'POST':
         serializer = UserCreateSerializer(data=request.data)
         if not serializer.is_valid(raise_exception=True):
@@ -24,6 +28,10 @@ def createUser(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login(request):
+    '''
+    Login User
+    /return => JWT Token in Success or message : Fail(Login Error)
+    '''
     if request.method == 'POST':
         serializer = UserLoginSerializer(data=request.data)
         if not serializer.is_valid(raise_exception=True):
@@ -40,11 +48,19 @@ def login(request):
 class Gold(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
+        '''
+        get your(user's) gold
+        /return => {gold : yourgold(int)}
+        '''
         user = get_object_or_404(User, email=request.user.email)
         info = {'gold': user.gold}
         return Response(info, status=status.HTTP_200_OK)
 
-    def post(self, request):
+    def patch(self, request):
+        '''
+        change your gold after calculating
+        /return => {gold : yourgold(int, after calculating)}
+        '''
         user = get_object_or_404(User, email=request.user.email)
         nowgold = user.gold
         user.gold = nowgold + int(request.data['price'])
