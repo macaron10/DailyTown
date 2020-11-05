@@ -9,8 +9,6 @@ import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
 
-import { logout } from '../utils/authentication';
-
 export default function Main({navigation}) {
   const [goldStatus, setGoldStatus] = useState(10000)
 
@@ -39,7 +37,22 @@ export default function Main({navigation}) {
       {/* 로그아웃 버튼 */}
       <TouchableOpacity
         style={ styles.logoutButton }
-        onPress={logout()}
+        onPress={async () => {
+          const accessToken = await SecureStore.getItemAsync('access_token')
+          await Google.logOutAsync({ accessToken, androidClientId: env.AND_KEY}); // 나중에 따로 config 설정해줘야함
+          // ------------------------ access token 만료 확인용 -------------------------------
+          // let userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+          //   headers: { Authorization: `Bearer ${accessToken}` },
+          // })
+          // .then(
+          //   res => res.json()
+          // )
+          // .then(
+          //   json => {console.log(json)}
+          // );
+          await SecureStore.deleteItemAsync('token')
+          await SecureStore.deleteItemAsync('access_token')
+        }}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>Logout</Text>
       </TouchableOpacity>
