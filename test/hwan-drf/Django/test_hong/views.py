@@ -18,16 +18,18 @@ def test(request):
 	result = {
 		'ans': False
 	}
-	# target = title = 바나나, 
+	# category == 물건의 종류, title == 물건의 detail
 	keyword = request.data['category']
 	target = request.data['title']
+
+	# 물건 종류에 따라 if문 model 분기
 	if keyword == 'fruit':
 		result['ans'] = qwnkld(request, target)
-  		
-	print(request)
-	print(request.data)
-	# print(request.data['image'])
-	print(request.FILES)
-	print(request.FILES['image'])
+
+	# test용 print문.
+	# print(request)
+	# print(request.data)
+	# print(request.FILES)
+	# print(request.FILES['image'])
 	# qwnkld(request.FILES['image'])
 	return JsonResponse(result)

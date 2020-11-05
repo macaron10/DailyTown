@@ -3,27 +3,16 @@ import cv2
 import numpy as np 
 
 def qwnkld(request, target):
-  # print('filename', file, type(file))
+  # import 학습 model
   reconstructed_model = keras.models.load_model("/code/Keras_model/fruit_model/fruit_model")
-  # reconstructed_model = keras.models.load_model("./fruit_model")
   
-  # reconstructed_model.predict('banana.jpeg')
-  shape = (200, 200)
-  
-  # img = cv2.imread('/code/Keras_model/fruit_model/banana.jpeg')
-  # img = cv2.imread(file)
+  # request에서 들어온 image 변환, 사이즈 input에 맞게 변환
   img = cv2.imdecode(np.fromstring(request.FILES['image'].read(), np.uint8), cv2.IMREAD_COLOR)
-  # img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
-  # img = cv2.imdecode(file.read(), cv2.IMREAD_UNCHANGED)
-  # img.imshow()
+  shape = (200, 200)
   img = cv2.resize(img,shape)
-  fruits = ['사과', '바나나', 'mixed', '오렌지']
   img = np.array([img])
-  print(img.shape)
-  print(reconstructed_model.predict(img))
-  predict = reconstructed_model.predict(img)
-  print('predict=', predict)
+  
+  # 결과값 바탕으로 T/F 반환
   output = { 0:'사과',1:'바나나',2:'mixed',3:'오렌지'}
-  print("Predicted :- ",output[np.argmax(predict)])
-  output[np.argmax(predict)]
+  predict = reconstructed_model.predict(img)
   return output[np.argmax(predict)] == target
