@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image } from "react-native";
+import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image,  } from "react-native";
 import DynamicItems from "./DynamicItems"
+import { IconButton } from 'react-native-paper';
+
 
 // 가방의경우, 이동하기, 판매하기 -> 수량 선택및 금액 표시. 판매, 닫기
 // 상점의경우, 이미지, 수량 구매, 닫기
 function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus, setModalVisible, storeImage }) {
   const image = itemInfo['image'] ? DynamicItems[itemInfo['image']] : DynamicItems['default']
+  const [count, setCount] = useState(1)
 
   if (isInventory) {
     return  <View style={styles.modalView}>
@@ -41,6 +44,24 @@ function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGold
                 resizeMode="contain"
                 source={image}
               />
+              <View style={{ display: 'flex' }}>
+                <IconButton
+                  icon="arrow-up-drop-circle"
+                  onPress={() => {
+                    setCount(prev => prev + 1)
+                  }}
+                >
+                </IconButton>
+                <IconButton
+                  icon="arrow-down-drop-circle"
+                  onPress={() => {
+                    setCount(prev => prev - 1)
+                  }}
+                >
+                </IconButton>
+
+              </View>
+              <Text>{ count }개</Text>
 
               {/* <Text style={styles.modalText}> 이름: { itemInfo['name'] } </Text>
               <Text style={styles.modalText}> 가격: { itemInfo['price'] } </Text> */}
