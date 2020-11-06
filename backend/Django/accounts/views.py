@@ -5,8 +5,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 
-from .serializers import UserCreateSerializer, UserLoginSerializer
-from .models import User
+from .serializers import UserCreateSerializer, UserLoginSerializer, MyItemSerializer
+from .models import User, MyItem as MyItemModel, MyMission as MyMissionModel
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -67,4 +67,61 @@ class Gold(APIView):
         user.save()
         info = {'gold': user.gold}
         return Response(info, status=status.HTTP_200_OK)
+
+class MyItem(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        '''
+        get your(user's) Item list
+        /return => your item's list
+        '''
+        myitems = MyItemModel.objects.filter(user=request.user)
+        serializer = MyItemSerializer(myitems, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        '''
+        create your Item
+        /return => message : Item's information or Fail Message
+        '''
+        serializer = MyItemSerializer(data=request.data)
+        if not serializer.is_valid(raise_exception=True):
+            return Response({"message": "Please Check Item's Context"}, status=status.HTTP_409_CONFLICT)
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class MyItemDetail(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, item_pk):
+        '''
+        get your single item's information
+        '''
+        myitem = get_object_or_404(MyItemModel, pk=item_pk)
+        serializer = MyItemSerializer(myitem)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, item_pk):
+        '''
+        update your item's information
+        /return => Item's Information or Fail Message
+        '''
+        myitem = get_object_or_404(MyItemModel, pk=item_pk)
+        serializer = MyItemSerializer(myitem, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"message": "Please Check Item's Context"}, status=status.HTTP_409_CONFLICT)
+
+    def delete(self, request, item_pk):
+        '''
+        delete your item
+        /return => Success or Fail
+        '''
+        myitem = get_object_or_404(MyItemModel, pk=item_pk)
+        myitem.delete()
+        return Response({"message": "Successfully delete item"}, status=status.HTTP_200_OK)
+
+
 
