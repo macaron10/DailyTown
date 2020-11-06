@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'accounts',
     'items',
     'missions',
+    'ai_images',
 ]
 
 SITE_ID = 1

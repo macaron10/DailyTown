@@ -7,18 +7,37 @@ services:
   #   depends_on: 
   #     - backend
 
-  backend:
+  backend1:
     build: ./Django
     command: bash -c " pip install -r requirements.txt
+      && apt-get update
+      && apt-get install 'ffmpeg' 'libsm6' 'libxext6'  -y
       && python manage.py makemigrations
       && python manage.py migrate
-      && python manage.py runserver 0.0.0.0:8000"
+      && python manage.py runserver 0.0.0.0:8001"
     volumes:
       - ./Django:/code
     ports:
-      - "8000:8000"
+      - "8001:8000"
     depends_on:
       - db
+    restart: always
+  
+  backend2:
+    build: ./Django
+    command: bash -c " pip install -r requirements.txt
+      && apt-get update
+      && apt-get install 'ffmpeg' 'libsm6' 'libxext6'  -y
+      && python manage.py makemigrations
+      && python manage.py migrate
+      && python manage.py runserver 0.0.0.0:8002"
+    volumes:
+      - ./Django:/code
+    ports:
+      - "8002:8000"
+    depends_on:
+      - db
+    restart: always
 
   db:
     image: mysql
@@ -35,8 +54,6 @@ services:
       - seccomp:unconfined
     ports:
       - "3306:3306"   
-    # volumes: 
-    #   - ./mysql:/var/lib/mysql
     restart: always
 
   adminer:
@@ -44,3 +61,10 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    # volumes:
+    #   - ./nginx/nginx.conf:/etc/nginx/nginx.conf
