@@ -61,7 +61,7 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - "8000:8000"
+      - "80:80"
     depends_on:
       - backend1
       - backend2
