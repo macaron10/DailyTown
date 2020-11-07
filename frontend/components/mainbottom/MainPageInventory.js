@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import MainPageInvenGrid from './MainPageInvenGrid'
-import StoreItem from './StoreItem.json'
+import StoreItem from './StoreItem'
 import axios from 'axios'
 
 function CheckInventory(props) {

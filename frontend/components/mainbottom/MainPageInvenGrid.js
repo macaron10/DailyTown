@@ -24,7 +24,20 @@ function ClickStoreItem(props) {
 function ShowItem(props) {
   const setItemInfo = props.setItemInfo
   const item = props.item
+  const items = props.items
   const isInventory = props.isInventory
+  const setMyItems = props.setMyItems
+  const index = props.index
+
+  function changeItemPlace(newIndex) {
+
+    const tempItem = items[index]
+    items[index] = items[newIndex]
+    items[newIndex] = tempItem
+
+    setMyItems(items)
+  
+  }
 
   // 동적할당을 위한 노가다가 필요하다.
   const image = item['image'] ? DynamicItems[item['image']] : DynamicItems['default']
@@ -50,6 +63,7 @@ function ShowItem(props) {
 }
 
 function ItemGrid(props) {
+  // number1 = row number2 col
   const number1 = props.number1
   const number2 = props.number2
   const isInventory = props.isInventory
@@ -58,10 +72,26 @@ function ItemGrid(props) {
   // store 인 경우.
   // col이 4개라고 가정
   if ( !isInventory && items[number1*4 + number2]) {
-    return <ShowItem item={ items[number1*4 + number2] } isInventory={ isInventory } setItemInfo={ setItemInfo } setGoldStatus={ props.setGoldStatus }/>
+    return <ShowItem
+              item={ items[number1*4 + number2] }
+              items = { items }
+              isInventory={ isInventory }
+              setItemInfo={ setItemInfo }
+              setGoldStatus={ props.setGoldStatus }
+              setMyItems= { props.setMyItems }
+              index = { number1*4 + number2 }
+            />
   }
   else {
-    return <ShowItem item={ items[number1*4 + number2] } isInventory={ isInventory } setItemInfo={ setItemInfo } setGoldStatus={ props.setGoldStatus }/>
+    return <ShowItem
+              item={ items[number1*4 + number2] }
+              items = { items }
+              isInventory={ isInventory }
+              setItemInfo={ setItemInfo }
+              setGoldStatus={ props.setGoldStatus }
+              setMyItems={ props.setMyItems }
+              index = { number1*4 + number2 }
+            />
   }
 }
 

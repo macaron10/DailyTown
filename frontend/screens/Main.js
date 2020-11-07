@@ -5,7 +5,7 @@ import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
 import axios from 'axios'
-import StoreItem from '../components/mainbottom/StoreItem.json'
+import StoreItem from '../components/mainbottom/StoreItem'
 
 export default function Main({navigation}) {
   const [goldStatus, setGoldStatus] = useState(0)
