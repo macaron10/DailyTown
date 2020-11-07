@@ -14,6 +14,9 @@ function ClickStoreItem(props) {
               setItemInfo={ props.setItemInfo }
               setGoldStatus={ props.setGoldStatus }
               isInventory={ props.isInventory }
+              setIsChangeItemPlace={ props.setIsChangeItemPlace }
+              setChangedIndex={ props.setChangedIndex }
+    
             />
   }
   else {
@@ -29,13 +32,14 @@ function ShowItem(props) {
   const setMyItems = props.setMyItems
   const index = props.index
 
-  function changeItemPlace(newIndex) {
+  function changeItemPlace(changedIndex) {
 
     const tempItem = items[index]
-    items[index] = items[newIndex]
-    items[newIndex] = tempItem
-
+    items[index] = items[changedIndex]
+    items[changedIndex] = tempItem
     setMyItems(items)
+    props.setChangedIndex(null)
+    props.setIsChangeItemPlace(false)
   
   }
 
@@ -44,7 +48,7 @@ function ShowItem(props) {
 
   return <TouchableHighlight
           onPress={() => {
-            setItemInfo(item);
+            props.isChangeItemPlace ? changeItemPlace(props.changedIndex) : setItemInfo([item, index])
           }}
         >
           <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -69,6 +73,8 @@ function ItemGrid(props) {
   const isInventory = props.isInventory
   const items = props.items
   const setItemInfo = props.setItemInfo
+  const index = number1*4 + number2
+
   // store 인 경우.
   // col이 4개라고 가정
   if ( !isInventory && items[number1*4 + number2]) {
@@ -79,23 +85,28 @@ function ItemGrid(props) {
               setItemInfo={ setItemInfo }
               setGoldStatus={ props.setGoldStatus }
               setMyItems= { props.setMyItems }
-              index = { number1*4 + number2 }
-            />
-  }
-  else {
-    return <ShowItem
+              index = { index }
+              isChangeItemPlace={ false }
+              />
+            }
+            else {
+              return <ShowItem
               item={ items[number1*4 + number2] }
               items = { items }
               isInventory={ isInventory }
               setItemInfo={ setItemInfo }
               setGoldStatus={ props.setGoldStatus }
               setMyItems={ props.setMyItems }
-              index = { number1*4 + number2 }
+              index = { index }
+              isChangeItemPlace={ props.isChangeItemPlace }
+              setIsChangeItemPlace= { props.setIsChangeItemPlace }
+              changedIndex={ props.changedIndex }
+              setChangedIndex={ props.setChangedIndex }
             />
   }
 }
 
-function ItemGridRow({ number1, items, setMyItems, isInventory, setItemInfo, setGoldStatus }) {
+function ItemGridRow({ number1, items, setMyItems, isInventory, setItemInfo, setGoldStatus, isChangeItemPlace, setIsChangeItemPlace, changedIndex, setChangedIndex }) {
 
   let column
   if (isInventory) {
@@ -105,7 +116,6 @@ function ItemGridRow({ number1, items, setMyItems, isInventory, setItemInfo, set
     column = [0, 1]
 
   }
-
   return column.map((number2) =>
           <View key={number2.toString()} style={ styles.testGridCell }>
             <ItemGrid
@@ -116,6 +126,10 @@ function ItemGridRow({ number1, items, setMyItems, isInventory, setItemInfo, set
               isInventory={ isInventory }
               setItemInfo={ setItemInfo }
               setGoldStatus={ setGoldStatus }
+              isChangeItemPlace= { isChangeItemPlace }
+              setIsChangeItemPlace={ setIsChangeItemPlace }
+              changedIndex={ changedIndex }
+              setChangedIndex={ setChangedIndex }
             />
           </View>
         )
@@ -124,6 +138,8 @@ function ItemGridRow({ number1, items, setMyItems, isInventory, setItemInfo, set
 
 export default function InvenGrid({ items, setMyItems, isInventory, setGoldStatus }) {
   const [itemInfo, setItemInfo] = useState(null)
+  const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
+  const [changedIndex, setChangedIndex] = useState(null)
 
   return (
       <View style={ styles.testGrid }>
@@ -138,11 +154,23 @@ export default function InvenGrid({ items, setMyItems, isInventory, setGoldStatu
                 isInventory={ isInventory }
                 setItemInfo={ setItemInfo }
                 setGoldStatus={ setGoldStatus }
+                isChangeItemPlace={ isChangeItemPlace }
+                setIsChangeItemPlace={ setIsChangeItemPlace }
+                changedIndex={ changedIndex }
+                setChangedIndex={ setChangedIndex }
               />
             </View>
           )}
         </ScrollView>
-        <ClickStoreItem itemInfo={ itemInfo } isInventory={ isInventory } setMyItems={ setMyItems } setItemInfo={ setItemInfo } setGoldStatus={ setGoldStatus }/>
+        <ClickStoreItem
+          itemInfo={ itemInfo }
+          isInventory={ isInventory }
+          setMyItems={ setMyItems }
+          setItemInfo={ setItemInfo }
+          setGoldStatus={ setGoldStatus }
+          setIsChangeItemPlace={ setIsChangeItemPlace }
+          setChangedIndex={ setChangedIndex }
+        />
       </View>
   );
 }

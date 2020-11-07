@@ -72,9 +72,11 @@ function SellingMode({ itemInfo, setCount, count, setModalVisible, setItemInfo, 
 
 // 가방의경우, 이동하기, 판매하기 -> 수량 선택및 금액 표시. 판매, 닫기
 // 상점의경우, 이미지, 수량 구매, 닫기
-function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus, setModalVisible }) {
+function CommerceModal({ itemInfomation, isInventory, setMyItems, setItemInfo, setGoldStatus, setModalVisible, setIsChangeItemPlace, setChangedIndex }) {
   const [count, setCount] = useState(1)
   const [sellingItem, setSellingItem] = useState(null)
+  const index = itemInfomation[1]
+  const itemInfo = itemInfomation[0]
 
   if (isInventory && sellingItem === null) {
     return  <View style={styles.modalView}>
@@ -82,8 +84,10 @@ function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGold
                 <TouchableHighlight
                   style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                   onPress={() => {
-                    setModalVisible(prev => !prev)
-                    setItemInfo(null)
+                    setModalVisible(prev => !prev);
+                    setItemInfo(null);
+                    setIsChangeItemPlace(true);
+                    setChangedIndex(index);
                   }}
                 >
                   <Text style={styles.textStyle}>이동하기</Text>
@@ -110,8 +114,9 @@ function CommerceModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGold
   return <SellingMode itemInfo={itemInfo} setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} setGoldStatus={setGoldStatus}/>
 }
 
-export default function StoreItemModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus, storeImage }) {
+export default function StoreItemModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus, storeImage, setIsChangeItemPlace, setChangedIndex }) {
   const [modalVisible, setModalVisible] = useState(true);
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -124,13 +129,15 @@ export default function StoreItemModal({ itemInfo, isInventory, setMyItems, setI
       >
         <View style={styles.centeredView}>
           <CommerceModal
-            itemInfo={itemInfo}
+            itemInfomation={itemInfo}
             isInventory={isInventory}
             setMyItems={setMyItems}
             setItemInfo={setItemInfo}
             setGoldStatus={setGoldStatus}
             setModalVisible={setModalVisible}
             storeImage={storeImage}
+            setIsChangeItemPlace={setIsChangeItemPlace}
+            setChangedIndex={setChangedIndex}
           />
 
         </View>

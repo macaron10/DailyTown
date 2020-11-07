@@ -10,11 +10,11 @@ function CheckInventory(props) {
   const storeItems = StoreItem
   // 여기서 store Item과 user item이 필요하다.
   if ( isInventory ) {
-    return <MainPageInvenGrid isInventory={ isInventory } items={ myItems } setMyItem={ props.setMyItems } setGoldStatus={ props.setGoldStatus } />
+    return <MainPageInvenGrid isInventory={ isInventory } items={ myItems } setMyItems={ props.setMyItems } setGoldStatus={ props.setGoldStatus } />
   }
   else {
     // inven grid 형태로 넘겨준다. isInventory를 넘겨주는 것은, 컴포넌트를 최대한 활용하기위함
-    return <MainPageInvenGrid isInventory={ isInventory } items={ storeItems } setMyItem={ props.setMyItems } setGoldStatus={ props.setGoldStatus }/>
+    return <MainPageInvenGrid isInventory={ isInventory } items={ storeItems } setMyItems={ props.setMyItems } setGoldStatus={ props.setGoldStatus }/>
   }
 
 }
