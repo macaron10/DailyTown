@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import * as SecureStore from 'expo-secure-store';
@@ -8,9 +8,31 @@ import Board from '../components/MainPageBoard'
 import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
+import axios from 'axios'
+import StoreItem from '../components/mainbottom/StoreItem'
 
 export default function Main({navigation}) {
-  const [goldStatus, setGoldStatus] = useState(10000)
+  const [goldStatus, setGoldStatus] = useState(0)
+  const [myItems, setMyItems] = useState(
+    StoreItem
+  )
+      // "0": {
+      // "name": "임시1",
+      // "price": 500,
+      // "image": "test1"
+      // }
+
+  // 맨처음 한번만 받아올 예정
+  // useEffect( () => {
+  //   axios.get('http://k3b305.p.ssafy.io:8080/items/getInventory')
+  //     .then(res => {
+  //       setGoldStatus( res.data.gold )
+  //       setMyItem( res.data )
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //     })
+  // }, [])
 
   return (
     <View style={ styles.container }>
@@ -59,10 +81,10 @@ export default function Main({navigation}) {
         <View style={ styles.infoContainer }>
           <MissionModal />
         </View>
-        <Board />
         <MyGold goldStatus={ goldStatus } />
+        <Board />
       </View>
-      <MainPageInventory setGoldStatus={ setGoldStatus }/>
+      <MainPageInventory myItems={ myItems } setMyItems={ setMyItems } setGoldStatus={ setGoldStatus }/>
     </View>
   );
 }
