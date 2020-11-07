@@ -61,7 +61,7 @@ function ItemGrid(props) {
     return <ShowItem item={ items[number1*4 + number2] } isInventory={ isInventory } setItemInfo={ setItemInfo } setGoldStatus={ props.setGoldStatus }/>
   }
   else {
-    return <ShowItem item={ items[0] } isInventory={ isInventory } setItemInfo={ setItemInfo } setGoldStatus={ props.setGoldStatus }/>
+    return <ShowItem item={ items[number1*4 + number2] } isInventory={ isInventory } setItemInfo={ setItemInfo } setGoldStatus={ props.setGoldStatus }/>
   }
 }
 

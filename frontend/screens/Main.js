@@ -5,16 +5,18 @@ import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
 import axios from 'axios'
+import StoreItem from '../components/mainbottom/StoreItem.json'
 
 export default function Main({navigation}) {
   const [goldStatus, setGoldStatus] = useState(0)
-  const [myItems, setMyItems] = useState({
-    "0": {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1"
-    }
-  })
+  const [myItems, setMyItems] = useState(
+    StoreItem
+  )
+      // "0": {
+      // "name": "임시1",
+      // "price": 500,
+      // "image": "test1"
+      // }
 
   // 맨처음 한번만 받아올 예정
   // useEffect( () => {
