@@ -10,7 +10,8 @@ services:
   backend1:
     image: void_back:0.1
     # build: ./Django
-    command: bash -c "python manage.py makemigrations
+    command: bash -c "pip install -r requirements.txt
+      && python manage.py makemigrations
       && python manage.py migrate
       && gunicorn bexperts.wsgi --bind :8001"
     volumes:
@@ -24,7 +25,8 @@ services:
   backend2:
     image: void_back:0.1
     # build: ./Django
-    command: bash -c "python manage.py makemigrations
+    command: bash -c "pip install -r requirements.txt
+      && python manage.py makemigrations
       && python manage.py migrate
       && gunicorn bexperts.wsgi --bind :8002"
     volumes:
