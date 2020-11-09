@@ -9,12 +9,12 @@ import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
 import axios from 'axios'
-import StoreItem from '../components/mainbottom/StoreItem'
+import tempItem from '../components/mainbottom/tempItem'
 
 export default function Main({navigation}) {
   const [goldStatus, setGoldStatus] = useState(0)
   const [myItems, setMyItems] = useState(
-    StoreItem
+    tempItem
   )
       // "0": {
       // "name": "임시1",

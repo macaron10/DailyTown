@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import { IconButton } from 'react-native-paper';
+import { set } from "react-native-reanimated";
 
 import MissionList from "./MissionList";
 
