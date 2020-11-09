@@ -43,7 +43,7 @@ function MyForest(props) {
                 {
                   text: "이동",
                   onPress: () => {
-                    handleIsMoveChange(props.isMove, idx)                    
+                    handleIsMoveChange(props.isMove, idx)                  
                   }
                 },
                 {
@@ -97,10 +97,13 @@ const Tile = (props) => {
           if (!props.isSomething){
             onPressIn()
             const newData = [...props.data]
+            const name = newData[props.targetIdx]['name']
             newData[props.targetIdx] = {
               x: props.x,
-              y: props.y
+              y: props.y,
+              name: name,
             }
+
             props.onIsMoveChange(true, null)
             props.onDataChange(newData)            
           }
@@ -157,7 +160,7 @@ export default function Board() {
     { x: 0, y: 5, name: 'stock1'},
     { x: 5, y: 0, name: 'house1'},
     { x: 5, y: 5, name: 'flower1'},
-    { x: 2, y: 4, name: 'waterfield1'},
+    { x: 2, y: 3, name: 'waterfield1'},
   ])
   function changeDate(newData) {
     setData(newData)
@@ -166,7 +169,7 @@ export default function Board() {
       newArray.push(Array(xyCount).fill(null));
     }
     newData.forEach(element => {
-      newArray[element.x][element.y] = element.name    
+      newArray[element.x][element.y] = element.name 
     });
     setTiles(newArray)
   }
@@ -175,7 +178,7 @@ export default function Board() {
     newArray.push(Array(xyCount).fill(null));
   }
   data.forEach(element => {
-    newArray[element.x][element.y] = element.name    
+    newArray[element.x][element.y] = element.name
   });
   const [tiles, setTiles] = useState(newArray)
   const [isMove, setIsMove] = useState(false)
