@@ -81,4 +81,3 @@ class ItemDetail(APIView):
         
 
 
-    
