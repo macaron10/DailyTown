@@ -19,11 +19,15 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
   function buyItem() {
     let cnt = 0
     for ( let i = 0; i < itemForSell.length; i++ ) {
-      console.log(12)
       if ( cnt < count ) {
         if ( itemForSell[i]['name'] === 'default' ) {
           itemForSell[i] = itemInfo
           cnt++
+        }
+        else {
+          Alert.alert('인벤토리가 꽉 찼습니다. 구입하지 못한 금액은 차감되지 않습니다.')
+          setGoldStatus(prev => prev + itemInfo['price']*(count - cnt) )
+          break
         }
       }
       else {
