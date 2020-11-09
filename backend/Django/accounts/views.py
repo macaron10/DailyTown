@@ -85,6 +85,7 @@ class MyItem(APIView):
         create your Item
         /return => message : Item's information or Fail Message
         '''
+        print('hoooooooooooooooooooooooooooo')
         serializer = MyItemSerializer(data=request.data)
         if not serializer.is_valid(raise_exception=True):
             return Response({"message": "Please Check Item's Context"}, status=status.HTTP_409_CONFLICT)
@@ -138,4 +139,24 @@ class MyMission(APIView):
         serializer.save(user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+class MyMissionDetail(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, mymission_pk):
+        mymission = get_object_or_404(MyMissionModel, pk=mymission_pk)
+        serializer = MyMissionSerializer(mymission)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self, request, mymission_pk):
+        mymission = get_object_or_404(MyMissionModel, pk=mymission_pk)
+        serializer = MyMissionSerializer(mymission, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"message": "Please Check mission's context"})
+    
+    def delete(self, request, mymission_pk):
+        mymission = get_object_or_404(MyMissionModel, pk=mymission_pk)
+        mymission.delete()
+        return Response({"message": "Successfully delete mission"}, status=status.HTTP_200_OK)
 

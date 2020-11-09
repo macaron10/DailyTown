@@ -59,7 +59,7 @@ class UserLoginSerializer(serializers.Serializer):
 
 class MyItemSerializer(serializers.ModelSerializer):
     user = UserCreateSerializer(required=False)
-    item = ItemSerializer(read_only=True)
+    # item = ItemSerializer(read_only=True)
 
     class Meta:
         model = MyItem
@@ -67,8 +67,8 @@ class MyItemSerializer(serializers.ModelSerializer):
 
 class MyMissionSerializer(serializers.ModelSerializer):
     user = UserCreateSerializer(required=False)
-    item = ItemSerializer(read_only=True)
-    mission = MissionSerializer(read_only=True)
+    # item = ItemSerializer(read_only=True)
+    # mission = MissionSerializer(read_only=True)
 
     class Meta:
         model = MyMission
