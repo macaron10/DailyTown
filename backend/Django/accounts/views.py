@@ -86,11 +86,12 @@ class MyItem(APIView):
         /return => message : Item's information or Fail Message
         '''
         n = int(request.data['quantity'])
+        loc = int(request.data['location'])
         for i in range(n):
             serializer = MyItemSerializer(data=request.data)
             if not serializer.is_valid(raise_exception=True):
                 return Response({"message": "Please Check Item's Contex"})
-            serializer.save(user=request.user)
+            serializer.save(user=request.user, location=loc+i)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class MyItemDetail(APIView):
