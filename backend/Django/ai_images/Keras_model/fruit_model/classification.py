@@ -2,7 +2,7 @@ import keras
 import cv2
 import numpy as np 
 
-def qwnkld(request, target):
+def check_fruit(request, target):
   # import 학습 model
   reconstructed_model = keras.models.load_model("/code/ai_images/Keras_model/fruit_model/fruit_model")
   
