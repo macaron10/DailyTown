@@ -9,6 +9,7 @@ function ClickStoreItem(props) {
   const setMyItems = props.setMyItems
   if ( itemInfo ) {
     return <StoreItemModal
+              items={ props.items }
               itemInfo={ itemInfo }
               setMyItems={ setMyItems }
               setItemInfo={ props.setItemInfo }
@@ -163,6 +164,7 @@ export default function InvenGrid({ items, setMyItems, isInventory, setGoldStatu
           )}
         </ScrollView>
         <ClickStoreItem
+          items={ items }
           itemInfo={ itemInfo }
           isInventory={ isInventory }
           setMyItems={ setMyItems }
