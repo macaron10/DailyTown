@@ -1,32 +1,32 @@
 const StoreItem = [
   {
-    "name": "123",
+    "name": "default",
     "price": 500,
-    "image": "test2",
+    "image": "",
     "place": 0
   },
   {
-    "name": "임시1",
+    "name": "default",
     "price": 500,
-    "image": "test2",
+    "image": "",
     "place": 1
   },
   {
-    "name": "임시1",
+    "name": "default",
     "price": 500,
-    "image": "test1",
+    "image": "",
     "place": 2
   },
   {
-    "name": "임시1",
+    "name": "default",
     "price": 500,
-    "image": "test1",
+    "image": "",
     "place": 3
   },
   {
-    "name": "임시1",
+    "name": "default",
     "price": 500,
-    "image": "test1",
+    "image": "",
     "place": 4
   },
   {

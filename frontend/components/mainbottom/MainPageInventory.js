@@ -14,7 +14,7 @@ function CheckInventory(props) {
   }
   else {
     // inven grid 형태로 넘겨준다. isInventory를 넘겨주는 것은, 컴포넌트를 최대한 활용하기위함
-    return <MainPageInvenGrid isInventory={ isInventory } items={ storeItems } setMyItems={ props.setMyItems } setGoldStatus={ props.setGoldStatus }/>
+    return <MainPageInvenGrid isInventory={ isInventory } items={ storeItems } itemForSell={ myItems } setMyItems={ props.setMyItems } setGoldStatus={ props.setGoldStatus }/>
   }
 
 }
