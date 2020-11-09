@@ -43,7 +43,9 @@ services:
     security_opt:
       - seccomp:unconfined
     ports:
-      - "3306:3306"   
+      - "3306:3306"  
+    volumes:
+       - ./mysql:/var/lib/mysql/
     restart: always
 
   adminer:
