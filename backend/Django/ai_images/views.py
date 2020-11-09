@@ -1,8 +1,8 @@
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
 
-from .Keras_model.fruit_model import classification
-from .Keras_model.fruit_model.classification import qwnkld
+from .Keras_model.fruit_model.classification import check_fruit
+from .Keras_model.general_model.classification_model import check_general
 
 @api_view(['POST'])
 def predict(request):
@@ -15,8 +15,9 @@ def predict(request):
 
 	# 물건 종류에 따라 if문 model 분기
 	if keyword == 'fruit':
-		result['ans'] = qwnkld(request, target)
-
+		result['ans'] = check_fruit(request, target)
+	elif keyword == 'general':
+  		result['ans'] = check_general(request, target)
 	# test용 print문.
 	# print(request)
 	# print(request.data)

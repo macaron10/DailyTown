@@ -1,8 +1,122 @@
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image, Button,  } from "react-native";
+import DynamicItems from "./DynamicItems"
+import { IconButton } from 'react-native-paper';
 
-export default function StoreItemModal({ itemInfo, setItemInfo, setGoldStatus }) {
+
+function SellingMode({ itemInfo, setCount, count, setModalVisible, setItemInfo, setGoldStatus, isSellingMode }) {
+  const image = itemInfo['image'] ? DynamicItems[itemInfo['image']] : DynamicItems['default']
+
+  return  <View style={styles.modalView}>
+            <View style={{ display: 'flex', flexDirection: 'row'}}>
+              <View style={{ display: 'flex' }}>
+                <Image
+                  style={ styles.tinyLogo }
+                  resizeMode="contain"
+                  source={image}
+                />
+                <Text>{ itemInfo['price'] }</Text>
+              </View>
+              <View style={{ display: 'flex' }}>
+                <IconButton
+                  icon="arrow-up-drop-circle"
+                  onPress={() => {
+                    setCount(prev => prev + 1)
+                  }}
+                >
+                </IconButton>
+                <IconButton
+                  icon="arrow-down-drop-circle"
+                  onPress={() => {
+                    setCount(prev => prev - 1)
+                  }}
+                >
+                </IconButton>
+
+              </View>
+              <View>
+                <Text>{ count }개</Text>
+                <Text>총 가격표시: { itemInfo['price']*count } </Text>
+              </View>
+
+              {/* <Text style={styles.modalText}> 이름: { itemInfo['name'] } </Text>
+              <Text style={styles.modalText}> 가격: { itemInfo['price'] } </Text> */}
+            
+            </View>
+
+
+            <View style={{ display: 'flex', flexDirection: 'row'}}>
+              <TouchableHighlight
+                style={{ ...styles.openButton, backgroundColor: "#2196F3", width: '50%', marginRight: 10 }}
+                onPress={() => {
+                  setModalVisible(prev => !prev)
+                  setItemInfo(null)
+                  setGoldStatus( prev => isSellingMode ? prev + itemInfo['price']*count : prev - itemInfo['price']*count  )
+                }}
+              >
+                <Text style={styles.textStyle}>{ isSellingMode ? '판매' : '구매' }</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={{ ...styles.openButton, backgroundColor: "#2196F3", width: '50%' }}
+                onPress={() => {
+                  setModalVisible(prev => !prev)
+                  setItemInfo(null)
+                }}
+              >
+                <Text style={styles.textStyle}>닫기</Text>
+              </TouchableHighlight>
+
+            </View>
+          </View>
+}
+
+// 가방의경우, 이동하기, 판매하기 -> 수량 선택및 금액 표시. 판매, 닫기
+// 상점의경우, 이미지, 수량 구매, 닫기
+function CommerceModal({ itemInfomation, isInventory, setMyItems, setItemInfo, setGoldStatus, setModalVisible, setIsChangeItemPlace, setChangedIndex }) {
+  const [count, setCount] = useState(1)
+  const [sellingItem, setSellingItem] = useState(null)
+  const index = itemInfomation[1]
+  const itemInfo = itemInfomation[0]
+
+  if (isInventory && sellingItem === null) {
+    return  <View style={styles.modalView}>
+              <View style={{ display: 'flex', flexDirection: 'row'}}>
+                <TouchableHighlight
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {
+                    setModalVisible(prev => !prev);
+                    setItemInfo(null);
+                    setIsChangeItemPlace(true);
+                    setChangedIndex(index);
+                  }}
+                >
+                  <Text style={styles.textStyle}>이동하기</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {
+                    // setModalVisible(prev => !prev)
+                    setSellingItem(itemInfo)
+                    setItemInfo(itemInfo)
+                  }}
+                >
+                  <Text style={styles.textStyle}>판매하기</Text>
+                </TouchableHighlight>
+
+              </View>
+            </View>
+          
+  }
+  if ( sellingItem ) {
+    return <SellingMode isSellingMode={ true } itemInfo={ sellingItem } setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} setGoldStatus={setGoldStatus} />
+  }
+
+  return <SellingMode itemInfo={itemInfo} setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} setGoldStatus={setGoldStatus}/>
+}
+
+export default function StoreItemModal({ itemInfo, isInventory, setMyItems, setItemInfo, setGoldStatus, storeImage, setIsChangeItemPlace, setChangedIndex }) {
   const [modalVisible, setModalVisible] = useState(true);
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -14,35 +128,18 @@ export default function StoreItemModal({ itemInfo, setItemInfo, setGoldStatus })
         }}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <CommerceModal
+            itemInfomation={itemInfo}
+            isInventory={isInventory}
+            setMyItems={setMyItems}
+            setItemInfo={setItemInfo}
+            setGoldStatus={setGoldStatus}
+            setModalVisible={setModalVisible}
+            storeImage={storeImage}
+            setIsChangeItemPlace={setIsChangeItemPlace}
+            setChangedIndex={setChangedIndex}
+          />
 
-
-            <Text style={styles.modalText}> 이름: { itemInfo['name'] } </Text>
-            <Text style={styles.modalText}> 가격: { itemInfo['price'] } </Text>
-
-            <View style={{ display: 'flex', flexDirection: 'row'}}>
-              <TouchableHighlight
-                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                onPress={() => {
-                  setModalVisible(!modalVisible)
-                  setItemInfo(null)
-                  setGoldStatus( prev => prev - itemInfo['price'] )
-                }}
-              >
-                <Text style={styles.textStyle}>아이템 사기</Text>
-              </TouchableHighlight>
-              <TouchableHighlight
-                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                onPress={() => {
-                  setModalVisible(!modalVisible)
-                  setItemInfo(null)
-                }}
-              >
-                <Text style={styles.textStyle}>닫기</Text>
-              </TouchableHighlight>
-
-            </View>
-          </View>
         </View>
       </Modal>
 
@@ -51,6 +148,10 @@ export default function StoreItemModal({ itemInfo, setItemInfo, setGoldStatus })
 };
 
 const styles = StyleSheet.create({
+  tinyLogo: {
+    width: 65,
+    height: 65,
+  },
   centeredView: {
     // display: "flex",
     // justifyContent: "center",
@@ -74,7 +175,7 @@ const styles = StyleSheet.create({
   },
   openButton: {
     backgroundColor: "#F194FF",
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 10,
     elevation: 2
   },
