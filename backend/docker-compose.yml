@@ -1,15 +1,8 @@
 version: '3.8'
 services:
-  # nginx:
-  #   image: nginx:lts
-  #   volumes: 
-  #     - ./nginx/:/etc/nginx/conf.d
-  #   depends_on: 
-  #     - backend
 
   backend1:
     image: void_back:0.1
-    # build: ./Django
     command: bash -c "pip install -r requirements.txt
       && python manage.py makemigrations
       && python manage.py migrate
@@ -24,11 +17,10 @@ services:
   
   backend2:
     image: void_back:0.1
-    # build: ./Django
     command: bash -c "pip install -r requirements.txt
       && python manage.py makemigrations
       && python manage.py migrate
-      && gunicorn bexperts.wsgi --bind :8001"
+      && gunicorn bexperts.wsgi --bind :8002"
     volumes:
       - ./Django:/code
     expose:
@@ -69,5 +61,3 @@ services:
     depends_on:
       - backend1
       - backend2
-    # volumes:
-    #   - ./nginx/nginx.conf:/etc/nginx/nginx.conf
