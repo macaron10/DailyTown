@@ -91,10 +91,6 @@ class MyItem(APIView):
             if not serializer.is_valid(raise_exception=True):
                 return Response({"message": "Please Check Item's Contex"})
             serializer.save(user=request.user)
-        # serializer = MyItemSerializer(data=request.data)
-        # if not serializer.is_valid(raise_exception=True):
-        #     return Response({"message": "Please Check Item's Context"}, status=status.HTTP_409_CONFLICT)
-        # serializer.save(user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class MyItemDetail(APIView):
