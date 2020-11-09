@@ -17,23 +17,26 @@ function SellingMode({ itemInfo, setCount, count, setModalVisible, setItemInfo, 
                 />
                 <Text>{ itemInfo['price'] }</Text>
               </View>
-              <View style={{ display: 'flex' }}>
-                <IconButton
-                  icon="arrow-up-drop-circle"
-                  onPress={() => {
-                    setCount(prev => prev + 1)
-                  }}
-                >
-                </IconButton>
-                <IconButton
-                  icon="arrow-down-drop-circle"
-                  onPress={() => {
-                    setCount(prev => prev - 1)
-                  }}
-                >
-                </IconButton>
+              { isSellingMode ? <View/> :
+                <View style={{ display: 'flex' }}>
+                  <IconButton
+                    icon="arrow-up-drop-circle"
+                    onPress={() => {
+                      setCount(prev => prev + 1)
+                    }}
+                  >
+                  </IconButton>
+                  <IconButton
+                    icon="arrow-down-drop-circle"
+                    onPress={() => {
+                      setCount(prev => prev - 1)
+                    }}
+                  >
+                  </IconButton>
 
-              </View>
+                </View>
+
+              }
               <View>
                 <Text>{ count }개</Text>
                 <Text>총 가격표시: { itemInfo['price']*count } </Text>
