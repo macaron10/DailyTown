@@ -11,6 +11,7 @@ function ClickStoreItem(props) {
     return <StoreItemModal
               items={ props.items }
               itemInfo={ itemInfo }
+              itemForSell={ props.itemForSell }
               setMyItems={ setMyItems }
               setItemInfo={ props.setItemInfo }
               setGoldStatus={ props.setGoldStatus }
@@ -137,7 +138,7 @@ function ItemGridRow({ number1, items, setMyItems, isInventory, setItemInfo, set
 
 }
 
-export default function InvenGrid({ items, setMyItems, isInventory, setGoldStatus }) {
+export default function MainInvenGrid({ items, setMyItems, isInventory, setGoldStatus, itemForSell }) {
   const [itemInfo, setItemInfo] = useState(null)
   const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   const [changedIndex, setChangedIndex] = useState(null)
@@ -166,6 +167,7 @@ export default function InvenGrid({ items, setMyItems, isInventory, setGoldStatu
         <ClickStoreItem
           items={ items }
           itemInfo={ itemInfo }
+          itemForSell={ itemForSell }
           isInventory={ isInventory }
           setMyItems={ setMyItems }
           setItemInfo={ setItemInfo }
