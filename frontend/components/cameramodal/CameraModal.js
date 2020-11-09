@@ -5,17 +5,17 @@ export default function CameraModal({ photoInfo, setPhotoInfo }) {
   const [modalVisible, setModalVisible] = useState(true);
   return (
     <View style={styles.centeredView}>
-      <Modal
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
-        }}>
+        }}> */}
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          {/* <View style={styles.modalView}> */}
             <Image
-              style={{ width: 100, height: 100, resizeMode: 'contain' }}
+              style={{ width: 300, height: 500, resizeMode: 'contain' }}
               source={{ uri: photoInfo.uri }}
             />
 
@@ -27,9 +27,9 @@ export default function CameraModal({ photoInfo, setPhotoInfo }) {
               }}>
               <Text style={styles.textStyle}>Hide Modal</Text>
             </TouchableHighlight>
-          </View>
+          {/* </View> */}
         </View>
-      </Modal>
+      {/* </Modal> */}
 
     </View>
   );
