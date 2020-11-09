@@ -4,6 +4,8 @@ import DynamicItems from "./DynamicItems"
 import { IconButton } from 'react-native-paper';
 
 
+  // const image = DynamicItems[itemInfo['name']]
+
 function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount, count, setModalVisible, setItemInfo, setGoldStatus, isSellingMode }) {
   const image = itemInfo['image'] ? DynamicItems[itemInfo['image']] : DynamicItems['default']
   console.log(11, items)

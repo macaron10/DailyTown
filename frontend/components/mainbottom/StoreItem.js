@@ -1,218 +1,119 @@
 const StoreItem = [
   {
-    "name": "123",
-    "price": 500,
-    "image": "test2",
-    "place": 0
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test2",
-    "place": 1
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 2
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 3
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 4
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 5
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 6
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 7
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 8
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 9
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 10
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 11
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 12
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 13
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 14
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 15
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 16
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 17
-  },
-  {
-    "name": "임시1",
-    "price": 500,
-    "image": "test1",
-    "place": 18
-  },
-  {
-    "name": "임시22",
+    "name": "animal1",
     "price": 100,
-    "image": "",
-    "place": 19
+  },
+  {
+    "name": "animal2",
+    "price": 100,
+  },
+  {
+    "name": "animal4",
+    "price": 100,
+  },
+  {
+    "name": "field1",
+    "price": 100,
+  },
+  {
+    "name": "field2",
+    "price": 100,
+  },
+  {
+    "name": "field3",
+    "price": 100,
+  },
+  {
+    "name": "field4",
+    "price": 100,
+  },
+  {
+    "name": "flower1",
+    "price": 100,
+  },
+  {
+    "name": "house1",
+    "price": 100,
+  },
+  {
+    "name": "house2",
+    "price": 100,
+  },
+  {
+    "name": "house3",
+    "price": 100,
+  },
+  {
+    "name": "house4",
+    "price": 100,
+  },
+  {
+    "name": "house6",
+    "price": 100,
+  },
+  {
+    "name": "house7",
+    "price": 100,
+  },
+  {
+    "name": "house8",
+    "price": 100,
+  },
+  {
+    "name": "house9",
+    "price": 100,
+  },
+  {
+    "name": "house10",
+    "price": 100,
+  },
+  {
+    "name": "house11",
+    "price": 100,
+  },
+  {
+    "name": "stock1",
+    "price": 100,
+  },
+  {
+    "name": "stock2",
+    "price": 100,
+  },
+  {
+    "name": "stock3",
+    "price": 100,
+  },
+  {
+    "name": "stock4",
+    "price": 100,
+  },
+  {
+    "name": "stock6",
+    "price": 100,
+  },
+  {
+    "name": "tree1",
+    "price": 100,
+  },
+  {
+    "name": "waterfield1",
+    "price": 100,
+  },
+  {
+    "name": "waterfield2",
+    "price": 100,
+  },
+  {
+    "name": "waterfield3",
+    "price": 100,
+  },
+  {
+    "name": "waterfield4",
+    "price": 100,
   },
   // {
-  //   "name": "임시3",
-  //   "price": 1000,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시4",
-  //   "price": 3500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시5",
-  //   "price": 1500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 5300,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // },
-  // {
-  //   "name": "임시1",
-  //   "price": 500,
-  //   "image": ""
-  // }
+  //   "name": "",
+  //   "price": 100,
+  // }, 
 ]
 export default StoreItem
