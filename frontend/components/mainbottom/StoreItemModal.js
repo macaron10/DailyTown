@@ -6,6 +6,7 @@ import { IconButton } from 'react-native-paper';
 
 function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount, count, setModalVisible, setItemInfo, setGoldStatus, isSellingMode }) {
   const image = itemInfo['image'] ? DynamicItems[itemInfo['image']] : DynamicItems['default']
+  console.log(11, items)
   function sellItem() {
     items[index] = {
       "name": "default",
@@ -24,16 +25,16 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
           itemForSell[i] = itemInfo
           cnt++
         }
-        else {
-          Alert.alert('인벤토리가 꽉 찼습니다. 구입하지 못한 금액은 차감되지 않습니다.')
-          setGoldStatus(prev => prev + itemInfo['price']*(count - cnt) )
-          break
-        }
       }
       else {
         break
       }
     }
+    if ( cnt < count ) {
+      Alert.alert('인벤토리가 꽉 찼습니다. 구입하지 못한 금액은 차감되지 않습니다.')
+      setGoldStatus(prev => prev + itemInfo['price']*(count - cnt) )
+    }
+
     setMyItems(itemForSell)
 
   }
