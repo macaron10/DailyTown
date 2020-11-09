@@ -102,6 +102,15 @@ function CommerceModal({ itemInfomation, isInventory, setMyItems, setItemInfo, s
                 >
                   <Text style={styles.textStyle}>판매하기</Text>
                 </TouchableHighlight>
+                <TouchableHighlight
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {
+                    setModalVisible(prev => !prev)
+                    setItemInfo(null)
+                  }}
+                >
+                  <Text style={styles.textStyle}>닫기</Text>
+                </TouchableHighlight>
 
               </View>
             </View>
