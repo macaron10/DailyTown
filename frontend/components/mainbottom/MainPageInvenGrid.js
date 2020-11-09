@@ -9,7 +9,9 @@ function ClickStoreItem(props) {
   const setMyItems = props.setMyItems
   if ( itemInfo ) {
     return <StoreItemModal
+              items={ props.items }
               itemInfo={ itemInfo }
+              itemForSell={ props.itemForSell }
               setMyItems={ setMyItems }
               setItemInfo={ props.setItemInfo }
               setGoldStatus={ props.setGoldStatus }
@@ -44,7 +46,7 @@ function ShowItem(props) {
   }
 
   // 동적할당을 위한 노가다가 필요하다.
-  const image = item['image'] ? DynamicItems[item['image']] : DynamicItems['default']
+  const image = DynamicItems[item['name']]
 
   return <TouchableHighlight
           onPress={() => {
@@ -136,7 +138,7 @@ function ItemGridRow({ number1, items, setMyItems, isInventory, setItemInfo, set
 
 }
 
-export default function InvenGrid({ items, setMyItems, isInventory, setGoldStatus }) {
+export default function MainInvenGrid({ items, setMyItems, isInventory, setGoldStatus, itemForSell }) {
   const [itemInfo, setItemInfo] = useState(null)
   const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   const [changedIndex, setChangedIndex] = useState(null)
@@ -163,7 +165,9 @@ export default function InvenGrid({ items, setMyItems, isInventory, setGoldStatu
           )}
         </ScrollView>
         <ClickStoreItem
+          items={ items }
           itemInfo={ itemInfo }
+          itemForSell={ itemForSell }
           isInventory={ isInventory }
           setMyItems={ setMyItems }
           setItemInfo={ setItemInfo }
