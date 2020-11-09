@@ -5,7 +5,7 @@ import { IconButton } from 'react-native-paper';
 
 
 function SellingMode({ itemInfo, setCount, count, setModalVisible, setItemInfo, setGoldStatus, isSellingMode }) {
-  const image = itemInfo['image'] ? DynamicItems[itemInfo['image']] : DynamicItems['default']
+  const image = DynamicItems[itemInfo['name']]
 
   return  <View style={styles.modalView}>
             <View style={{ display: 'flex', flexDirection: 'row'}}>

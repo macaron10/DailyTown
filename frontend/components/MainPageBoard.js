@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback,Alert, Platform } from 'react-native';
+import DynamicItems from "./mainbottom/DynamicItems"
 
 const deviceWidth = Dimensions.get('window').width
 const xyCount = 6
@@ -19,7 +20,7 @@ function MyForest(props) {
   const data = props.data
   return (
     data.map((xyInfo, idx) => {
-      const url = require('../assets/test_img/tree.png')
+      const url = DynamicItems[xyInfo.name]
       let height
       if (Platform.OS === 'web') {
         height = 40
@@ -67,11 +68,11 @@ function MyForest(props) {
               resizeMode: 'contain',
               height: height,
               width: width,
-              top: yStartPoint - height + width * 1 / 3 + 0.08 * width + xyInfo.x * width / 3 + xyInfo.y * width / 3 - (xyInfo.x + xyInfo.y) * width * 0.08,
+              top: yStartPoint - height + width * 2 / 3 - 0.04 * width + xyInfo.x * width / 3 + xyInfo.y * width / 3 - (xyInfo.x + xyInfo.y) * width * 0.08,
               left: deviceWidth * 0.5 - width * 0.5 + xyInfo.x * width * 0.5 - xyInfo.y * width * 0.5,
               zIndex: xyInfo.x + xyInfo.y + 200
             }}
-            source={require('../assets/test_img/' + 'tree' + '.png')}
+            source={url}
           />
         </TouchableWithoutFeedback>
       )
@@ -152,11 +153,11 @@ const Landscape = (props) => {
 export default function Board() {
   const [targetIdx, setTargetIdx] = useState(null)
   const [data, setData] = useState([
-    { x: 0, y: 1 },
-    { x: 0, y: 5 },
-    { x: 5, y: 0 },
-    { x: 5, y: 5 },
-    { x: 2, y: 4 },
+    { x: 0, y: 1, name: 'animal1' },
+    { x: 0, y: 5, name: 'stock1'},
+    { x: 5, y: 0, name: 'house1'},
+    { x: 5, y: 5, name: 'flower1'},
+    { x: 2, y: 4, name: 'waterfield1'},
   ])
   function changeDate(newData) {
     setData(newData)
@@ -165,7 +166,7 @@ export default function Board() {
       newArray.push(Array(xyCount).fill(null));
     }
     newData.forEach(element => {
-      newArray[element.x][element.y] = true    
+      newArray[element.x][element.y] = element.name    
     });
     setTiles(newArray)
   }
@@ -174,7 +175,7 @@ export default function Board() {
     newArray.push(Array(xyCount).fill(null));
   }
   data.forEach(element => {
-    newArray[element.x][element.y] = true    
+    newArray[element.x][element.y] = element.name    
   });
   const [tiles, setTiles] = useState(newArray)
   const [isMove, setIsMove] = useState(false)
