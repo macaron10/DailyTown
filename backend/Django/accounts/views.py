@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 
-from .serializers import UserCreateSerializer, UserLoginSerializer, MyItemSerializer
+from .serializers import UserCreateSerializer, UserLoginSerializer, MyItemSerializer, MyMissionSerializer
 from .models import User, MyItem as MyItemModel, MyMission as MyMissionModel
 
 @api_view(['POST'])
@@ -123,5 +123,19 @@ class MyItemDetail(APIView):
         myitem.delete()
         return Response({"message": "Successfully delete item"}, status=status.HTTP_200_OK)
 
+class MyMission(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        mymissions = MyMissionModel.objects.filter(user=request.user)
+        serializer = MyMissionSerializer(mymissions, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        serializer = MyMissionSerializer(data=request.data)
+        if not serializer.is_valid(raise_exception=True):
+            return Response({"message": "please check my mission's context"})
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.models import update_last_login
 
 from items.serializers import ItemSerializer
+from missions.serializers import MissionSerializer
 from .models import MyItem, MyMission
 
 User = get_user_model()
@@ -58,15 +59,17 @@ class UserLoginSerializer(serializers.Serializer):
 
 class MyItemSerializer(serializers.ModelSerializer):
     user = UserCreateSerializer(required=False)
-    # item = ItemSerializer(read_only=True)
-    # def create(self, validated_data):
-    #     myitem = MyItem.objects.create(
-    #         isinfarm = validated_data['isinfarm'],
-    #         quantity = validated_data['quantity'],
-    #         location = validated_data['location'],
-    #     )
-    #     return myitem
+    item = ItemSerializer(read_only=True)
 
     class Meta:
         model = MyItem
+        fields = "__all__"
+
+class MyMissionSerializer(serializers.ModelSerializer):
+    user = UserCreateSerializer(required=False)
+    item = ItemSerializer(read_only=True)
+    mission = MissionSerializer(read_only=True)
+
+    class Meta:
+        model = MyMission
         fields = "__all__"
