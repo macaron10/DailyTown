@@ -6,11 +6,11 @@ services:
     command: bash -c "pip install -r requirements.txt
       && python manage.py makemigrations
       && python manage.py migrate
-      && gunicorn bexperts.wsgi --bind :8001"
+      && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./Django:/code
-    expose:
-      - "8001"
+    ports:
+      - "8000:8000"
     depends_on:
       - db
     restart: always

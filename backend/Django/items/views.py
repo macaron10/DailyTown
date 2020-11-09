@@ -66,7 +66,18 @@ class ItemDetail(APIView):
         serializer = ItemSerializer(item)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    # def patch(self, request. item_pk):
-
-
+    def put(self, request, item_pk):
+        item = get_object_or_404(ItemModel, pk=item_pk)
+        serializer = ItemSerializer(item, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"message": "Please Check item's context"}, status=status.HTTP_409_CONFLICT)
     
+    def delete(self, request, item_pk):
+        item = get_object_or_404(ItemModel, pk=item_pk)
+        item.delete()
+        return Response({"message": "Successfully delete item"}, status=status.HTTP_200_OK)
+        
+
+

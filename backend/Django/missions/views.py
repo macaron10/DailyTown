@@ -64,3 +64,16 @@ class MissionDetail(APIView):
         mission = get_object_or_404(MissionModel, pk=mission_pk)
         serializer = MissionSerializer(mission)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self, request, mission_pk):
+        mission = get_object_or_404(MissionModel, pk=mission_pk)
+        serializer = MissionSerializer(mission, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"message": "Please Check Mission's Context"})
+    
+    def delete(self, request, mission_pk):
+        mission = get_object_or_404(MissionModel, pk=mission_pk)
+        mission.delete()
+        return Response({"message": "Successfully Delete Mission"}, status=status.HTTP_200_OK)
