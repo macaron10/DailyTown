@@ -24,6 +24,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+    'USE_SESSION_AUTH': False
+}
+
 # Application definition
 
 INSTALLED_APPS = [
