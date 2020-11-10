@@ -5,12 +5,12 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 
-from .serializers import UserCreateSerializer, UserLoginSerializer, MyItemSerializer, MyMissionSerializer
+from .serializers import UserCreateSerializer, UserLoginSerializer, UserSerializer, MyItemSerializer, MyMissionSerializer
 from .models import User, MyItem as MyItemModel, MyMission as MyMissionModel
 from items.models import Item as ItemModel
 from missions.models import Mission as MissionModel
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 @permission_classes([AllowAny])
 def createUser(request):
     '''
@@ -26,6 +26,10 @@ def createUser(request):
             serializer.save()
             return Response({"message": "ok"}, status=status.HTTP_201_CREATED)
         return Response({"message": "duplicate email"}, status=status.HTTP_409_CONFLICT)
+    else:
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -95,7 +99,7 @@ class MyItem(APIView):
             serializer = MyItemSerializer(data=request.data)
             if not serializer.is_valid(raise_exception=True):
                 return Response({"message": "Please Check Item's Contex"})
-            serializer.save(user=request.user, location=loc+i, item=item_info)
+            serializer.save(user=request.user, location=loc+i, item=item_info, quantity=1)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class MyItemDetail(APIView):
