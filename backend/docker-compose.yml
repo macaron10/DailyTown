@@ -63,3 +63,5 @@ services:
     depends_on:
       - backend1
       - backend2
+    restart: always
+    
