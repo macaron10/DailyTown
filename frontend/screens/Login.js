@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ImageBackground, StyleSheet, View, Text, TouchableOpacity, Button } from 'react-native';
 
 import * as Google from 'expo-google-app-auth';
@@ -17,7 +17,10 @@ export default function LoginSample({ navigation }) {
       console.log('로그인하세요')
     }
   }
-  check()
+  useEffect(() => {
+    return () => {check()}
+}, [])
+
 // const [userInfo, setUserInfo] = 
   const [checkBtn, setCheckBtn] = useState(0)
   const onPress = async () => {
