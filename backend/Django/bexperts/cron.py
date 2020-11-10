@@ -14,7 +14,7 @@ User = get_user_model()
 # 사람들에게 줄 수 있는 아이템 뽑아오기
 # 유저 명수 뽑아오기
 
-def updateMission():
+def DailyUpdateMission():
     users = User.objects.all()
     missions = MissionModel.objects.all()
     items = ItemModel.objects.all()
