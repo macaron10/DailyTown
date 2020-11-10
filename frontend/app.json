@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "voidforest",
+    "slug": "voidforest",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,12 +10,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "permissions": [
-      "CAMERA"
-    ],
     "android": {
       "package": "host.exp.exponent",
-      "versionCode": 1
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA"
+      ]
     },    
     "updates": {
       "fallbackToCacheTimeout": 0
