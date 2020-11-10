@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image } from 'react-native';
+import axios from 'axios';
 
 export default function CameraModal({ photoInfo, setPhotoInfo }) {
-  const [modalVisible, setModalVisible] = useState(true);
+  // const [modalVisible, setModalVisible] = useState(true);
+  const formData = new FormData();
+  formData.append("category", "general")
+  formData.append("title", "car")
+  formData.append("image", { uri: photoInfo.uri, name: 'image.jpg', type: 'image/jpeg' })
+  // console.log(formData)
+  // console.log(photoInfo.uri)
+
   return (
     <View style={styles.centeredView}>
       {/* <Modal
@@ -22,9 +30,22 @@ export default function CameraModal({ photoInfo, setPhotoInfo }) {
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
               onPress={() => {
-                setModalVisible(!modalVisible);
+                // setModalVisible(!modalVisible);
                 setPhotoInfo(null)
-              }}>
+                console.log(JSON.stringify(formData))
+                axios.post('http://k3b305.p.ssafy.io:8005/ai-images/predict/', formData, {
+                  headers: {
+                    Accept: "application/json",
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: ""
+                  }
+                })
+                .then(res => {
+                  console.log(res)
+                })
+                .catch(err => console.error(err))
+              }}
+            >
               <Text style={styles.textStyle}>Hide Modal</Text>
             </TouchableHighlight>
           {/* </View> */}

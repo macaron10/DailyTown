@@ -33,7 +33,7 @@ function Camera({ setIsCameraOn }) {
   return (
     <IconButton
       icon="camera"
-      // style={styles.showButton}
+      style={styles.cameraIcon}
       onPress={() => {
         clickCameraOn();
       }}
@@ -76,9 +76,9 @@ export default function MissionList() {
                 key={title}
                 title={title}
                 // left={props => <List.Icon {...props} icon="folder" />}
-                >
+              >
                 <Text>보상</Text>
-                <Image style={{width:200, height:200}} source={imgUrl} />
+                <Image style={ styles.rewardImg } source={imgUrl} />
                 <Camera setIsCameraOn={ setIsCameraOn } />
               </List.Accordion>
             )
@@ -97,4 +97,12 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center',
   },
+  rewardImg: {
+    width: 200,
+    height: 200,
+    left: "50%",
+    marginLeft: -100
+  },
+  cameraIcon: {
+  }
 });
