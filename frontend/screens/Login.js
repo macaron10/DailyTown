@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ImageBackground, StyleSheet, View, Text, TouchableOpacity, Button } from 'react-native';
 
 import * as Google from 'expo-google-app-auth';
@@ -17,12 +17,15 @@ export default function LoginSample({ navigation }) {
       console.log('로그인하세요')
     }
   }
-  check()
+  useEffect(() => {
+    return () => {check()}
+}, [])
+
 // const [userInfo, setUserInfo] = 
   const [checkBtn, setCheckBtn] = useState(0)
   const onPress = async () => {
     const res = await Google.logInAsync(
-      {androidClientId: env.AND_KEY});
+      {androidClientId: env.AND_KEY, androidStandaloneAppClientId: env.AND_KEY}).catch(error => {console.log(error)});
     console.log(res);
     const secure_available = await SecureStore.isAvailableAsync()
     if (res.type === 'success') {
@@ -36,7 +39,7 @@ export default function LoginSample({ navigation }) {
       };
       // console.log(data);
 
-      let userInfo = await fetch(`http://${env.IP_ADDRESS}:8000/account/create/`, {
+      let userInfo = await fetch(`http://${env.IP_ADDRESS}/account/create/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;'
@@ -47,7 +50,7 @@ export default function LoginSample({ navigation }) {
       .then(json => {
         console.log(json)  // ok -> 최초 로그인 // duplicate email -> 이후 로그인
         // Login
-        fetch(`http://${env.IP_ADDRESS}:8000/account/login/`, {  
+        fetch(`http://${env.IP_ADDRESS}/account/login/`, {  
         method: 'POST',
           headers: {
             'Content-Type': 'application/json'

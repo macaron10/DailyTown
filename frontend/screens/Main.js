@@ -16,7 +16,25 @@ export default function Main({ navigation }) {
   const [myItems, setMyItems] = useState(
     tempItem
   )
+  // Axios Header에 들어갈 jwt -> userToken
   const [boardData, setBoardData] = useState([])
+  const [userToken, setUserToken] = useState('')
+  const [accessToken, setAccessToken] = useState('')
+  async function getToken () {
+      const jwt = await SecureStore.getItemAsync('token')
+      setUserToken(jwt)
+      console.log('userToken', jwt);
+      const acst = await SecureStore.getItemAsync('access_token')
+      setAccessToken(acst)
+      console.log('accessToken',acst);
+    }
+  // const [accessToken]
+      // "0": {
+      // "name": "임시1",
+      // "price": 500,
+      // "image": "test1"
+      // }
+
   // "0": {
   // "name": "임시1",
   // "price": 500,
@@ -24,7 +42,8 @@ export default function Main({ navigation }) {
   // }
 
   // 맨처음 한번만 받아올 예정
-  // useEffect( () => {
+  // 비로그인시 접속 가능(개발용, 배포시에 막아놓을 것)
+  //   useEffect( () => {
   //   axios.get('http://k3b305.p.ssafy.io:8080/items/getInventory')
   //     .then(res => {
   //       setGoldStatus( res.data.gold )
@@ -33,9 +52,14 @@ export default function Main({ navigation }) {
   //     .catch(err => {
   //       console.log(err)
   //     })
+  //   })
+
+
   // }, [])
   const tempData = []
   useEffect(() => {
+  // 비로그인시 접속 가능(개발용, 배포시에 막아놓을 것)
+    getToken()
     axios
       .get('http://k3b305.p.ssafy.io:8005/account/myitem/',
         {
@@ -61,6 +85,7 @@ export default function Main({ navigation }) {
       })
       .catch(err => console.log(err))
   }, [])
+
   return (
     <View style={styles.container}>
       {/* 로그인 페이지로 이동 버튼(임시) */}
@@ -86,8 +111,7 @@ export default function Main({ navigation }) {
       <TouchableOpacity
         style={styles.logoutButton}
         onPress={async () => {
-          const accessToken = await SecureStore.getItemAsync('access_token')
-          await Google.logOutAsync({ accessToken, androidClientId: env.AND_KEY }); // 나중에 따로 config 설정해줘야함
+          await Google.logOutAsync({ accessToken, androidClientId: env.AND_KEY, androidStandaloneAppClientId: env.AND_KEY}); // 나중에 따로 config 설정해줘야함
           // ------------------------ access token 만료 확인용 -------------------------------
           // let userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
           //   headers: { Authorization: `Bearer ${accessToken}` },
