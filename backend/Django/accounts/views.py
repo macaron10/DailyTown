@@ -24,6 +24,11 @@ def createUser(request):
 
         if User.objects.filter(email=serializer.validated_data['email']).first() is None:
             serializer.save()
+
+            # 가입하면 바로 미션 3개를 추가하는 로직을 짜야하는데
+            # 미션 목록과 아이템 목록이 나오지 않아서
+            # 해당 로직을 못 짜고 잇읍니다.
+
             return Response({"message": "ok"}, status=status.HTTP_201_CREATED)
         return Response({"message": "duplicate email"}, status=status.HTTP_409_CONFLICT)
     else:
@@ -93,7 +98,6 @@ class MyItem(APIView):
         '''
         n = int(request.data['quantity'])
         loc = int(request.data['location'])
-        print(request.data)
         item_info = get_object_or_404(ItemModel, pk=int(request.data['item']))
         for i in range(n):
             serializer = MyItemSerializer(data=request.data)
@@ -138,6 +142,16 @@ class MyMission(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        users = User.objects.all()
+        n = len(users)
+        for i in range(n):
+            missio = MyMissionModel.objects.filter(user=users[i])
+            if missio:
+                for j in range(3):
+                    missio[j].delete()
+            print(len(missio))
+            # for j in range(3):
+            #     print(missio[j])
         mymissions = MyMissionModel.objects.filter(user=request.user)
         serializer = MyMissionSerializer(mymissions, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
