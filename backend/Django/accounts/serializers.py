@@ -57,8 +57,16 @@ class UserLoginSerializer(serializers.Serializer):
             'token': jwt_token
         }
 
+class UserSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    username = serializers.CharField(required=True)
+
+    class Meta:
+        model = User
+        field = ('email', 'username')
+
 class MyItemSerializer(serializers.ModelSerializer):
-    user = UserCreateSerializer(required=False)
+    user = UserSerializer(required=False)
     item = ItemSerializer(read_only=True, required=False)
 
     class Meta:
@@ -66,7 +74,7 @@ class MyItemSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class MyMissionSerializer(serializers.ModelSerializer):
-    user = UserCreateSerializer(required=False)
+    user = UserSerializer(required=False)
     item = ItemSerializer(read_only=True, required=False)
     mission = MissionSerializer(read_only=True, required=False)
 

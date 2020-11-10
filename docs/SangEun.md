@@ -192,6 +192,10 @@ User Table과 Mission Table과 Item Table의 Ternary 관계
 
 ##### 1. /account/create/
 
+- get : DB 내 모든 유저들을 조회한다.
+
+- post : 계정생성
+
 - ```json
   {
       "email": "ssafy@ssafy.com",
@@ -209,7 +213,7 @@ User Table과 Mission Table과 Item Table의 Ternary 관계
   }
   ```
 
-##### 
+
 
 #### 4.내 아이템 관련
 
@@ -232,6 +236,17 @@ User Table과 Mission Table과 Item Table의 Ternary 관계
 - get : 해당 pk의 내 아이템의 정보를 조회한다
 - put : 해당 pk의 내 아이템의 정보를 update한다. body는 1번과 같은 형태로 넣어주되 필요한 필드만 넣어주면 된다
 - delete : 해당 pk를 가진 아이템을 내 인벤토리(필드)에서 삭제한다 ==> 아이템을 전부 다 파는 경우에 사용하면 될듯, body 필요없음
+
+##### 3. /account/myitem/exchange/
+
+- put : 해당 pk를 가진 내 아이템 2개의 위치를 교환한다
+
+- ```json
+  {
+      "item1_id": 17,
+      "item2_id": 18
+  }
+  ```
 
 
 
