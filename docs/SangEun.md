@@ -192,6 +192,10 @@ User Table과 Mission Table과 Item Table의 Ternary 관계
 
 ##### 1. /account/create/
 
+- get : DB 내 모든 유저들을 조회한다.
+
+- post : 계정생성
+
 - ```json
   {
       "email": "ssafy@ssafy.com",
