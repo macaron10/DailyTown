@@ -1,6 +1,8 @@
+import Axios from 'axios';
 import React, { useState } from 'react'
 import { StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback,Alert, Platform } from 'react-native';
 import DynamicItems from "./mainbottom/DynamicItems"
+import axios from 'axios'
 
 const deviceWidth = Dimensions.get('window').width
 const xyCount = 6
@@ -50,9 +52,15 @@ function MyForest(props) {
                   text: "삭제",
                   onPress: () => {
                     const newData = [...data]
-                    newData.splice(idx, 1)
-                    handleDataChange(newData)
-                    // 인벤토리로 내리고 좌표 axios
+                    const id = newData[idx]['id']
+                    newData.splice(idx, 1)                                        
+                    axios
+                      .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${id}/`, {isinfarm: false}, {'headers' : {
+                        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImhpaGkyQHNzYWZ5LmNvbSIsImV4cCI6MTYwNzU3OTQ4MCwiZW1haWwiOiJoaWhpMkBzc2FmeS5jb20ifQ.16bmul0SrSeqEe3ZJkxIJfS1kne3ZkmYOVMUIVOfByk'
+                          }
+                        })
+                      .then(() => {handleDataChange(newData)})
+                      .catch(err => console.log(err))
                   }
                 },
               ],
@@ -98,6 +106,7 @@ const Tile = (props) => {
             onPressIn()
             const newData = [...props.data]
             const name = newData[props.targetIdx]['name']
+            const id = newData[props.targetIdx]['id']
             newData[props.targetIdx] = {
               x: props.x,
               y: props.y,
@@ -153,15 +162,22 @@ const Landscape = (props) => {
   )
 }
 
-export default function Board() {
+export default function Board(props) {
   const [targetIdx, setTargetIdx] = useState(null)
-  const [data, setData] = useState([
-    { x: 0, y: 1, name: 'animal1' },
-    { x: 0, y: 5, name: 'stock1'},
-    { x: 5, y: 0, name: 'house1'},
-    { x: 5, y: 5, name: 'flower1'},
-    { x: 2, y: 3, name: 'waterfield1'},
-  ])
+  const [data, setData] = useState(
+    // [
+    //   {
+    //     "id": 2,
+    //     "name": "house1",
+    //     "x": 0,
+    //     "y": 0,
+    //   },
+    // ]
+    props.boardData
+  )
+  // console.log(data)
+  // setData(props.boardData)
+
   function changeDate(newData) {
     setData(newData)
     const newArray = [];
