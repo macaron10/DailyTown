@@ -168,3 +168,19 @@ class MyMissionDetail(APIView):
         mymission.delete()
         return Response({"message": "Successfully delete mission"}, status=status.HTTP_200_OK)
 
+class Exchange(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        item1 = get_object_or_404(MyItemModel, pk=int(request.data['item_id1']))
+        item2 = get_object_or_404(MyItemModel, pk=int(request.data['item_id2']))
+        
+        loc1 = item1.location
+        loc2 = item2.location
+
+        item1.location = loc2
+        item1.save()
+        item2.location = loc1
+        item2.save()
+
+        return Response({"message": "two item's location was exchanged"}, status=status.HTTP_200_OK)
