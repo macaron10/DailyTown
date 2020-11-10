@@ -10,6 +10,12 @@ def predict(request):
 		'ans': False
 	}
 	# category == 물건의 종류, title == 물건의 detail
+
+	print(request)
+	print(request.data)
+	print(request.FILES)
+	print(request.FILES['image'])
+
 	keyword = request.data['category']
 	target = request.data['title']
 
@@ -19,9 +25,6 @@ def predict(request):
 	elif keyword == 'general':
   		result['ans'] = check_general(request, target)
 	# test용 print문.
-	# print(request)
-	# print(request.data)
-	# print(request.FILES)
-	# print(request.FILES['image'])
+	
 	# qwnkld(request.FILES['image'])
 	return JsonResponse(result)
