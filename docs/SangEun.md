@@ -272,3 +272,74 @@ User Table과 Mission Table과 Item Table의 Ternary 관계
 - get : 해당 pk에 해당하는 미션을 조회한다
 - put : 해당 pk를 가진 미션의 내용을 update 한다(클리어 여부 등), body는 1번과 같이 보내주되, 필요한 것만 넣어서 보내주면된다.
 - delete : 해당 pk를 가진 미션을 제거한다.
+
+
+
+## 2020. 11. 11.
+
+### DJango Cron // periodical Service
+
+#### 1.Install Django-crontab
+
+```bash
+pip install django-crontab
+```
+
+
+
+#### 2.in settings.py
+
+```python
+# settings.py
+
+INSTALLED_APPS = [
+    ...
+    'django_crontab',
+    ...
+]
+
+CRONJOBS = [
+    ('* * * * *', 'APP_NAME.FILE_NAME.FUNCTION_NAME')
+]
+```
+
+
+
+#### 3.in your new File(cron)
+
+```python
+# accounts.cron.py
+
+def periodically_do():
+    ...
+    ...
+    ...
+```
+
+
+
+#### 4.install cron in your linux
+
+```bash
+apt-get insatll cron
+```
+
+
+
+#### 5.Add your cron job
+
+```bash
+python manage.py crontab add  # add your cron job to scheduller, not excute
+python manage.py crontab show # show your cron job,
+python manage.py crontab remove # remove your cron job
+```
+
+
+
+#### 6.start your cron job
+
+```bash
+service cron start  # start your cron job in your scheduller
+service cron stop # stop your cron job
+```
+

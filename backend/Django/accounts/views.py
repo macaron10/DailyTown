@@ -24,6 +24,11 @@ def createUser(request):
 
         if User.objects.filter(email=serializer.validated_data['email']).first() is None:
             serializer.save()
+
+            # 가입하면 바로 미션 3개를 추가하는 로직을 짜야하는데
+            # 미션 목록과 아이템 목록이 나오지 않아서
+            # 해당 로직을 못 짜고 잇읍니다.
+
             return Response({"message": "ok"}, status=status.HTTP_201_CREATED)
         return Response({"message": "duplicate email"}, status=status.HTTP_409_CONFLICT)
     else:
@@ -93,7 +98,6 @@ class MyItem(APIView):
         '''
         n = int(request.data['quantity'])
         loc = int(request.data['location'])
-        print(request.data)
         item_info = get_object_or_404(ItemModel, pk=int(request.data['item']))
         for i in range(n):
             serializer = MyItemSerializer(data=request.data)
@@ -138,6 +142,33 @@ class MyMission(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        
+        # import random
+
+        # print('helllllllllllllllllllo')
+        # users = User.objects.all()
+        # missions = MissionModel.objects.all()
+        # items = ItemModel.objects.all()
+
+        # for n in range(len(users)):  # 해당 유저가 가지고있는 미션 3개를 삭제
+        #     ownmission = MyMissionModel.objects.filter(user=users[n])
+        #     for j in range(len(ownmission)):
+        #         ownmission[j].delete()
+
+        #     mission_pk_list = random.sample(range(1, len(missions)+1), 3)
+        #     item_pk_list = random.sample(range(1, len(items)+1), 3)
+
+        #     for j in range(3):
+        #         mission_info = get_object_or_404(MissionModel, pk=mission_pk_list[j])
+        #         item_info = get_object_or_404(ItemModel, pk=item_pk_list[j])
+        #         tmp = { "iscleared": False }
+        #         serializer = MyMissionSerializer(data=tmp)
+        #         if not serializer.is_valid(raise_exception=True):
+        #             return Response({"message": "Failure at Automatically update Mission"})
+        #         serializer.save(user=users[n], mission=mission_info, item=item_info)
+        
+        # print("Daily Mission Update was done")
+
         mymissions = MyMissionModel.objects.filter(user=request.user)
         serializer = MyMissionSerializer(mymissions, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

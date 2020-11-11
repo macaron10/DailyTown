@@ -60,6 +60,9 @@ INSTALLED_APPS = [
     #Swagger
    'drf_yasg',
 
+    #crontab
+    'django_crontab',
+
     #MyAPP
     'accounts',
     'items',
@@ -164,6 +167,10 @@ JWT_AUTH = {
     'JWT_AUTH_COOKIE': None,
 }
 
+#CronTab
+CRONJOBS = [
+    ('* 0 * * *', 'accounts.cron.DailyUpdateMission')
+]
 
 ROOT_URLCONF = 'bexperts.urls'
 
