@@ -135,7 +135,7 @@ export default function Main({ navigation }) {
         <MyGold goldStatus={goldStatus} />
         <Board boardData={boardData} />
       </View>
-      <MainPageInventory myItems={myItems} setMyItems={setMyItems} setGoldStatus={setGoldStatus} />
+      <MainPageInventory myItems={myItems} setMyItems={setMyItems} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
     </View>
   );
 }

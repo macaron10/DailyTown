@@ -14,6 +14,7 @@ function ClickStoreItem(props) {
               itemForSell={ props.itemForSell }
               setMyItems={ setMyItems }
               setItemInfo={ props.setItemInfo }
+              goldStatus={ props.goldStatus }
               setGoldStatus={ props.setGoldStatus }
               isInventory={ props.isInventory }
               setIsChangeItemPlace={ props.setIsChangeItemPlace }
@@ -139,7 +140,7 @@ function ItemGridRow({ number1, items, setMyItems, isInventory, setItemInfo, set
 
 }
 
-export default function MainInvenGrid({ items, setMyItems, isInventory, setGoldStatus, itemForSell }) {
+export default function MainInvenGrid({ items, setMyItems, isInventory, goldStatus, setGoldStatus, itemForSell }) {
   const [itemInfo, setItemInfo] = useState(null)
   const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   const [changedIndex, setChangedIndex] = useState(null)
@@ -172,6 +173,7 @@ export default function MainInvenGrid({ items, setMyItems, isInventory, setGoldS
           isInventory={ isInventory }
           setMyItems={ setMyItems }
           setItemInfo={ setItemInfo }
+          goldStatus={ goldStatus }
           setGoldStatus={ setGoldStatus }
           setIsChangeItemPlace={ setIsChangeItemPlace }
           setChangedIndex={ setChangedIndex }
