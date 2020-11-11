@@ -51,7 +51,7 @@ function ShowItem(props) {
 
   return <TouchableHighlight
           onPress={() => {
-            props.isChangeItemPlace ? changeItemPlace(props.changedIndex) : setItemInfo([item, index])
+            props.isChangeItemPlace ? changeItemPlace(props.changedIndex) : image ? setItemInfo([item, index]) : Alert.alert('비어있는 인벤토리입니다.')
           }}
         >
           <View style={{ display: 'flex', flexDirection: 'row' }}>
