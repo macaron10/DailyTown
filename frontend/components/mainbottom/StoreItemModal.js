@@ -11,8 +11,8 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
   // const image = itemInfo['name'] ? DynamicItems[itemInfo['name']] : DynamicItems['default']
   function sellItem() {
     items[index] = {
-      "name": "default",
-      "price": 500,
+      "name": "",
+      "price": 0,
     }
 
     setMyItems(items)
@@ -21,7 +21,7 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
     let cnt = 0
     for ( let i = 0; i < itemForSell.length; i++ ) {
       if ( cnt < count ) {
-        if ( itemForSell[i]['name'] === 'default' ) {
+        if ( itemForSell[i]['name'] === '' ) {
           itemForSell[i] = itemInfo
           cnt++
         }
