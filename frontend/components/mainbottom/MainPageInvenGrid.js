@@ -14,6 +14,7 @@ function ClickStoreItem(props) {
               itemForSell={ props.itemForSell }
               setMyItems={ setMyItems }
               setItemInfo={ props.setItemInfo }
+              goldStatus={ props.goldStatus }
               setGoldStatus={ props.setGoldStatus }
               isInventory={ props.isInventory }
               setIsChangeItemPlace={ props.setIsChangeItemPlace }
@@ -46,11 +47,12 @@ function ShowItem(props) {
   }
 
   // 동적할당을 위한 노가다가 필요하다.
+  // 없으면 안뜬다.
   const image = DynamicItems[item['name']]
 
   return <TouchableHighlight
           onPress={() => {
-            props.isChangeItemPlace ? changeItemPlace(props.changedIndex) : setItemInfo([item, index])
+            props.isChangeItemPlace ? changeItemPlace(props.changedIndex) : image ? setItemInfo([item, index]) : Alert.alert('비어있는 인벤토리입니다.')
           }}
         >
           <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -138,7 +140,7 @@ function ItemGridRow({ number1, items, setMyItems, isInventory, setItemInfo, set
 
 }
 
-export default function MainInvenGrid({ items, setMyItems, isInventory, setGoldStatus, itemForSell }) {
+export default function MainInvenGrid({ items, setMyItems, isInventory, goldStatus, setGoldStatus, itemForSell }) {
   const [itemInfo, setItemInfo] = useState(null)
   const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   const [changedIndex, setChangedIndex] = useState(null)
@@ -171,6 +173,7 @@ export default function MainInvenGrid({ items, setMyItems, isInventory, setGoldS
           isInventory={ isInventory }
           setMyItems={ setMyItems }
           setItemInfo={ setItemInfo }
+          goldStatus={ goldStatus }
           setGoldStatus={ setGoldStatus }
           setIsChangeItemPlace={ setIsChangeItemPlace }
           setChangedIndex={ setChangedIndex }

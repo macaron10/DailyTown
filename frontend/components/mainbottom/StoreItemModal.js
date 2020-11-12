@@ -6,15 +6,13 @@ import { IconButton } from 'react-native-paper';
 
   // const image = DynamicItems[itemInfo['name']]
 
-function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount, count, setModalVisible, setItemInfo, setGoldStatus, isSellingMode }) {
-  const image = itemInfo['image'] ? DynamicItems[itemInfo['image']] : DynamicItems['default']
-  console.log(11, items)
+function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount, count, setModalVisible, setItemInfo, goldStatus, setGoldStatus, isSellingMode }) {
+  const image = DynamicItems[itemInfo['name']]
+  // const image = itemInfo['name'] ? DynamicItems[itemInfo['name']] : DynamicItems['default']
   function sellItem() {
     items[index] = {
-      "name": "default",
-      "price": 500,
-      "image": "",
-      "place": 0
+      "name": "",
+      "price": 0,
     }
 
     setMyItems(items)
@@ -23,7 +21,7 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
     let cnt = 0
     for ( let i = 0; i < itemForSell.length; i++ ) {
       if ( cnt < count ) {
-        if ( itemForSell[i]['name'] === 'default' ) {
+        if ( itemForSell[i]['name'] === '' ) {
           itemForSell[i] = itemInfo
           cnt++
         }
@@ -87,10 +85,14 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
               <TouchableHighlight
                 style={{ ...styles.openButton, backgroundColor: "#2196F3", width: '50%', marginRight: 10 }}
                 onPress={() => {
-                  isSellingMode ? sellItem() : buyItem();
+                  let isCanSell = false
+                  isSellingMode ? sellItem() : count*itemInfo['price'] <= goldStatus ?  isCanSell = true  : Alert.alert('골드가 부족합니다')
+                  if ( isCanSell ) {
+                    buyItem()
+                  }
+                  setGoldStatus( prev => isSellingMode ? prev + itemInfo['price']*count : isCanSell ? prev - itemInfo['price']*count : prev  );
                   setModalVisible(prev => !prev);
                   setItemInfo(null);
-                  setGoldStatus( prev => isSellingMode ? prev + itemInfo['price']*count : prev - itemInfo['price']*count  );
                 }}
               >
                 <Text style={styles.textStyle}>{ isSellingMode ? '판매' : '구매' }</Text>
@@ -111,7 +113,7 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
 
 // 가방의경우, 이동하기, 판매하기 -> 수량 선택및 금액 표시. 판매, 닫기
 // 상점의경우, 이미지, 수량 구매, 닫기
-function CommerceModal({ itemInfomation, isInventory, items, setMyItems, itemForSell, setItemInfo, setGoldStatus, setModalVisible, setIsChangeItemPlace, setChangedIndex }) {
+function CommerceModal({ itemInfomation, isInventory, items, setMyItems, itemForSell, setItemInfo, goldStatus, setGoldStatus, setModalVisible, setIsChangeItemPlace, setChangedIndex }) {
   const [count, setCount] = useState(1)
   const [sellingItem, setSellingItem] = useState(null)
   const index = itemInfomation[1]
@@ -155,13 +157,25 @@ function CommerceModal({ itemInfomation, isInventory, items, setMyItems, itemFor
           
   }
   if ( sellingItem ) {  
-    return <SellingMode isSellingMode={ true } index={ index } items={items} setMyItems={setMyItems} itemInfo={ sellingItem } setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} setGoldStatus={setGoldStatus} />
+    return <SellingMode isSellingMode={ true } index={ index } items={items} setMyItems={setMyItems} itemInfo={ sellingItem } setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
   }
 
-  return <SellingMode itemInfo={itemInfo} items={items} itemForSell={itemForSell} setMyItems={setMyItems} setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} setGoldStatus={setGoldStatus}/>
+  return <SellingMode itemInfo={itemInfo} items={items} itemForSell={itemForSell} setMyItems={setMyItems} setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} goldStatus={goldStatus} setGoldStatus={setGoldStatus}/>
 }
 
-export default function StoreItemModal({ itemInfo, isInventory, items, setMyItems, itemForSell, setItemInfo, setGoldStatus, storeImage, setIsChangeItemPlace, setChangedIndex }) {
+export default function StoreItemModal({
+  itemInfo,
+  isInventory,
+  items,
+  setMyItems,
+  itemForSell,
+  setItemInfo,
+  goldStatus,
+  setGoldStatus,
+  storeImage,
+  setIsChangeItemPlace,
+  setChangedIndex
+}) {
   const [modalVisible, setModalVisible] = useState(true);
 
   return (
@@ -182,6 +196,7 @@ export default function StoreItemModal({ itemInfo, isInventory, items, setMyItem
             isInventory={isInventory}
             setMyItems={setMyItems}
             setItemInfo={setItemInfo}
+            goldStatus={goldStatus}
             setGoldStatus={setGoldStatus}
             setModalVisible={setModalVisible}
             storeImage={storeImage}

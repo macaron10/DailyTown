@@ -2,17 +2,13 @@ const StoreItem = [
   {
     "name": "default",
     "price": 500,
-    "image": "",
-    "place": 0
   },
   {
-    "name": "default",
+    "name": "",
     "price": 500,
-    "image": "",
-    "place": 1
   },
   {
-    "name": "default",
+    "name": "",
     "price": 500,
     "image": "",
     "place": 2
@@ -30,91 +26,85 @@ const StoreItem = [
     "place": 4
   },
   {
-    "name": "임시1",
+    "name": "test1",
     "price": 500,
-    "image": "test1",
-    "place": 5
   },
   {
-    "name": "임시1",
+    "name": "test1",
     "price": 500,
-    "image": "test1",
-    "place": 6
   },
   {
-    "name": "임시1",
+    "name": "test1",
     "price": 500,
-    "image": "test1",
-    "place": 7
   },
   {
-    "name": "임시1",
+    "name": "",
     "price": 500,
     "image": "test1",
     "place": 8
   },
   {
-    "name": "임시1",
+    "name": "",
     "price": 500,
     "image": "test1",
     "place": 9
   },
   {
-    "name": "임시1",
+    "name": "",
     "price": 500,
     "image": "test1",
     "place": 10
   },
   {
-    "name": "임시1",
+    "name": "",
     "price": 500,
     "image": "test1",
     "place": 11
   },
   {
-    "name": "임시1",
+    "name": "",
     "price": 500,
     "image": "test1",
     "place": 12
   },
   {
-    "name": "임시1",
+    "name": "",
     "price": 500,
     "image": "test1",
     "place": 13
   },
   {
-    "name": "임시1",
+    "name": "",
     "price": 500,
     "image": "test1",
     "place": 14
   },
   {
-    "name": "임시1",
+    "name": "",
     "price": 500,
     "image": "test1",
     "place": 15
   },
   {
-    "name": "임시1",
+    "name": "",
     "price": 500,
     "image": "test1",
     "place": 16
   },
   {
-    "name": "임시1",
+    "name": "",
     "price": 500,
     "image": "test1",
     "place": 17
   },
   {
-    "name": "임시1",
+    "name": "",
     "price": 500,
     "image": "test1",
     "place": 18
   },
   {
-    "name": "임시22",
+    "name": "",
     "price": 100,
     "image": "",
     "place": 19
