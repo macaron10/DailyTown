@@ -13,6 +13,7 @@ const yStartPoint = 100
 function MyForest(props) {
   const deviceWidth = Dimensions.get('window').width
   const width = (deviceWidth - 20) / xyCount
+  const jwt = props.jwt
   function handleDataChange(e) {
     props.onDataChange(e)
   }
@@ -45,7 +46,7 @@ function MyForest(props) {
                 {
                   text: "이동",
                   onPress: () => {
-                    handleIsMoveChange(props.isMove, idx)                  
+                    handleIsMoveChange(props.isMove, idx)              
                   }
                 },
                 {
@@ -53,10 +54,10 @@ function MyForest(props) {
                   onPress: () => {
                     const newData = [...data]
                     const id = newData[idx]['id']
-                    newData.splice(idx, 1)                                        
+                    newData.splice(idx, 1)                       
                     axios
                       .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${id}/`, {isinfarm: false}, {'headers' : {
-                        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImhpaGkyQHNzYWZ5LmNvbSIsImV4cCI6MTYwNzU3OTQ4MCwiZW1haWwiOiJoaWhpMkBzc2FmeS5jb20ifQ.16bmul0SrSeqEe3ZJkxIJfS1kne3ZkmYOVMUIVOfByk'
+                        'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYxODc4LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.iuoPeGVJY73qE18A3XNWHlHdqZSQ9xtQFTMJe2S1ovA`
                           }
                         })
                       .then(() => {handleDataChange(newData)})
@@ -111,7 +112,16 @@ const Tile = (props) => {
               x: props.x,
               y: props.y,
               name: name,
+              id : id
             }
+            const location = props.x + props.y*6 + 1
+            axios
+              .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${id}/`, {location: location}, {'headers' : {
+                'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYxODc4LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.iuoPeGVJY73qE18A3XNWHlHdqZSQ9xtQFTMJe2S1ovA`
+                  }
+                })
+              .then(() => {})
+              .catch(err => console.log(err))
 
             props.onIsMoveChange(true, null)
             props.onDataChange(newData)            
@@ -163,40 +173,43 @@ const Landscape = (props) => {
 }
 
 export default function Board(props) {
-  const [targetIdx, setTargetIdx] = useState(null)
-  const [data, setData] = useState(
-    // [
-    //   {
-    //     "id": 2,
-    //     "name": "house1",
-    //     "x": 0,
-    //     "y": 0,
-    //   },
-    // ]
-    props.boardData
-  )
+  const [targetIdx, setTargetIdx] = useState(null)  // 삭제 or 수정할 때 필요한 인덱스
+  // const [data, setData] = useState(
+  //   // [
+  //   //   {
+  //   //     "id": 2,
+  //   //     "name": "house1",
+  //   //     "x": 0,
+  //   //     "y": 0,
+  //   //   },
+  //   // ]
+  //   props.boardData
+  // )
   // console.log(data)
   // setData(props.boardData)
 
-  function changeDate(newData) {
-    setData(newData)
-    const newArray = [];
-    for (let i = xyCount; i > 0; i--) {
-      newArray.push(Array(xyCount).fill(null));
-    }
-    newData.forEach(element => {
-      newArray[element.x][element.y] = element.name 
-    });
-    setTiles(newArray)
-  }
-  const newArray = [];
-  for (let i = xyCount; i > 0; i--) {
-    newArray.push(Array(xyCount).fill(null));
-  }
-  data.forEach(element => {
-    newArray[element.x][element.y] = element.name
-  });
-  const [tiles, setTiles] = useState(newArray)
+  // function changeDate(newData) {
+  //   setData(newData)
+  //   const newArray = [];
+  //   for (let i = xyCount; i > 0; i--) {
+  //     newArray.push(Array(xyCount).fill(null));
+  //   }
+  //   newData.forEach(element => {
+  //     newArray[element.x][element.y] = element.name 
+  //   });
+  //   setTiles(newArray)
+  // }
+  // const newArray = [];
+  // for (let i = xyCount; i > 0; i--) {
+  //   newArray.push(Array(xyCount).fill(null));
+  // }
+  // data.forEach(element => {
+  //   newArray[element.x][element.y] = element.name
+  // });
+  // const [tiles, setTiles] = useState(newArray)
+  const data = props.data
+  const changeDate = props.changeDate
+  const tiles = props.tiles  
   const [isMove, setIsMove] = useState(false)
   function changeIsMove(isMove, idx) {
     setIsMove(!isMove)
@@ -205,14 +218,14 @@ export default function Board(props) {
   if (isMove) {
     return (
       <View style={styles.container}>
-        <Landscape isMove={isMove} tiles={tiles} data={data} targetIdx={targetIdx} onIsMoveChange={changeIsMove} onDataChange={changeDate} />
+        <Landscape isMove={isMove} jwt={props.jwt} tiles={tiles} data={data} targetIdx={targetIdx} onIsMoveChange={changeIsMove} onDataChange={changeDate} />
       </View>
     );
   }
   return (
     <View style={styles.container}>
-      <MyForest onDataChange={changeDate} data={data} onIsMoveChange={changeIsMove} />
-      <Landscape isMove={isMove} tiles={tiles} />
+      <MyForest onDataChange={changeDate} data={data} jwt={props.jwt} onIsMoveChange={changeIsMove} />
+      <Landscape isMove={isMove} tiles={tiles} jwt={props.jwt} />
     </View>
   );
 }

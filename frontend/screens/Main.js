@@ -12,12 +12,12 @@ import axios from 'axios'
 import tempItem from '../components/mainbottom/tempItem'
 
 export default function Main({ navigation }) {
+  const xyCount = 6
   const [goldStatus, setGoldStatus] = useState(0)
   const [myItems, setMyItems] = useState(
     tempItem
   )
   // Axios Header에 들어갈 jwt -> userToken
-  const [boardData, setBoardData] = useState([])
   const [userToken, setUserToken] = useState('')
   const [accessToken, setAccessToken] = useState('')
   async function getToken () {
@@ -28,10 +28,11 @@ export default function Main({ navigation }) {
       setAccessToken(acst)
       console.log('accessToken',acst);
     }
+  
   // const [accessToken]
       // "0": {
       // "name": "임시1",
-      // "price": 500,
+      // "price": 500, 
       // "image": "test1"
       // }
 
@@ -56,36 +57,57 @@ export default function Main({ navigation }) {
 
 
   // }, [])
-  const tempData = []
+  const [data, setData] = useState([])
+  function changeDate(newData) {
+    setData(newData)
+    const newArray = [];
+    for (let i = xyCount; i > 0; i--) {
+      newArray.push(Array(xyCount).fill(null));
+    }
+    newData.forEach(element => {
+      newArray[element.x][element.y] = element.name 
+    });
+    setTiles(newArray)
+  }
+  const newArray = [];
+  for (let i = xyCount; i > 0; i--) {
+    newArray.push(Array(xyCount).fill(null));
+  }
+  data.forEach(element => {
+    newArray[element.x][element.y] = element.name
+  });
+  const [tiles, setTiles] = useState(newArray)
   useEffect(() => {
-  // 비로그인시 접속 가능(개발용, 배포시에 막아놓을 것)
-    getToken()
+    // 비로그인시 접속 가능(개발용, 배포시에 막아놓을 것)
+    // getToken()
+    // console.log(jwt)
     axios
-      .get('http://k3b305.p.ssafy.io:8005/account/myitem/',
-        {
-          'headers': {
-            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImhpaGkyQHNzYWZ5LmNvbSIsImV4cCI6MTYwNzU3OTQ4MCwiZW1haWwiOiJoaWhpMkBzc2FmeS5jb20ifQ.16bmul0SrSeqEe3ZJkxIJfS1kne3ZkmYOVMUIVOfByk'
-          }
-        })
-      .then(res => {
-        res.data.forEach(element => {
-          if (element.isinfarm) {
-            let xys = element.location - 1
-            let x = xys % 6
-            let y = parseInt(xys / 6)
-            tempData.push({
-              id: element.id,
-              x: x,
-              y: y,
-              name: element.item.name,
-            })
-          } //else {승현좌의 코드}
-        })
-        setBoardData(tempData)
+    .get('http://k3b305.p.ssafy.io:8005/account/myitem/',
+    {
+      'headers': {
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYwOTk1LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.qPsfPPmMOrSV4FzIW8bAwOnYuKKXdPWpFiQ4SMcZXvw'
+      }
+    })
+    .then(res => {
+      const tempData = []
+      res.data.forEach(element => {
+        if (element.isinfarm) {
+          let xys = element.location - 1
+          let x = xys % 6
+          let y = parseInt(xys / 6)
+          tempData.push({
+            id: element.id,
+            x: x,
+            y: y,
+            name: element.item.name,
+          })
+        } //else {승현좌의 코드}
       })
-      .catch(err => console.log(err))
+      changeDate(tempData)
+    })
+    .catch(err => console.log(err))
   }, [])
-
+  // getToken()
   return (
     <View style={styles.container}>
       {/* 로그인 페이지로 이동 버튼(임시) */}
@@ -133,7 +155,7 @@ export default function Main({ navigation }) {
           <MissionModal />
         </View>
         <MyGold goldStatus={goldStatus} />
-        <Board boardData={boardData} />
+        <Board data={data} changeDate={changeDate} tiles={tiles} userToken={userToken} />
       </View>
       <MainPageInventory myItems={myItems} setMyItems={setMyItems} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
     </View>
