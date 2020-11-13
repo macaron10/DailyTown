@@ -69,7 +69,7 @@ class Gold(APIView):
         info = {'gold': user.gold}
         return Response(info, status=status.HTTP_200_OK)
 
-    def patch(self, request):
+    def put(self, request):
         '''
         change your gold after calculating
         /return => {gold : yourgold(int, after calculating)}
@@ -166,11 +166,18 @@ class MyMissionDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def put(self, request, mymission_pk):
+        '''
+        mission Clear!
+        '''
         mymission = get_object_or_404(MyMissionModel, pk=mymission_pk)
-        serializer = MyMissionSerializer(mymission, data=request.data, partial=True)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        mymission.iscleared = True
+        mymission.save()
+        item_info = get_object_or_404(ItemModel, pk=int(mymission.item.id))
+        tmp = { "isinfarm":False, "location":int(request.data['location']), "quantity": 1}
+        serializer = MyItemSerializer(data=tmp)
+        if not serializer.is_valid(raise_exception=True):
+            return Response({"message": "Please Check Item's Contex"})
+        serializer.save(user=request.user, item=item_info)
         return Response({"message": "Please Check mission's context"})
     
     def delete(self, request, mymission_pk):
@@ -226,3 +233,8 @@ class Shop(APIView):
         user.gold = int(request.data['gold'])
         user.save()
         return Response({"message": "Successfully Sell item"}, status=status.HTTP_200_OK)
+
+class MissionClear(APIView):
+    permission_classes = [IsAuthenticated]
+
+    
