@@ -9,13 +9,13 @@ import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
 import axios from 'axios'
-import tempItem from '../components/mainbottom/tempItem'
+import inventoryItems from '../components/mainbottom/inventoryItems'
 
 export default function Main({ navigation }) {
   const xyCount = 6
   const [goldStatus, setGoldStatus] = useState(0)
   const [myItems, setMyItems] = useState(
-    tempItem
+    inventoryItems
   )
   // Axios Header에 들어갈 jwt -> userToken
   const [userToken, setUserToken] = useState('')
@@ -54,9 +54,8 @@ export default function Main({ navigation }) {
   //       console.log(err)
   //     })
   //   })
-
-
   // }, [])
+  
   const [data, setData] = useState([])
   function changeDate(newData) {
     setData(newData)
@@ -101,7 +100,14 @@ export default function Main({ navigation }) {
             y: y,
             name: element.item.name,
           })
-        } //else {승현좌의 코드}
+        } else {
+          myItems[element.location-1] = {
+            id: element.id,
+            name: element.item.name,
+            location: element.location,
+            price: element.item.sell_price,
+          }          
+        }
       })
       changeDate(tempData)
     })
