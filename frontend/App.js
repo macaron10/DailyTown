@@ -13,6 +13,9 @@ export default function App() {
     const soundObject = new Audio.Sound();
     await soundObject.loadAsync(require('./assets/bgm/bgm.mp3'));
     await soundObject.playAsync();
+    await soundObject.setStatusAsync({ isLooping: false })
+    await soundObject.stopAsync(); // 음악 stop
+    await soundObject.unloadAsync(); // 음악 unload(메모리에서)
   }
   useEffect(() => {
     playSound()
