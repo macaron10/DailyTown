@@ -5,7 +5,7 @@ import * as Google from 'expo-google-app-auth';
 import * as SecureStore from 'expo-secure-store'
 import * as env from '../env';
 
-const image = require('../assets/voidforest.png')
+const image = require('../assets/vividforest.png')
 
 export default function LoginSample({ navigation }) {
   async function check () {
