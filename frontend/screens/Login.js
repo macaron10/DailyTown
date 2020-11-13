@@ -5,7 +5,7 @@ import * as Google from 'expo-google-app-auth';
 import * as SecureStore from 'expo-secure-store'
 import * as env from '../env';
 
-const image = require('../assets/voidforest.png')
+const image = require('../assets/6.png')
 
 export default function LoginSample({ navigation }) {
   async function check () {
@@ -94,10 +94,10 @@ export default function LoginSample({ navigation }) {
       <TouchableOpacity onPress={onPress} style={styles.loginBtn}>
         <Text style={styles.loginText}>Google LOGIN</Text>
       </TouchableOpacity>
-      <Button
+      {/* <Button
         title="NextPage(for Dev)"
         onPress={() => navigation.navigate('Main')}
-      />
+      /> */}
       </ImageBackground>
     </View>
   );
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   loginBtn:{
     width:"80%",
-    backgroundColor: "#fbccd1",
+    backgroundColor: "#ace884",
     borderRadius:25,
     height:50,
     alignItems:"center",
