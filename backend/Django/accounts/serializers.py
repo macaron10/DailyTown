@@ -23,7 +23,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         )
         user.set_password(validated_data['password'])
 
-        # user.save()
+        user.save()
         return user
     
     class Meta:
