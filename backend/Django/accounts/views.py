@@ -194,3 +194,25 @@ class Exchange(APIView):
         item2.save()
 
         return Response({"message": "two item's location was exchanged"}, status=status.HTTP_200_OK)
+    
+class Shop(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        '''
+        buy
+        '''
+        n = int(request.data['quantity'])
+        loc = int(request.data['location'])
+        item_info = get_object_or_404(ItemModel, pk=int(request.data['item']))
+        for i in range(n):
+            serializer = MyItemSerializer(data=request.data)
+            if not serializer.is_valid(raise_exception=True):
+                return Response({"message": "Please Check Item's Contex"})
+            serializer.save(request.user, location=loc+i, item=item_info, quantity=1)
+
+        user = get_object_or_404(User, email=request.user.email)
+        user.gold = int(request.data['gold'])
+        user.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
