@@ -1,83 +1,83 @@
 const inventoryItems = [
   {
     name: "",
-    location: 0,
+    location: 1,
   },
   {
     name: "",
-    location: 0,
+    location: 2,
   },
   {
     name: "",
-    location: 0,
+    location: 3,
   },
   {
     name: "",
-    location: 0,
+    location: 4,
   },
   {
     name: "",
-    location: 0,
+    location: 5,
   },
   {
     name: "",
-    location: 0,
+    location: 6,
   },
   {
     name: "",
-    location: 0,
+    location: 7,
   },
   {
     name: "",
-    location: 0,
+    location: 8,
   },
   {
     name: "",
-    location: 0,
+    location: 9,
   },
   {
     name: "",
-    location: 0,
+    location: 10,
   },
   {
     name: "",
-    location: 0,
+    location: 11,
   },
   {
     name: "",
-    location: 0,
+    location: 12,
   },
   {
     name: "",
-    location: 0,
+    location: 13,
   },
   {
     name: "",
-    location: 0,
+    location: 14,
   },
   {
     name: "",
-    location: 0,
+    location: 15,
   },
   {
     name: "",
-    location: 0,
+    location: 16,
   },
   {
     name: "",
-    location: 0,
+    location: 17,
   },
   {
     name: "",
-    location: 0,
+    location: 18,
   },
   {
     name: "",
-    location: 0,
+    location: 19,
   },
   {
     name: "",
-    location: 0,
+    location: 20,
   },
 ]
 export default inventoryItems

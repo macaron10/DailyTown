@@ -55,6 +55,7 @@ export default function Main({ navigation }) {
   //     })
   //   })
   // }, [])
+  const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   const [isMove, setIsMove] = useState(false)
   const [data, setData] = useState([])
   function changeDate(newData) {
@@ -163,7 +164,7 @@ export default function Main({ navigation }) {
         <MyGold goldStatus={goldStatus} />
         <Board isMove={isMove} setIsMove={setIsMove} data={data} changeDate={changeDate} tiles={tiles} userToken={userToken} />
       </View>
-      <MainPageInventory myItems={myItems} setMyItems={setMyItems} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
+      <MainPageInventory isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} setIsMove={setIsMove} myItems={myItems} setMyItems={setMyItems} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
     </View>
   );
 }
