@@ -216,3 +216,13 @@ class Shop(APIView):
         user.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
+    def delete(self, request):
+        '''
+        sell
+        '''
+        myitem = get_object_or_404(MyItemModel, pk=int(request.data['myitem_pk']))
+        myitem.delete()
+        user = get_object_or_404(User, email=request.user.email)
+        user.gold = int(request.data['gold'])
+        user.save()
+        return Response({"message": "Successfully Sell item"}, status=status.HTTP_200_OK)
