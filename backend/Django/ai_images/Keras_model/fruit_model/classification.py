@@ -2,9 +2,10 @@ import keras
 import cv2
 import numpy as np 
 
+reconstructed_model = keras.models.load_model("/code/ai_images/Keras_model/fruit_model/fruit_model")
+
 def check_fruit(request, target):
   # import 학습 model
-  reconstructed_model = keras.models.load_model("/code/ai_images/Keras_model/fruit_model/fruit_model")
   
   # request에서 들어온 image 변환, 사이즈 input에 맞게 변환
   img = cv2.imdecode(np.fromstring(request.FILES['image'].read(), np.uint8), cv2.IMREAD_COLOR)
