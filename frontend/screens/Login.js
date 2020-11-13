@@ -18,8 +18,9 @@ export default function LoginSample({ navigation }) {
     }
   }
   useEffect(() => {
-    return () => {check()}
-}, [])
+    check()
+    return () => {}
+})
 
 // const [userInfo, setUserInfo] = 
   const [checkBtn, setCheckBtn] = useState(0)

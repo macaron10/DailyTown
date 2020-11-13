@@ -111,7 +111,7 @@ export default function Main({ navigation }) {
       <TouchableOpacity
         style={styles.logoutButton}
         onPress={async () => {
-          await Google.logOutAsync({ accessToken, androidClientId: env.AND_KEY, androidStandaloneAppClientId: env.AND_KEY}); // 나중에 따로 config 설정해줘야함
+          await Google.logOutAsync({ accessToken, androidClientId: env.AND_KEY, androidStandaloneAppClientId: env.AND_KEY});
           // ------------------------ access token 만료 확인용 -------------------------------
           // let userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
           //   headers: { Authorization: `Bearer ${accessToken}` },
@@ -124,6 +124,7 @@ export default function Main({ navigation }) {
           // );
           await SecureStore.deleteItemAsync('token')
           await SecureStore.deleteItemAsync('access_token')
+          navigation.navigate('Login')
         }}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>Logout</Text>
