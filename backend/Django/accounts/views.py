@@ -21,15 +21,17 @@ def createUser(request):
         serializer = UserCreateSerializer(data=request.data)
         if not serializer.is_valid(raise_exception=True):
             return Response({"message": "Request Body Error."}, status=status.HTTP_409_CONFLICT)
-
         if User.objects.filter(email=serializer.validated_data['email']).first() is None:
-            serializer.save()
-
-            # 가입하면 바로 미션 3개를 추가하는 로직을 짜야하는데
-            # 미션 목록과 아이템 목록이 나오지 않아서
-            # 해당 로직을 못 짜고 잇읍니다.
-
-            return Response({"message": "ok"}, status=status.HTTP_201_CREATED)
+            obj = serializer.save()
+            new_user = get_object_or_404(User, id=obj.id)
+            for i in range(2, 5):
+                item_info = get_object_or_404(ItemModel, pk=i)
+                mission_info = get_object_or_404(MissionModel, pk=i)
+                tmp = {"iscleared": False}
+                mission_serializer = MyMissionSerializer(data=tmp)
+                if mission_serializer.is_valid(raise_exception=True):
+                    mission_serializer.save(user=new_user, mission=mission_info, item=item_info)
+            return Response({"message": obj.id}, status=status.HTTP_201_CREATED)
         return Response({"message": "duplicate email"}, status=status.HTTP_409_CONFLICT)
     else:
         users = User.objects.all()
@@ -67,7 +69,7 @@ class Gold(APIView):
         info = {'gold': user.gold}
         return Response(info, status=status.HTTP_200_OK)
 
-    def patch(self, request):
+    def put(self, request):
         '''
         change your gold after calculating
         /return => {gold : yourgold(int, after calculating)}
@@ -142,33 +144,6 @@ class MyMission(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        
-        # import random
-
-        # print('helllllllllllllllllllo')
-        # users = User.objects.all()
-        # missions = MissionModel.objects.all()
-        # items = ItemModel.objects.all()
-
-        # for n in range(len(users)):  # 해당 유저가 가지고있는 미션 3개를 삭제
-        #     ownmission = MyMissionModel.objects.filter(user=users[n])
-        #     for j in range(len(ownmission)):
-        #         ownmission[j].delete()
-
-        #     mission_pk_list = random.sample(range(1, len(missions)+1), 3)
-        #     item_pk_list = random.sample(range(1, len(items)+1), 3)
-
-        #     for j in range(3):
-        #         mission_info = get_object_or_404(MissionModel, pk=mission_pk_list[j])
-        #         item_info = get_object_or_404(ItemModel, pk=item_pk_list[j])
-        #         tmp = { "iscleared": False }
-        #         serializer = MyMissionSerializer(data=tmp)
-        #         if not serializer.is_valid(raise_exception=True):
-        #             return Response({"message": "Failure at Automatically update Mission"})
-        #         serializer.save(user=users[n], mission=mission_info, item=item_info)
-        
-        # print("Daily Mission Update was done")
-
         mymissions = MyMissionModel.objects.filter(user=request.user)
         serializer = MyMissionSerializer(mymissions, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -191,12 +166,19 @@ class MyMissionDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def put(self, request, mymission_pk):
+        '''
+        mission Clear!
+        '''
         mymission = get_object_or_404(MyMissionModel, pk=mymission_pk)
-        serializer = MyMissionSerializer(mymission, data=request.data, partial=True)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"message": "Please Check mission's context"})
+        mymission.iscleared = True
+        mymission.save()
+        item_info = get_object_or_404(ItemModel, pk=int(mymission.item.id))
+        tmp = { "isinfarm":False, "location":int(request.data['location']), "quantity": 1}
+        serializer = MyItemSerializer(data=tmp)
+        if not serializer.is_valid(raise_exception=True):
+            return Response({"message": "Please Check Item's Contex"})
+        serializer.save(user=request.user, item=item_info)
+        return Response({"message": "mission Clear"})
     
     def delete(self, request, mymission_pk):
         mymission = get_object_or_404(MyMissionModel, pk=mymission_pk)
@@ -219,3 +201,35 @@ class Exchange(APIView):
         item2.save()
 
         return Response({"message": "two item's location was exchanged"}, status=status.HTTP_200_OK)
+    
+class Shop(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        '''
+        buy
+        '''
+        n = int(request.data['quantity'])
+        loc = int(request.data['location'])
+        item_info = get_object_or_404(ItemModel, pk=int(request.data['item']))
+        for i in range(n):
+            serializer = MyItemSerializer(data=request.data)
+            if not serializer.is_valid(raise_exception=True):
+                return Response({"message": "Please Check Item's Contex"})
+            serializer.save(user = request.user, location=loc+i, item=item_info, quantity=1)
+
+        user = get_object_or_404(User, email=request.user.email)
+        user.gold = int(request.data['gold'])
+        user.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def delete(self, request):
+        '''
+        sell
+        '''
+        myitem = get_object_or_404(MyItemModel, pk=int(request.data['myitem_pk']))
+        myitem.delete()
+        user = get_object_or_404(User, email=request.user.email)
+        user.gold = int(request.data['gold'])
+        user.save()
+        return Response({"message": "Successfully Sell item"}, status=status.HTTP_200_OK)

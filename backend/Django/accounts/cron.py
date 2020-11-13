@@ -14,7 +14,6 @@ User = get_user_model()
 # 유저 명수 뽑아오기
 
 def DailyUpdateMission():
-    print('helllllllllllllllllllo')
     users = User.objects.all()
     missions = MissionModel.objects.all()
     items = ItemModel.objects.all()
@@ -26,7 +25,7 @@ def DailyUpdateMission():
 
         mission_pk_list = random.sample(range(1, len(missions)+1), 3)
         item_pk_list = random.sample(range(1, len(items)+1), 3)
-
+        
         for j in range(3):
             mission_info = get_object_or_404(MissionModel, pk=mission_pk_list[j])
             item_info = get_object_or_404(ItemModel, pk=item_pk_list[j])

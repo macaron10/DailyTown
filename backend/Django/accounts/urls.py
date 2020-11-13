@@ -11,4 +11,5 @@ urlpatterns = [
     path('myitem/exchange/', views.Exchange.as_view()),
     path('mymission/', views.MyMission.as_view()),
     path('mymission/<int:mymission_pk>/', views.MyMissionDetail.as_view()),
+    path('shop/', views.Shop.as_view()),
 ]
