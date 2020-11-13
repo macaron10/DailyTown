@@ -125,7 +125,7 @@ function CommerceModal({setIsMove, itemInfomation, isInventory, items, setMyItem
                   style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                   onPress={() => {
                     setModalVisible(prev => !prev);
-                    setItemInfo(null);
+                    setItemInfo(null)
                     setIsChangeItemPlace(true);
                     setChangedIndex(index);
                     setIsMove(true)

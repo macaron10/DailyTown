@@ -56,6 +56,8 @@ export default function Main({ navigation }) {
   //   })
   // }, [])
   const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
+  const [itemInfo, setItemInfo] = useState(null)
+  const [changedIndex, setChangedIndex] = useState(null)
   const [isMove, setIsMove] = useState(false)
   const [data, setData] = useState([])
   function changeDate(newData) {
@@ -162,9 +164,9 @@ export default function Main({ navigation }) {
           <MissionModal />
         </View>
         <MyGold goldStatus={goldStatus} />
-        <Board isMove={isMove} setIsMove={setIsMove} data={data} changeDate={changeDate} tiles={tiles} userToken={userToken} />
+        <Board changedIndex={changedIndex} setChangedIndex={setChangedIndex} myItems={myItems} itemInfo={itemInfo} isMove={isMove} setIsMove={setIsMove} data={data} changeDate={changeDate} tiles={tiles} userToken={userToken} isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} />
       </View>
-      <MainPageInventory isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} setIsMove={setIsMove} myItems={myItems} setMyItems={setMyItems} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
+      <MainPageInventory changedIndex={changedIndex} setChangedIndex={setChangedIndex} itemInfo={itemInfo} setItemInfo={setItemInfo} isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} setIsMove={setIsMove} myItems={myItems} setMyItems={setMyItems} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
     </View>
   );
 }

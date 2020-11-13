@@ -97,7 +97,6 @@ function ItemGrid(props) {
   const items = props.items
   const setItemInfo = props.setItemInfo
   const index = number1 * 4 + number2
-
   // store 인 경우.
   // col이 4개라고 가정
   if (!isInventory && items[number1 * 4 + number2]) {
@@ -161,10 +160,11 @@ function ItemGridRow({ setIsMove, number1, items, setMyItems, isInventory, setIt
 
 }
 
-export default function MainInvenGrid({ isChangeItemPlace, setIsChangeItemPlace, setIsMove, items, setMyItems, isInventory, goldStatus, setGoldStatus, itemForSell }) {
-  const [itemInfo, setItemInfo] = useState(null)
+export default function MainInvenGrid({changedIndex, setChangedIndex, itemInfo, setItemInfo, isChangeItemPlace, setIsChangeItemPlace, setIsMove, items, setMyItems, isInventory, goldStatus, setGoldStatus, itemForSell }) {
+  // const [itemInfo, setItemInfo] = useState(null)
   // const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
-  const [changedIndex, setChangedIndex] = useState(null)
+  // const [changedIndex, setChangedIndex] = useState(null)
+  
 
   return (
     <View style={styles.testGrid}>
