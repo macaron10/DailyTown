@@ -9,13 +9,13 @@ import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
 import axios from 'axios'
-import inventoryItems from '../components/mainbottom/inventoryItems'
+import InventoryItems from '../components/mainbottom/InventoryItems'
 
 export default function Main({ navigation }) {
   const xyCount = 6
-  const [goldStatus, setGoldStatus] = useState(0)
+  const [goldStatus, setGoldStatus] = useState(10)
   const [myItems, setMyItems] = useState(
-    inventoryItems
+    InventoryItems
   )
   // Axios Header에 들어갈 jwt -> userToken
   const [userToken, setUserToken] = useState('')
@@ -55,7 +55,7 @@ export default function Main({ navigation }) {
   //     })
   //   })
   // }, [])
-  
+  const [isMove, setIsMove] = useState(false)
   const [data, setData] = useState([])
   function changeDate(newData) {
     setData(newData)
@@ -161,7 +161,7 @@ export default function Main({ navigation }) {
           <MissionModal />
         </View>
         <MyGold goldStatus={goldStatus} />
-        <Board data={data} changeDate={changeDate} tiles={tiles} userToken={userToken} />
+        <Board isMove={isMove} setIsMove={setIsMove} data={data} changeDate={changeDate} tiles={tiles} userToken={userToken} />
       </View>
       <MainPageInventory myItems={myItems} setMyItems={setMyItems} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
     </View>

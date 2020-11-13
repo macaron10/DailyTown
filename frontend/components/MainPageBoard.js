@@ -174,43 +174,11 @@ const Landscape = (props) => {
 
 export default function Board(props) {
   const [targetIdx, setTargetIdx] = useState(null)  // 삭제 or 수정할 때 필요한 인덱스
-  // const [data, setData] = useState(
-  //   // [
-  //   //   {
-  //   //     "id": 2,
-  //   //     "name": "house1",
-  //   //     "x": 0,
-  //   //     "y": 0,
-  //   //   },
-  //   // ]
-  //   props.boardData
-  // )
-  // console.log(data)
-  // setData(props.boardData)
-
-  // function changeDate(newData) {
-  //   setData(newData)
-  //   const newArray = [];
-  //   for (let i = xyCount; i > 0; i--) {
-  //     newArray.push(Array(xyCount).fill(null));
-  //   }
-  //   newData.forEach(element => {
-  //     newArray[element.x][element.y] = element.name 
-  //   });
-  //   setTiles(newArray)
-  // }
-  // const newArray = [];
-  // for (let i = xyCount; i > 0; i--) {
-  //   newArray.push(Array(xyCount).fill(null));
-  // }
-  // data.forEach(element => {
-  //   newArray[element.x][element.y] = element.name
-  // });
-  // const [tiles, setTiles] = useState(newArray)
   const data = props.data
   const changeDate = props.changeDate
-  const tiles = props.tiles  
-  const [isMove, setIsMove] = useState(false)
+  const tiles = props.tiles    
+  const isMove = props.isMove
+  const setIsMove = props.setIsMove
   function changeIsMove(isMove, idx) {
     setIsMove(!isMove)
     setTargetIdx(idx)
