@@ -1,4 +1,4 @@
-# Final Project
+
 
 ## 2020. 10. 15.
 
@@ -270,7 +270,7 @@ User Table과 Mission Table과 Item Table의 Ternary 관계
 ##### 2. /account/mymission/<int: mymission_pk>
 
 - get : 해당 pk에 해당하는 미션을 조회한다
-- put : 해당 pk를 가진 미션의 내용을 update 한다(클리어 여부 등), body는 1번과 같이 보내주되, 필요한 것만 넣어서 보내주면된다.
+- put : 미션 클리어!(body 별도 양식 필요, 미션 클리어 부분 조회 바람)
 - delete : 해당 pk를 가진 미션을 제거한다.
 
 
@@ -342,4 +342,52 @@ python manage.py crontab remove # remove your cron job
 service cron start  # start your cron job in your scheduller
 service cron stop # stop your cron job
 ```
+
+
+
+## 2020. 11. 13
+
+### API update
+
+buy Item, Sell Item, get 3 missions when you sign up, mission clear
+
+#### 1.Shop
+
+##### /account/shop/
+
+- post : 상점에 있는 물품을 구매한다!
+
+```json
+{
+    "qauntity": 3,
+    "location": 4,
+    "item": ItemID(Foreign Key, int),
+    "gold": 50 (구매 후 남은 골드)
+}
+```
+
+- delete : 상점에 물품을 판매한다!
+
+```json
+{
+    "myitem_pk": MyItemPk(Foreign Key, int),
+    "gold": 100 (판매 후 내 골드)
+}
+```
+
+
+
+#### 2.미션 클리어
+
+#####  /account/mymission/<int: mymission_pk>
+
+- put
+
+```json
+{
+    "location": 2
+}
+```
+
+
 

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { IconButton } from 'react-native-paper'
 import * as Google from 'expo-google-app-auth';
 import * as SecureStore from 'expo-secure-store';
-import * as env from '../env';
+import axios from 'axios'
 
+import * as env from '../env';
 import Board from '../components/MainPageBoard'
 import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
-import axios from 'axios'
 import InventoryItems from '../components/mainbottom/InventoryItems'
+
 
 export default function Main({ navigation }) {
   const xyCount = 6
@@ -139,10 +141,10 @@ export default function Main({ navigation }) {
         <Text style={{ color: '#fff', textAlign: 'center' }}>저장값꺼내기</Text>
       </TouchableOpacity>
       {/* 로그아웃 버튼 */}
-      <TouchableOpacity
+      <IconButton
         style={styles.logoutButton}
         onPress={async () => {
-          await Google.logOutAsync({ accessToken, androidClientId: env.AND_KEY, androidStandaloneAppClientId: env.AND_KEY}); // 나중에 따로 config 설정해줘야함
+          await Google.logOutAsync({ accessToken, androidClientId: env.AND_KEY, androidStandaloneAppClientId: env.AND_KEY});
           // ------------------------ access token 만료 확인용 -------------------------------
           // let userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
           //   headers: { Authorization: `Bearer ${accessToken}` },
@@ -155,10 +157,11 @@ export default function Main({ navigation }) {
           // );
           await SecureStore.deleteItemAsync('token')
           await SecureStore.deleteItemAsync('access_token')
+          navigation.navigate('Login')
         }}
-      >
-        <Text style={{ color: '#fff', textAlign: 'center' }}>Logout</Text>
-      </TouchableOpacity>
+        icon="logout"
+        size={40}
+      ></IconButton>
       <View style={styles.containerTop}>
         <View style={styles.infoContainer}>
           <MissionModal />
@@ -189,8 +192,7 @@ const styles = StyleSheet.create({
   logoutButton: {
     position: 'absolute',
     right: 0,
-    top: 50,
-    backgroundColor: '#000000',
+    top: 25,
     zIndex: 100
   },
   containerTop: {
