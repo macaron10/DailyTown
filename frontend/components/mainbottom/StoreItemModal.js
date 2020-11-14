@@ -10,8 +10,9 @@ import axios from 'axios'
 function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount, count, setModalVisible, setItemInfo, goldStatus, setGoldStatus, isSellingMode }) {
   const image = DynamicItems[itemInfo['name']]
   // const image = itemInfo['name'] ? DynamicItems[itemInfo['name']] : DynamicItems['default']
+  // console.log(itemForSell)
   // console.log(items)
-  // console.log(items[index])
+
   const location = itemInfo.location
   const sellId = itemInfo.id
   const price = itemInfo.price
@@ -33,9 +34,11 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
   }
   function buyItem() {
     let cnt = 0
+    const emptyInventoryIndex = []
     for (let i = 0; i < itemForSell.length; i++) {
       if (cnt < count) {
         if (itemForSell[i]['name'] === '') {
+          emptyInventoryIndex.push(i+1)
           itemForSell[i] = itemInfo
           cnt++
         }
@@ -44,11 +47,17 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
         break
       }
     }
+    const nowGold = goldStatus
+    const price = itemInfo.price
+    const name = itemInfo.name
+    const quantity = emptyInventoryIndex.length
+    console.log(emptyInventoryIndex)
+    console.log(itemInfo)
     if (cnt < count) {
-      Alert.alert('인벤토리가 꽉 찼습니다. 구입하지 못한 금액은 차감되지 않습니다.')
+      Alert.alert('인벤토리가 꽉 찼습니다. 초과 구매한 금액은 차감되지 않습니다.')
       setGoldStatus(prev => prev + itemInfo['price'] * (count - cnt))
     }
-    setMyItems(itemForSell)
+    setMyItems(itemForSell) // axios보내서 {"id": 1, "location": 1, "name": "animal2",  "price": 40,  }, 형식으로 setmyItem 해야함
   }
 
 
@@ -177,6 +186,7 @@ function CommerceModal({ setIsMove, itemInfomation, isInventory, items, setMyIte
 }
 
 export default function StoreItemModal({
+  userToken,
   setIsMove,
   itemInfo,
   isInventory,
@@ -204,6 +214,7 @@ export default function StoreItemModal({
       >
         <View style={styles.centeredView}>
           <CommerceModal
+            userToken={userToken}
             setIsMove={setIsMove}
             items={items}
             itemForSell={itemForSell}

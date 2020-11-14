@@ -57,7 +57,7 @@ export default function Main({ navigation }) {
   const [tiles, setTiles] = useState(newArray)
   useEffect(() => {
     // 비로그인시 접속 가능(개발용, 배포시에 막아놓을 것)
-    // getToken()
+    getToken()
     // console.log(jwt)
     axios
     .get('http://k3b305.p.ssafy.io:8005/account/myitem/',
@@ -153,7 +153,7 @@ export default function Main({ navigation }) {
         <MyGold goldStatus={goldStatus} />
         <Board changedIndex={changedIndex} setChangedIndex={setChangedIndex} myItems={myItems} itemInfo={itemInfo} isMove={isMove} setIsMove={setIsMove} data={data} changeDate={changeDate} tiles={tiles} userToken={userToken} isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} />
       </View>
-      <MainPageInventory changedIndex={changedIndex} setChangedIndex={setChangedIndex} itemInfo={itemInfo} setItemInfo={setItemInfo} isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} setIsMove={setIsMove} myItems={myItems} setMyItems={setMyItems} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
+      <MainPageInventory changedIndex={changedIndex} setChangedIndex={setChangedIndex} itemInfo={itemInfo} setItemInfo={setItemInfo} userToken={userToken} isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} setIsMove={setIsMove} myItems={myItems} setMyItems={setMyItems} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
     </View>
   );
 }
