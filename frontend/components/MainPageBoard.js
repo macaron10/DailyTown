@@ -50,19 +50,39 @@ function MyForest(props) {
                   }
                 },
                 {
-                  text: "삭제",
+                  text: "내리기",
                   onPress: () => {
                     const newData = [...data]
                     const id = newData[idx]['id']
+                    const name = newData[idx]['name']
+                    const price = newData[idx]['price']
                     newData.splice(idx, 1)
-                    axios
-                      .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${id}/`, { isinfarm: false }, {
-                        'headers': {
-                          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYxODc4LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.iuoPeGVJY73qE18A3XNWHlHdqZSQ9xtQFTMJe2S1ovA`
-                        }
-                      })
-                      .then(() => { handleDataChange(newData) })
-                      .catch(err => console.log(err))
+                    let location
+                    for (let i = 0; i < 20; i++) {
+                      if (props.myItems[i]['name'] === '') {
+                        location = props.myItems[i]['location']
+                        break
+                      }
+                    }
+                    if (location) {
+                      props.myItems[location-1] = {
+                        id : id,
+                        location: location,
+                        name: name,
+                        price: price  //이거 데이터 가져와야함
+                      }
+
+                      axios
+                        .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${id}/`, { isinfarm: false, location: location }, {
+                          'headers': {
+                            'Authorization': `Bearer ${props.userToken}`
+                          }
+                        })
+                        .then(() => { handleDataChange(newData) })
+                        .catch(err => console.log(err))                      
+                    } else {
+                      Alert.alert('인벤토리가 가득 찼습니다.')
+                    }
                   }
                 },
               ],
@@ -100,9 +120,6 @@ const Tile = (props) => {
   } else {
     url = props.shape.grass
   }
-  // changedIndex={props.setChangedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems}
-  props.isChangeItemPlace
-  props.setIsChangeItemPlace
   return (
     <TouchableWithoutFeedback
       onPressIn={() => {
@@ -114,6 +131,7 @@ const Tile = (props) => {
               const name = props.myItems[props.changedIndex]['name']
               const newData = [...props.data]
               const tempLocation = props.myItems[props.changedIndex]['location']
+              
               props.myItems[props.changedIndex] ={
                 name: '',
                 location: tempLocation
@@ -122,14 +140,15 @@ const Tile = (props) => {
                 name: name,
                 x: props.x,
                 y: props.y,
-                id: id
+                id: id,
+                price: props.myItems[props.changedIndex].price
               })
               const location = props.x + props.y * 6 + 1
 
               axios
                 .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${id}/`, { location: location, isinfarm: true }, {
                   'headers': {
-                    'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYwOTk1LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.qPsfPPmMOrSV4FzIW8bAwOnYuKKXdPWpFiQ4SMcZXvw`
+                    'Authorization': `Bearer ${props.userToken}`
                   }
                 })
                 .then(() => {})
@@ -144,17 +163,19 @@ const Tile = (props) => {
               const newData = [...props.data]
               const name = newData[props.targetIdx]['name']
               const id = newData[props.targetIdx]['id']
+              const price = newData[props.targetIdx]['price']
               newData[props.targetIdx] = {
                 x: props.x,
                 y: props.y,
                 name: name,
-                id: id
+                id: id,
+                price: price
               }
               const location = props.x + props.y * 6 + 1
               axios
                 .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${id}/`, { location: location }, {
                   'headers': {
-                    'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYwOTk1LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.qPsfPPmMOrSV4FzIW8bAwOnYuKKXdPWpFiQ4SMcZXvw`
+                    'Authorization': `Bearer ${props.userToken}`
                   }
                 })
                 .then(() => { })
@@ -201,9 +222,9 @@ const Landscape = (props) => {
           // 오른쪽 아래로 대각선이 x 축 0에서 시작
           // 왼쪽 아래로 대각선이 y 축 0에서 시작
           if (props.isMove && tiles[x][y] !== null) {
-            return <Tile key={`${x}${y}`} changedIndex={props.changedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={props.isMove} x={x} y={y} xMove={xMove} yMove={yMove} z={z} shape={imageUrl} isSomething={true} />
+            return <Tile key={`${x}${y}`} userToken={props.userToken} changedIndex={props.changedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={props.isMove} x={x} y={y} xMove={xMove} yMove={yMove} z={z} shape={imageUrl} isSomething={true} />
           }
-          return <Tile key={`${x}${y}`} changedIndex={props.changedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={props.isMove} x={x} y={y} xMove={xMove} yMove={yMove} z={z} shape={imageUrl} isSomething={false} data={props.data} targetIdx={props.targetIdx} onIsMoveChange={props.onIsMoveChange} onDataChange={props.onDataChange} />
+          return <Tile key={`${x}${y}`} userToken={props.userToken} changedIndex={props.changedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={props.isMove} x={x} y={y} xMove={xMove} yMove={yMove} z={z} shape={imageUrl} isSomething={false} data={props.data} targetIdx={props.targetIdx} onIsMoveChange={props.onIsMoveChange} onDataChange={props.onDataChange} />
         });
       })}
     </View>
@@ -224,14 +245,14 @@ export default function Board(props) {
   if (isMove) {
     return (
       <View style={styles.container}>
-        <Landscape changedIndex={props.changedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={isMove} jwt={props.jwt} tiles={tiles} data={data} targetIdx={targetIdx} onIsMoveChange={changeIsMove} onDataChange={changeDate} />
+        <Landscape changedIndex={props.changedIndex} userToken={props.userToken} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={isMove} jwt={props.jwt} tiles={tiles} data={data} targetIdx={targetIdx} onIsMoveChange={changeIsMove} onDataChange={changeDate} />
       </View>
     );
   }
   return (
     <View style={styles.container}>
-      <MyForest onDataChange={changeDate} data={data} jwt={props.jwt} onIsMoveChange={changeIsMove} />
-      <Landscape changedIndex={props.changedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={isMove} tiles={tiles} jwt={props.jwt} />
+      <MyForest userToken={props.userToken} onDataChange={changeDate} data={data} jwt={props.jwt} myItems={props.myItems} onIsMoveChange={changeIsMove} />
+      <Landscape changedIndex={props.changedIndex} userToken={props.userToken} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={isMove} tiles={tiles} jwt={props.jwt} />
     </View>
   );
 }
