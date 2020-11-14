@@ -70,8 +70,23 @@ function ShowItem(props) {
 
   // 동적할당을 위한 노가다가 필요하다.
   // 없으면 안뜬다.
-  const image = DynamicItems[item['name']]
+  if (!item) {
+    return  <View style={{ display: 'flex', flexDirection: 'row' }}>
+      <Image
+        style={isInventory ? styles.tinyLogo : styles.storeTinyLogo}
+        resizeMode="contain"
+        source={require(`../../assets/splash.png`)}
+      />
+      {!isInventory ? <Text style={{}}>마지막입니다.</Text> : <Text></Text>}      
+    {/* 여기는 아이템 이미지가 들어갈 영역입니다. splash 대신 위에 들어갈 object에서 뽑아야합니다 */}
+    {/* 아래처럼 하면 안됩니다. react는 되는데 native는 동적할당이 불가능합니다 */}
+    {/* <Image style={styles.tinyLogo} source={require(`../../assets/` + item.image)} /> */}
+    {/* <Image style={styles.tinyLogo} source={require(`../../assets/` + ( item.image ? item.image : 'splash.png' ))} /> */}
+  </View>
+  }
 
+  const image = DynamicItems[item['name']]
+  const itemPrice = item.price
   return <TouchableHighlight
     onPress={() => {
       props.isChangeItemPlace ? changeItemPlace(props.changedIndex) : image ? setItemInfo([item, index]) : Alert.alert('비어있는 인벤토리입니다.')
@@ -84,7 +99,7 @@ function ShowItem(props) {
         resizeMode="contain"
         source={image}
       />
-      {!isInventory ? <Text style={{}}>이름, 가격 </Text> : <Text></Text>}
+      {!isInventory ? <Text style={{}}>금액: {itemPrice} </Text> : <Text></Text>}      
       {/* 아래처럼 하면 안됩니다. react는 되는데 native는 동적할당이 불가능합니다 */}
       {/* <Image style={styles.tinyLogo} source={require(`../../assets/` + item.image)} /> */}
       {/* <Image style={styles.tinyLogo} source={require(`../../assets/` + ( item.image ? item.image : 'splash.png' ))} /> */}
@@ -102,10 +117,10 @@ function ItemGrid(props) {
   const index = number1 * 4 + number2
   // store 인 경우.
   // col이 4개라고 가정
-  if (!isInventory && items[number1 * 4 + number2]) {
+  if (!isInventory && items[number1 * 2 + number2]) {
     return <ShowItem
       userToken={props.userToken}    
-      item={items[number1 * 4 + number2]}
+      item={items[number1 * 2 + number2]}
       items={items}
       isInventory={isInventory}
       setItemInfo={setItemInfo}
@@ -141,7 +156,7 @@ function ItemGridRow({userToken, setIsMove, number1, items, setMyItems, isInvent
     column = [0, 1, 2, 3]
   }
   else {
-    column = [0, 1, 2, 3]
+    column = [0, 1]
 
   }
   return column.map((number2) =>
@@ -175,8 +190,17 @@ export default function MainInvenGrid({userToken, changedIndex, setChangedIndex,
     column = [0, 1, 2, 3, 4]
   }
   else {
-    column = [0, 1, 2, 3, 4, 5, 6]
-
+    // console.log(items.length)
+    // console.log(parseInt(items.length/4))
+    let count = parseInt(items.length/2)
+    if (items.length % 2 !==0) {
+      count++
+    }
+    temp = []
+    for (let i = 0; i < count; i++) {
+      temp.push(i)
+    }
+    column = temp
   }
   return (
     <View style={styles.testGrid}>
