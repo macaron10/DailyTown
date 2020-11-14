@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/venv,django,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=venv,django,python
 
@@ -230,4 +229,4 @@ pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/venv,django,python
 **/mysql/
-backend/docker-compose.yml
+**/docker-compose.yml
