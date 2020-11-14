@@ -30,33 +30,7 @@ export default function Main({ navigation }) {
       setAccessToken(acst)
       console.log('accessToken',acst);
     }
-  
-  // const [accessToken]
-      // "0": {
-      // "name": "임시1",
-      // "price": 500, 
-      // "image": "test1"
-      // }
 
-  // "0": {
-  // "name": "임시1",
-  // "price": 500,
-  // "image": "test1"
-  // }
-
-  // 맨처음 한번만 받아올 예정
-  // 비로그인시 접속 가능(개발용, 배포시에 막아놓을 것)
-  //   useEffect( () => {
-  //   axios.get('http://k3b305.p.ssafy.io:8080/items/getInventory')
-  //     .then(res => {
-  //       setGoldStatus( res.data.gold )
-  //       setMyItem( res.data )
-  //     })
-  //     .catch(err => {
-  //       console.log(err)
-  //     })
-  //   })
-  // }, [])
   const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   const [itemInfo, setItemInfo] = useState(null)
   const [changedIndex, setChangedIndex] = useState(null)
