@@ -50,10 +50,12 @@ function Camera({ setIsCameraOn }) {
   );
 }
 
-export default function MissionList({ userToken }) {
+export default function MissionList({ userToken, myMission }) {
 
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [photoInfo, setPhotoInfo] = useState(null);
+
+  console.log("MissionList.js 까지 넘어옴!", myMission)
 
   if (isCameraOn) {
     return(
@@ -70,6 +72,23 @@ export default function MissionList({ userToken }) {
         title="오늘의 미션"
       >
         <ScrollView>
+          {myMission.map(({ id, item, mission, iscleared }) => {
+            if (!iscleared) {
+              return (
+                <List.Accordion
+                  key={id}
+                  title={mission.description}
+                  // left={props => <List.Icon {...props} icon="folder" />}
+                >
+                  <Text>보상</Text>
+                  <Image style={ styles.rewardImg } source={require(`../../assets/itemlist${item.name}.png`)} />
+                  <Camera setIsCameraOn={ setIsCameraOn } />
+                </List.Accordion>
+              )
+            }
+          })}
+        </ScrollView>
+        {/* <ScrollView>
           {missionData.map(({ title, imgUrl }) => {
             return (
               <List.Accordion
@@ -83,7 +102,7 @@ export default function MissionList({ userToken }) {
               </List.Accordion>
             )
           })}
-        </ScrollView>
+        </ScrollView> */}
       </List.Section>
     );
   }
