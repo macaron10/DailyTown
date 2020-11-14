@@ -10,8 +10,6 @@ from .models import User, MyItem as MyItemModel, MyMission as MyMissionModel
 from items.models import Item as ItemModel
 from missions.models import Mission as MissionModel
 
-import ast
-
 @api_view(['POST', 'GET'])
 @permission_classes([AllowAny])
 def createUser(request):
@@ -100,8 +98,7 @@ class MyItem(APIView):
         /return => message : Item's information or Fail Message
         '''
         n = int(request.data['quantity'])
-        loc = ast.literal_eval(request.data['location'])
-        request.data._mutable = True
+        loc = request.data['location']
         request.data["location"] = 1
         item_info = get_object_or_404(ItemModel, pk=int(request.data['item']))
         ret = {}
@@ -215,8 +212,7 @@ class Shop(APIView):
         buy
         '''
         n = int(request.data['quantity'])
-        loc = ast.literal_eval(request.data['location'])
-        request.data._mutable = True
+        loc = request.data['location']
         request.data["location"] = 1
         item_info = get_object_or_404(ItemModel, pk=int(request.data['item']))
         ret = {}
