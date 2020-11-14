@@ -230,3 +230,6 @@ pip-selfcheck.json
 # End of https://www.toptal.com/developers/gitignore/api/venv,django,python
 **/mysql/
 **/docker-compose.yml
+*/docker-compose.yml
+docker-compose.yml
+backend/docker-compose.yml
