@@ -39,8 +39,8 @@ function MyForest(props) {
         <TouchableWithoutFeedback key={`${xyInfo.x}${xyInfo.y}`}
           onPressIn={() => {
             Alert.alert(
-              'X:' + String(xyInfo.x) + ', Y:' + String(xyInfo.y),
               "어떤 작업을 하시겠습니까?",
+              "",
               [
                 { text: "취소" },
                 {
