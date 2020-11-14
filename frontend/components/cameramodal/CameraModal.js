@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image } from 'react-native';
 import axios from 'axios';
-import {Buffer} from 'buffer'
+// import {Buffer} from 'buffer'
 // import {decode, encode} from 'base-64'
 // if (!global.btoa) { global.btoa = encode }
 // if (!global.atob) { global.atob = decode }
 
-function btoa(data) { return new Buffer(data, "binary").toString("base64"); }
-function atob(data) { return new Buffer(data, "base64").toString("binary"); }
+// function btoa(data) { return new Buffer(data, "binary").toString("base64"); }
+// function atob(data) { return new Buffer(data, "base64").toString("binary"); }
 
 // function b64toBlob(b64Data, contentType, sliceSize) {
 
@@ -37,21 +37,23 @@ function atob(data) { return new Buffer(data, "base64").toString("binary"); }
 // function atob(data) { return new Buffer(data, "base64").toString("binary"); }
 
 export default function CameraModal({ photoInfo, setPhotoInfo }) {
-  let formData = new FormData();
-  let blobBin = atob(photoInfo.uri);
-  let array = [];
-  for (var i = 0; i < blobBin.length; i++) {
-    array.push(blobBin.charCodeAt(i));
-  }
-  let file = new Blob([new Uint8Array(array)], { type: "image/jpg" }); // Blob 생성
-  formData.append("image", file);
+  // let blobBin = atob(photoInfo.uri);
+  // let array = [];
+  // for (var i = 0; i < blobBin.length; i++) {
+    // array.push(blobBin.charCodeAt(i));
+  // }
+  // let file = new Blob([new Uint8Array(array)], { type: "image/jpg" }); // Blob 생성
+  // formData.append("image", b64toBlob(photoInfo, "image/jpg"), "car.jpg");
 
-  console.log(file)
-  // const formData = new FormData();
+  photoInfo.type = 'image/jpeg'
+  photoInfo.name = 'photo' + '-' + Date.now() + '.jpg'
+  // console.log(photoInfo)
+    
+  const formData = new FormData();
   formData.append("category", "general")
   formData.append("title", "car")
-  console.log(formData)
-  // formData.append("image", b64toBlob(photoInfo, "image/jpg"), "car.jpg");
+  formData.append("image", photoInfo);
+  // console.log(formData)
 
   return (
     <View style={styles.centeredView}>
@@ -74,17 +76,17 @@ export default function CameraModal({ photoInfo, setPhotoInfo }) {
               onPress={() => {
                 // setModalVisible(!modalVisible);
                 setPhotoInfo(null)
-                // axios.post('http://k3b305.p.ssafy.io:8005/ai-images/predict/', formData, {
-                //   headers: {
-                //     Accept: "application/json",
-                //     'Content-Type': 'multipart/form-data',
-                //     Authorization: ""
-                //   }
-                // })
-                // .then(res => {
-                //   console.log(res)
-                // })
-                // .catch(err => console.error(err))
+                axios.post('http://k3b305.p.ssafy.io:8005/ai-images/predict/', formData, {
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: ""
+                  }
+                })
+                .then(res => {
+                  console.log("성공!", res)
+                })
+                .catch(err => console.error("실패!", err))
               }}
             >
               <Text style={styles.textStyle}>Hide Modal</Text>
