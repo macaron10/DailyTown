@@ -172,8 +172,6 @@ export default function MainInvenGrid({userToken, changedIndex, setChangedIndex,
   // const [itemInfo, setItemInfo] = useState(null)
   // const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   // const [changedIndex, setChangedIndex] = useState(null)
-  
-
   return (
     <View style={styles.testGrid}>
       <ScrollView contentContainerStyle={styles.testGridContainer}>

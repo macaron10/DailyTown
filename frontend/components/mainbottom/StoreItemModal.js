@@ -7,12 +7,12 @@ import axios from 'axios'
 
 // const image = DynamicItems[itemInfo['name']]
 
-function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount, count, setModalVisible, setItemInfo, goldStatus, setGoldStatus, isSellingMode }) {
+function SellingMode({userToken, itemInfo, index, items, itemForSell, setMyItems, setCount, count, setModalVisible, setItemInfo, goldStatus, setGoldStatus, isSellingMode }) {
   const image = DynamicItems[itemInfo['name']]
   // const image = itemInfo['name'] ? DynamicItems[itemInfo['name']] : DynamicItems['default']
   // console.log(itemForSell)
   // console.log(items)
-
+  // console.log(itemInfo)
   const location = itemInfo.location
   const sellId = itemInfo.id
   const price = itemInfo.price
@@ -25,7 +25,7 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
     axios
       .delete('http://k3b305.p.ssafy.io:8005/account/shop/', {
         'headers': {
-          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3OTMyOTE2LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.oEAQ0lPTHaBIBWjO3V9nO0jaiDFiZ-qZwQMJleQPisY'
+          'Authorization': `Bearer ${userToken}`
         }
         , data: { "myitem_pk": sellId, "gold": goldStatus + price }
       })
@@ -39,7 +39,7 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
       if (cnt < count) {
         if (itemForSell[i]['name'] === '') {
           emptyInventoryIndex.push(i+1)
-          itemForSell[i] = itemInfo
+          // itemForSell[i] = itemInfo
           cnt++
         }
       }
@@ -47,17 +47,42 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
         break
       }
     }
-    const nowGold = goldStatus
     const price = itemInfo.price
-    const name = itemInfo.name
     const quantity = emptyInventoryIndex.length
-    console.log(emptyInventoryIndex)
-    console.log(itemInfo)
+    const nowGold = goldStatus - price*quantity
+    const name = itemInfo.name
     if (cnt < count) {
       Alert.alert('인벤토리가 꽉 찼습니다. 초과 구매한 금액은 차감되지 않습니다.')
       setGoldStatus(prev => prev + itemInfo['price'] * (count - cnt))
-    }
-    setMyItems(itemForSell) // axios보내서 {"id": 1, "location": 1, "name": "animal2",  "price": 40,  }, 형식으로 setmyItem 해야함
+    }    
+    axios
+      .post('http://k3b305.p.ssafy.io:8005/account/shop/', {
+        quantity: quantity,
+        location: emptyInventoryIndex,
+        gold: nowGold,
+        item: itemInfo.id
+      }, {'headers': {
+        'Authorization': `Bearer ${userToken}`,
+      }})
+      .then(res =>{
+        // console.log(res.data)
+        for(let newItemInfo in res.data){
+          let newItem = res.data[newItemInfo]
+          itemForSell[newItem.location-1] = {
+            id: newItem.id,
+            location: newItem.location,
+            name: name,
+            price: price
+          }
+          
+        }
+        setMyItems(itemForSell)
+      })
+      .catch(err => console.log(err))
+
+      
+    
+     // axios보내서 {"id": 1, "location": 1, "name": "animal2",  "price": 40,  }, 형식으로 setmyItem 해야함
   }
 
 
@@ -134,7 +159,7 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
 
 // 가방의경우, 이동하기, 판매하기 -> 수량 선택및 금액 표시. 판매, 닫기
 // 상점의경우, 이미지, 수량 구매, 닫기
-function CommerceModal({ setIsMove, itemInfomation, isInventory, items, setMyItems, itemForSell, setItemInfo, goldStatus, setGoldStatus, setModalVisible, setIsChangeItemPlace, setChangedIndex }) {
+function CommerceModal({userToken, setIsMove, itemInfomation, isInventory, items, setMyItems, itemForSell, setItemInfo, goldStatus, setGoldStatus, setModalVisible, setIsChangeItemPlace, setChangedIndex }) {
   const [count, setCount] = useState(1)
   const [sellingItem, setSellingItem] = useState(null)
   const index = itemInfomation[1]
@@ -179,10 +204,10 @@ function CommerceModal({ setIsMove, itemInfomation, isInventory, items, setMyIte
 
   }
   if (sellingItem) {
-    return <SellingMode isSellingMode={true} index={index} items={items} setMyItems={setMyItems} itemInfo={sellingItem} setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
+    return <SellingMode userToken={userToken} isSellingMode={true} index={index} items={items} setMyItems={setMyItems} itemInfo={sellingItem} setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
   }
 
-  return <SellingMode itemInfo={itemInfo} items={items} itemForSell={itemForSell} setMyItems={setMyItems} setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
+  return <SellingMode userToken={userToken} itemInfo={itemInfo} items={items} itemForSell={itemForSell} setMyItems={setMyItems} setCount={setCount} count={count} setModalVisible={setModalVisible} setItemInfo={setItemInfo} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
 }
 
 export default function StoreItemModal({
