@@ -3,6 +3,7 @@ import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image, Button
 import DynamicItems from "./DynamicItems"
 import { IconButton } from 'react-native-paper';
 import axios from 'axios'
+import { set } from "react-native-reanimated";
 
 
 // const image = DynamicItems[itemInfo['name']]
@@ -108,7 +109,11 @@ function SellingMode({userToken, itemInfo, index, items, itemForSell, setMyItems
           <IconButton
             icon="arrow-down-drop-circle"
             onPress={() => {
-              setCount(prev => prev - 1)
+              if (count <= 1) {
+                setCount(1)
+              } else {
+                setCount(prev => prev - 1)
+              }
             }}
           >
           </IconButton>
