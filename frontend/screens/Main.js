@@ -15,7 +15,7 @@ import InventoryItems from '../components/mainbottom/InventoryItems'
 
 export default function Main({ navigation }) {
   const xyCount = 6
-  const [goldStatus, setGoldStatus] = useState(10)
+  const [goldStatus, setGoldStatus] = useState(0)
   const [myItems, setMyItems] = useState(
     InventoryItems
   )
@@ -104,6 +104,7 @@ export default function Main({ navigation }) {
             x: x,
             y: y,
             name: element.item.name,
+            price: element.item.sell_price
           })
         } else {
           myItems[element.location-1] = {

@@ -39,6 +39,8 @@ function ShowItem(props) {
   function changeItemPlace(changedIndex) {
     const tempItem = items[index]
     items[index] = items[changedIndex]
+    items[index].location = index + 1
+    tempItem.location = changedIndex + 1
     items[changedIndex] = tempItem
     setMyItems(items)
     if (!!items[changedIndex]['id']) {
@@ -52,7 +54,7 @@ function ShowItem(props) {
         .catch(err => console.log(err))      
     } else {
       axios
-        .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${items[index]['id']}/`, {location: items[changedIndex]['location']}, {
+        .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${items[index]['id']}/`, {location: items[index]['location']}, {
           'headers': {
             'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYwOTk1LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.qPsfPPmMOrSV4FzIW8bAwOnYuKKXdPWpFiQ4SMcZXvw'
           }
