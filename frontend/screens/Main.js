@@ -118,6 +118,15 @@ export default function Main({ navigation }) {
       changeDate(tempData)
     })
     .catch(err => console.log(err))
+  axios
+    .get('http://k3b305.p.ssafy.io:8005/account/gold/',
+    {
+      'headers': {
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYwOTk1LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.qPsfPPmMOrSV4FzIW8bAwOnYuKKXdPWpFiQ4SMcZXvw'
+      }
+    })
+    .then(res => setGoldStatus(res.data.gold))
+    .catch(err => console.log(err))
   }, [])
   // getToken()
   return (
