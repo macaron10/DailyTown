@@ -81,7 +81,7 @@ export default function MissionList({ userToken, myMission }) {
                   // left={props => <List.Icon {...props} icon="folder" />}
                 >
                   <Text>보상</Text>
-                  <Image style={ styles.rewardImg } source={require(`../../assets/itemlist${item.name}.png`)} />
+                  {/* <Image style={ styles.rewardImg } source={require(`../../assets/itemlist/${item.name}.png`)} /> */}
                   <Camera setIsCameraOn={ setIsCameraOn } />
                 </List.Accordion>
               )
