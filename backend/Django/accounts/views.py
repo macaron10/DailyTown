@@ -66,7 +66,7 @@ class Gold(APIView):
         /return => {gold : yourgold(int)}
         '''
         user = get_object_or_404(User, email=request.user.email)
-        info = {'gold': user.gold}
+        info = {'gold': user.gold }
         return Response(info, status=status.HTTP_200_OK)
 
     def put(self, request):
@@ -75,8 +75,7 @@ class Gold(APIView):
         /return => {gold : yourgold(int, after calculating)}
         '''
         user = get_object_or_404(User, email=request.user.email)
-        nowgold = user.gold
-        user.gold = nowgold + int(request.data['price'])
+        user.gold = int(request.data['gold'])
         user.save()
         info = {'gold': user.gold}
         return Response(info, status=status.HTTP_200_OK)
@@ -99,14 +98,16 @@ class MyItem(APIView):
         /return => message : Item's information or Fail Message
         '''
         n = int(request.data['quantity'])
-        loc = int(request.data['location'])
+        loc = request.data['location']
         item_info = get_object_or_404(ItemModel, pk=int(request.data['item']))
+        ret = {}
         for i in range(n):
             serializer = MyItemSerializer(data=request.data)
             if not serializer.is_valid(raise_exception=True):
                 return Response({"message": "Please Check Item's Contex"})
-            serializer.save(user=request.user, location=loc+i, item=item_info, quantity=1)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            serializer.save(user=request.user, location=loc[i], item=item_info, quantity=1)
+            ret[i] = serializer.data
+        return Response(ret, status=status.HTTP_201_CREATED)
 
 class MyItemDetail(APIView):
     permission_classes = [IsAuthenticated]
@@ -178,7 +179,7 @@ class MyMissionDetail(APIView):
         if not serializer.is_valid(raise_exception=True):
             return Response({"message": "Please Check Item's Contex"})
         serializer.save(user=request.user, item=item_info)
-        return Response({"message": "mission Clear"})
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     def delete(self, request, mymission_pk):
         mymission = get_object_or_404(MyMissionModel, pk=mymission_pk)
@@ -210,18 +211,20 @@ class Shop(APIView):
         buy
         '''
         n = int(request.data['quantity'])
-        loc = int(request.data['location'])
+        loc = request.data['location']
         item_info = get_object_or_404(ItemModel, pk=int(request.data['item']))
+        ret = {}
         for i in range(n):
             serializer = MyItemSerializer(data=request.data)
             if not serializer.is_valid(raise_exception=True):
                 return Response({"message": "Please Check Item's Contex"})
-            serializer.save(user = request.user, location=loc+i, item=item_info, quantity=1)
+            serializer.save(user = request.user, location=loc[i], item=item_info, quantity=1)
+            ret[i] = serializer.data
 
         user = get_object_or_404(User, email=request.user.email)
         user.gold = int(request.data['gold'])
         user.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(ret, status=status.HTTP_201_CREATED)
     
     def delete(self, request):
         '''
