@@ -1,4 +1,3 @@
-import Axios from 'axios';
 import React, { useState } from 'react'
 import { StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback, Alert, Platform } from 'react-native';
 import DynamicItems from "./mainbottom/DynamicItems"
@@ -39,8 +38,8 @@ function MyForest(props) {
         <TouchableWithoutFeedback key={`${xyInfo.x}${xyInfo.y}`}
           onPressIn={() => {
             Alert.alert(
-              'X:' + String(xyInfo.x) + ', Y:' + String(xyInfo.y),
               "어떤 작업을 하시겠습니까?",
+              "",
               [
                 { text: "취소" },
                 {
