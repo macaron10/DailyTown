@@ -36,7 +36,7 @@ import axios from 'axios';
 
 // function atob(data) { return new Buffer(data, "base64").toString("binary"); }
 
-export default function CameraModal({ photoInfo, setPhotoInfo }) {
+export default function CameraModal({ photoInfo, setPhotoInfo, userToken }) {
   // let blobBin = atob(photoInfo.uri);
   // let array = [];
   // for (var i = 0; i < blobBin.length; i++) {
@@ -50,10 +50,11 @@ export default function CameraModal({ photoInfo, setPhotoInfo }) {
   // console.log(photoInfo)
     
   const formData = new FormData();
-  formData.append("category", "general")
-  formData.append("title", "car")
+  formData.append("category", "fruit")
+  formData.append("title", "orange")
   formData.append("image", photoInfo);
   // console.log(formData)
+  // console.log("토큰값!", userToken)
 
   return (
     <View style={styles.centeredView}>
@@ -80,11 +81,11 @@ export default function CameraModal({ photoInfo, setPhotoInfo }) {
                   headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'multipart/form-data',
-                    Authorization: ""
+                    Authorization: "Bearer " + userToken
                   }
                 })
                 .then(res => {
-                  console.log("성공!", res)
+                  console.log("성공!", res.data)
                 })
                 .catch(err => console.error("실패!", err))
               }}

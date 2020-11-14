@@ -21,7 +21,7 @@ function CheckImage(props) {
   const photoInfo = props.photoInfo
   if ( photoInfo ) {
     // Alert.alert('New Image Detect')
-    return <ImageModal photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } />
+    return <ImageModal photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } userToken={ props.userToken } />
   }
   else {
     return <View/>
@@ -50,7 +50,7 @@ function Camera({ setIsCameraOn }) {
   );
 }
 
-export default function MissionList() {
+export default function MissionList({ userToken }) {
 
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [photoInfo, setPhotoInfo] = useState(null);
@@ -61,7 +61,7 @@ export default function MissionList() {
     );
   } else if (photoInfo) {
     return(
-      <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } />
+      <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } userToken={ userToken }/>
     )
   } else {
     return (
