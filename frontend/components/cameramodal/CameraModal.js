@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableHighlight, View, Image } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, View, Image, Alert } from 'react-native';
 import axios from 'axios';
 import * as env from '../../env';
 
@@ -47,11 +47,22 @@ export default function CameraModal({ photoInfo, setPhotoInfo, userToken }) {
                 })
                 .then(res => {
                   console.log("성공!", res.data.ans)
+                  if (res.data.ans) {
+                    axios.put(`http://${env.IP_ADDRESS}/ai-images/predict/`,{ "iscleared": True }, {
+                      headers: {
+                        Authorization: "Bearer " + userToken
+                      }
+                    })
+                    .then(res => console.log(res))
+                    .catch(err => console.error(err))
+                  } else {
+                    Alert.alert('사진을 다시 찍어 주세요.')
+                  }
                 })
-                .catch(err => console.error("실패!", err))
+                .catch(err => console.error(err))
               }}
             >
-              <Text style={styles.textStyle}>Hide Modal</Text>
+              <Text style={styles.textStyle}>미션 수행</Text>
             </TouchableHighlight>
           {/* </View> */}
         </View>

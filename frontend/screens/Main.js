@@ -16,9 +16,8 @@ import InventoryItems from '../components/mainbottom/InventoryItems'
 export default function Main({ navigation }) {
   const xyCount = 6
   const [goldStatus, setGoldStatus] = useState(0)
-  const [myItems, setMyItems] = useState(
-    InventoryItems
-  )
+  const [myItems, setMyItems] = useState(InventoryItems)
+  
   // Axios Header에 들어갈 jwt -> userToken
   const [userToken, setUserToken] = useState('')
   const [accessToken, setAccessToken] = useState('')
@@ -42,7 +41,7 @@ export default function Main({ navigation }) {
         // console.log("성공!", res.data)
         setMyMission(res.data)
       })
-      .catch(err => console.error("실패!", err))
+      .catch(err => console.error(err))
       
       axios
       .get('http://k3b305.p.ssafy.io:8005/account/myitem/',
