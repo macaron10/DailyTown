@@ -10,6 +10,7 @@ function ClickStoreItem(props) {
   const setMyItems = props.setMyItems
   if (itemInfo) {
     return <StoreItemModal
+      userToken={props.userToken}
       setIsMove={props.setIsMove}
       items={props.items}
       itemInfo={itemInfo}
@@ -36,25 +37,29 @@ function ShowItem(props) {
   const isInventory = props.isInventory
   const setMyItems = props.setMyItems
   const index = props.index
+  const userToken = props.userToken
+  // console.log(userToken)
   function changeItemPlace(changedIndex) {
     const tempItem = items[index]
     items[index] = items[changedIndex]
+    items[index].location = index + 1
+    tempItem.location = changedIndex + 1
     items[changedIndex] = tempItem
     setMyItems(items)
     if (!!items[changedIndex]['id']) {
       axios
         .put('http://k3b305.p.ssafy.io:8005/account/myitem/exchange/', { item_id1: items[index]['id'], item_id2: items[changedIndex]['id'] }, {
           'headers': {
-            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYwOTk1LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.qPsfPPmMOrSV4FzIW8bAwOnYuKKXdPWpFiQ4SMcZXvw'
+            'Authorization': `Bearer ${userToken}`
           }
         })
         .then(() => {})
         .catch(err => console.log(err))      
     } else {
       axios
-        .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${items[index]['id']}/`, {location: items[changedIndex]['location']}, {
+        .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${items[index]['id']}/`, {location: items[index]['location']}, {
           'headers': {
-            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYwOTk1LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.qPsfPPmMOrSV4FzIW8bAwOnYuKKXdPWpFiQ4SMcZXvw'
+            'Authorization': `Bearer ${userToken}`
           }
         })
         .then(()=>{})
@@ -101,6 +106,7 @@ function ItemGrid(props) {
   // col이 4개라고 가정
   if (!isInventory && items[number1 * 4 + number2]) {
     return <ShowItem
+      userToken={props.userToken}    
       item={items[number1 * 4 + number2]}
       items={items}
       isInventory={isInventory}
@@ -113,6 +119,7 @@ function ItemGrid(props) {
   }
   else {
     return <ShowItem
+      userToken={props.userToken}
       item={items[number1 * 4 + number2]}
       items={items}
       isInventory={isInventory}
@@ -129,7 +136,7 @@ function ItemGrid(props) {
   }
 }
 
-function ItemGridRow({ setIsMove, number1, items, setMyItems, isInventory, setItemInfo, setGoldStatus, isChangeItemPlace, setIsChangeItemPlace, changedIndex, setChangedIndex }) {
+function ItemGridRow({userToken, setIsMove, number1, items, setMyItems, isInventory, setItemInfo, setGoldStatus, isChangeItemPlace, setIsChangeItemPlace, changedIndex, setChangedIndex }) {
 
   let column
   if (isInventory) {
@@ -142,6 +149,7 @@ function ItemGridRow({ setIsMove, number1, items, setMyItems, isInventory, setIt
   return column.map((number2) =>
     <View key={number2.toString()} style={styles.testGridCell}>
       <ItemGrid
+        userToken={userToken}
         setIsMove={setIsMove}
         number1={number1}
         number2={number2}
@@ -160,12 +168,10 @@ function ItemGridRow({ setIsMove, number1, items, setMyItems, isInventory, setIt
 
 }
 
-export default function MainInvenGrid({changedIndex, setChangedIndex, itemInfo, setItemInfo, isChangeItemPlace, setIsChangeItemPlace, setIsMove, items, setMyItems, isInventory, goldStatus, setGoldStatus, itemForSell }) {
+export default function MainInvenGrid({userToken, changedIndex, setChangedIndex, itemInfo, setItemInfo, isChangeItemPlace, setIsChangeItemPlace, setIsMove, items, setMyItems, isInventory, goldStatus, setGoldStatus, itemForSell }) {
   // const [itemInfo, setItemInfo] = useState(null)
   // const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   // const [changedIndex, setChangedIndex] = useState(null)
-  
-
   return (
     <View style={styles.testGrid}>
       <ScrollView contentContainerStyle={styles.testGridContainer}>
@@ -173,6 +179,7 @@ export default function MainInvenGrid({changedIndex, setChangedIndex, itemInfo, 
         {[0, 1, 2, 3, 4].map((number1) =>
           <View key={number1.toString()} style={styles.testGridRow}>
             <ItemGridRow
+              userToken={userToken}
               setIsMove={setIsMove}
               number1={number1}
               items={items}
@@ -189,6 +196,7 @@ export default function MainInvenGrid({changedIndex, setChangedIndex, itemInfo, 
         )}
       </ScrollView>
       <ClickStoreItem
+        userToken={userToken}
         setIsMove={setIsMove}
         items={items}
         itemInfo={itemInfo}

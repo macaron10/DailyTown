@@ -99,13 +99,14 @@ class MyItem(APIView):
         '''
         n = int(request.data['quantity'])
         loc = request.data['location']
+        request.data["location"] = 1
         item_info = get_object_or_404(ItemModel, pk=int(request.data['item']))
         ret = {}
         for i in range(n):
             serializer = MyItemSerializer(data=request.data)
             if not serializer.is_valid(raise_exception=True):
                 return Response({"message": "Please Check Item's Contex"})
-            serializer.save(user=request.user, location=loc[i], item=item_info, quantity=1)
+            serializer.save(user=request.user, location=int(loc[i]), item=item_info, quantity=1)
             ret[i] = serializer.data
         return Response(ret, status=status.HTTP_201_CREATED)
 
@@ -212,15 +213,15 @@ class Shop(APIView):
         '''
         n = int(request.data['quantity'])
         loc = request.data['location']
+        request.data["location"] = 1
         item_info = get_object_or_404(ItemModel, pk=int(request.data['item']))
         ret = {}
         for i in range(n):
             serializer = MyItemSerializer(data=request.data)
             if not serializer.is_valid(raise_exception=True):
                 return Response({"message": "Please Check Item's Contex"})
-            serializer.save(user = request.user, location=loc[i], item=item_info, quantity=1)
+            serializer.save(user = request.user, location=int(loc[i]), item=item_info, quantity=1)
             ret[i] = serializer.data
-
         user = get_object_or_404(User, email=request.user.email)
         user.gold = int(request.data['gold'])
         user.save()
