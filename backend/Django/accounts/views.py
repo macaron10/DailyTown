@@ -66,7 +66,7 @@ class Gold(APIView):
         /return => {gold : yourgold(int)}
         '''
         user = get_object_or_404(User, email=request.user.email)
-        info = {'gold': user.gold}
+        info = {'gold': user.gold }
         return Response(info, status=status.HTTP_200_OK)
 
     def put(self, request):
@@ -75,7 +75,7 @@ class Gold(APIView):
         /return => {gold : yourgold(int, after calculating)}
         '''
         user = get_object_or_404(User, email=request.user.email)
-        user.gold = int(request.data['price'])
+        user.gold = int(request.data['gold'])
         user.save()
         info = {'gold': user.gold}
         return Response(info, status=status.HTTP_200_OK)
