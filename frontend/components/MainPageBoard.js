@@ -79,12 +79,10 @@ function MyForest(props) {
                           }
                         })
                         .then(() => { handleDataChange(newData) })
-                        .catch(err => console.log(err))
+                        .catch(err => console.log(err))                      
                     } else {
-                      console.log('다찻어요')
+                      Alert.alert('인벤토리가 가득 찼습니다.')
                     }
-                    
-                    
                   }
                 },
               ],
