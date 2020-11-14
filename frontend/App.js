@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, StatusBar } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Audio } from 'expo-av';
 // import { StyleSheet } from 'react-native';
@@ -29,11 +29,11 @@ export default function App() {
   })
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none">
+      {/* <StatusBar style="auto" /> */}
+      <Stack.Navigator hideStatusBar headerMode="none">
         <Stack.Screen name="Login" component={LoginScreen}/>
         <Stack.Screen name="Main" component={MainScreen}/>
       </Stack.Navigator>
-      {/* <StatusBar style="auto" /> */}
     </NavigationContainer>
   );
 }
