@@ -10,7 +10,7 @@ const image = require('../assets/dailytown.png')
 export default function LoginSample({ navigation }) {
   async function check () {
     const jwt = await SecureStore.getItemAsync('token')
-    console.log(jwt)
+    console.log('JWT : ', jwt)
     if (jwt !== null) {
       navigation.navigate('Main')
     } else {
@@ -18,12 +18,10 @@ export default function LoginSample({ navigation }) {
     }
   }
   useEffect(() => {
-    // check()
+    check()
     return () => {}
 })
 
-// const [userInfo, setUserInfo] = 
-  const [checkBtn, setCheckBtn] = useState(0)
   const onPress = async () => {
     const res = await Google.logInAsync(
       {androidClientId: env.AND_KEY, androidStandaloneAppClientId: env.AND_KEY}).catch(error => {console.log(error)});
@@ -60,7 +58,7 @@ export default function LoginSample({ navigation }) {
         })
         .then(res => res.json())
         .then(json => {
-          console.log('2차 제이슨', json.token)
+          console.log('JWT : ', json.token)
           if (secure_available === true) {
             SecureStore.setItemAsync('token', json.token)
             SecureStore.setItemAsync('access_token', res.accessToken)
