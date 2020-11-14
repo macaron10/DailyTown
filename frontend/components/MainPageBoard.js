@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React, { useState } from 'react'
-import { StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback,Alert, Platform } from 'react-native';
+import { StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback, Alert, Platform } from 'react-native';
 import DynamicItems from "./mainbottom/DynamicItems"
 import axios from 'axios'
 
@@ -13,6 +13,7 @@ const yStartPoint = 100
 function MyForest(props) {
   const deviceWidth = Dimensions.get('window').width
   const width = (deviceWidth - 20) / xyCount
+  const jwt = props.jwt
   function handleDataChange(e) {
     props.onDataChange(e)
   }
@@ -45,7 +46,7 @@ function MyForest(props) {
                 {
                   text: "이동",
                   onPress: () => {
-                    handleIsMoveChange(props.isMove, idx)                  
+                    handleIsMoveChange(props.isMove, idx)
                   }
                 },
                 {
@@ -53,13 +54,14 @@ function MyForest(props) {
                   onPress: () => {
                     const newData = [...data]
                     const id = newData[idx]['id']
-                    newData.splice(idx, 1)                                        
+                    newData.splice(idx, 1)
                     axios
-                      .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${id}/`, {isinfarm: false}, {'headers' : {
-                        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImhpaGkyQHNzYWZ5LmNvbSIsImV4cCI6MTYwNzU3OTQ4MCwiZW1haWwiOiJoaWhpMkBzc2FmeS5jb20ifQ.16bmul0SrSeqEe3ZJkxIJfS1kne3ZkmYOVMUIVOfByk'
-                          }
-                        })
-                      .then(() => {handleDataChange(newData)})
+                      .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${id}/`, { isinfarm: false }, {
+                        'headers': {
+                          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYxODc4LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.iuoPeGVJY73qE18A3XNWHlHdqZSQ9xtQFTMJe2S1ovA`
+                        }
+                      })
+                      .then(() => { handleDataChange(newData) })
                       .catch(err => console.log(err))
                   }
                 },
@@ -98,23 +100,69 @@ const Tile = (props) => {
   } else {
     url = props.shape.grass
   }
+  // changedIndex={props.setChangedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems}
+  props.isChangeItemPlace
+  props.setIsChangeItemPlace
   return (
     <TouchableWithoutFeedback
       onPressIn={() => {
         if (props.isMove) {
-          if (!props.isSomething){
-            onPressIn()
-            const newData = [...props.data]
-            const name = newData[props.targetIdx]['name']
-            const id = newData[props.targetIdx]['id']
-            newData[props.targetIdx] = {
-              x: props.x,
-              y: props.y,
-              name: name,
-            }
+          if (!props.isSomething) {
+            if (props.isChangeItemPlace) { // 올리는거면
+              onPressIn()
+              const id = props.myItems[props.changedIndex]['id']
+              const name = props.myItems[props.changedIndex]['name']
+              const newData = [...props.data]
+              const tempLocation = props.myItems[props.changedIndex]['location']
+              props.myItems[props.changedIndex] ={
+                name: '',
+                location: tempLocation
+              }
+              newData.push({
+                name: name,
+                x: props.x,
+                y: props.y,
+                id: id
+              })
+              const location = props.x + props.y * 6 + 1
 
-            props.onIsMoveChange(true, null)
-            props.onDataChange(newData)            
+              axios
+                .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${id}/`, { location: location, isinfarm: true }, {
+                  'headers': {
+                    'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYwOTk1LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.qPsfPPmMOrSV4FzIW8bAwOnYuKKXdPWpFiQ4SMcZXvw`
+                  }
+                })
+                .then(() => {})
+                .catch(err => console.log(err))
+
+                props.setIsChangeItemPlace(false)
+                props.onIsMoveChange(true, null)
+                props.setChangedIndex(null)
+                props.onDataChange(newData)
+            } else {
+              onPressIn()
+              const newData = [...props.data]
+              const name = newData[props.targetIdx]['name']
+              const id = newData[props.targetIdx]['id']
+              newData[props.targetIdx] = {
+                x: props.x,
+                y: props.y,
+                name: name,
+                id: id
+              }
+              const location = props.x + props.y * 6 + 1
+              axios
+                .put(`http://k3b305.p.ssafy.io:8005/account/myitem/${id}/`, { location: location }, {
+                  'headers': {
+                    'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImVoajAxMjhAZ21haWwuY29tIiwiZXhwIjoxNjA3ODYwOTk1LCJlbWFpbCI6ImVoajAxMjhAZ21haWwuY29tIn0.qPsfPPmMOrSV4FzIW8bAwOnYuKKXdPWpFiQ4SMcZXvw`
+                  }
+                })
+                .then(() => { })
+                .catch(err => console.log(err))
+
+              props.onIsMoveChange(true, null)
+              props.onDataChange(newData)
+            }
           }
         } else {
           onPressIn()
@@ -152,10 +200,10 @@ const Landscape = (props) => {
           // x, y로 좌표값 가능 (0,0) ~ (5, 5)
           // 오른쪽 아래로 대각선이 x 축 0에서 시작
           // 왼쪽 아래로 대각선이 y 축 0에서 시작
-          if (props.isMove && tiles[x][y]!==null) {
-            return  <Tile key={`${x}${y}`} isMove={props.isMove} x={x} y={y} xMove={xMove} yMove={yMove} z={z} shape={imageUrl} isSomething={true} />
+          if (props.isMove && tiles[x][y] !== null) {
+            return <Tile key={`${x}${y}`} changedIndex={props.changedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={props.isMove} x={x} y={y} xMove={xMove} yMove={yMove} z={z} shape={imageUrl} isSomething={true} />
           }
-          return <Tile key={`${x}${y}`} isMove={props.isMove} x={x} y={y} xMove={xMove} yMove={yMove} z={z} shape={imageUrl} isSomething={false} data={props.data} targetIdx={props.targetIdx} onIsMoveChange={props.onIsMoveChange} onDataChange={props.onDataChange} />
+          return <Tile key={`${x}${y}`} changedIndex={props.changedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={props.isMove} x={x} y={y} xMove={xMove} yMove={yMove} z={z} shape={imageUrl} isSomething={false} data={props.data} targetIdx={props.targetIdx} onIsMoveChange={props.onIsMoveChange} onDataChange={props.onDataChange} />
         });
       })}
     </View>
@@ -163,41 +211,12 @@ const Landscape = (props) => {
 }
 
 export default function Board(props) {
-  const [targetIdx, setTargetIdx] = useState(null)
-  const [data, setData] = useState(
-    // [
-    //   {
-    //     "id": 2,
-    //     "name": "house1",
-    //     "x": 0,
-    //     "y": 0,
-    //   },
-    // ]
-    props.boardData
-  )
-  // console.log(data)
-  // setData(props.boardData)
-
-  function changeDate(newData) {
-    setData(newData)
-    const newArray = [];
-    for (let i = xyCount; i > 0; i--) {
-      newArray.push(Array(xyCount).fill(null));
-    }
-    newData.forEach(element => {
-      newArray[element.x][element.y] = element.name 
-    });
-    setTiles(newArray)
-  }
-  const newArray = [];
-  for (let i = xyCount; i > 0; i--) {
-    newArray.push(Array(xyCount).fill(null));
-  }
-  data.forEach(element => {
-    newArray[element.x][element.y] = element.name
-  });
-  const [tiles, setTiles] = useState(newArray)
-  const [isMove, setIsMove] = useState(false)
+  const [targetIdx, setTargetIdx] = useState(null)  // 삭제 or 수정할 때 필요한 인덱스
+  const data = props.data
+  const changeDate = props.changeDate
+  const tiles = props.tiles
+  const isMove = props.isMove
+  const setIsMove = props.setIsMove
   function changeIsMove(isMove, idx) {
     setIsMove(!isMove)
     setTargetIdx(idx)
@@ -205,14 +224,14 @@ export default function Board(props) {
   if (isMove) {
     return (
       <View style={styles.container}>
-        <Landscape isMove={isMove} tiles={tiles} data={data} targetIdx={targetIdx} onIsMoveChange={changeIsMove} onDataChange={changeDate} />
+        <Landscape changedIndex={props.changedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={isMove} jwt={props.jwt} tiles={tiles} data={data} targetIdx={targetIdx} onIsMoveChange={changeIsMove} onDataChange={changeDate} />
       </View>
     );
   }
   return (
     <View style={styles.container}>
-      <MyForest onDataChange={changeDate} data={data} onIsMoveChange={changeIsMove} />
-      <Landscape isMove={isMove} tiles={tiles} />
+      <MyForest onDataChange={changeDate} data={data} jwt={props.jwt} onIsMoveChange={changeIsMove} />
+      <Landscape changedIndex={props.changedIndex} setChangedIndex={props.setChangedIndex} myItems={props.myItems} itemInfo={props.itemInfo} isChangeItemPlace={props.isChangeItemPlace} setIsChangeItemPlace={props.setIsChangeItemPlace} isMove={isMove} tiles={tiles} jwt={props.jwt} />
     </View>
   );
 }

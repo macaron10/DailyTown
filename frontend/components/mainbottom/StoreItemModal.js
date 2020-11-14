@@ -113,7 +113,7 @@ function SellingMode({ itemInfo, index, items, itemForSell, setMyItems, setCount
 
 // 가방의경우, 이동하기, 판매하기 -> 수량 선택및 금액 표시. 판매, 닫기
 // 상점의경우, 이미지, 수량 구매, 닫기
-function CommerceModal({ itemInfomation, isInventory, items, setMyItems, itemForSell, setItemInfo, goldStatus, setGoldStatus, setModalVisible, setIsChangeItemPlace, setChangedIndex }) {
+function CommerceModal({setIsMove, itemInfomation, isInventory, items, setMyItems, itemForSell, setItemInfo, goldStatus, setGoldStatus, setModalVisible, setIsChangeItemPlace, setChangedIndex }) {
   const [count, setCount] = useState(1)
   const [sellingItem, setSellingItem] = useState(null)
   const index = itemInfomation[1]
@@ -125,9 +125,10 @@ function CommerceModal({ itemInfomation, isInventory, items, setMyItems, itemFor
                   style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                   onPress={() => {
                     setModalVisible(prev => !prev);
-                    setItemInfo(null);
+                    setItemInfo(null)
                     setIsChangeItemPlace(true);
                     setChangedIndex(index);
+                    setIsMove(true)
                   }}
                 >
                   <Text style={styles.textStyle}>이동하기</Text>
@@ -164,6 +165,7 @@ function CommerceModal({ itemInfomation, isInventory, items, setMyItems, itemFor
 }
 
 export default function StoreItemModal({
+  setIsMove,
   itemInfo,
   isInventory,
   items,
@@ -190,6 +192,7 @@ export default function StoreItemModal({
       >
         <View style={styles.centeredView}>
           <CommerceModal
+            setIsMove = {setIsMove}
             items={items}
             itemForSell={itemForSell}
             itemInfomation={itemInfo}
