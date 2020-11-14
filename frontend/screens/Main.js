@@ -33,10 +33,10 @@ export default function Main({ navigation }) {
       console.log('accessToken',acst);
 
       // getMyMission List 로직
-      console.log("userToken 들어있니?", userToken)
+      console.log("userToken 들어있니?", jwt)
       await axios.get(`http://${env.IP_ADDRESS}/account/mymission/`, {
         headers: {
-          Authorization: "Bearer " + userToken
+          Authorization: "Bearer " + jwt
         }
       })
       .then(res => {
@@ -150,6 +150,7 @@ export default function Main({ navigation }) {
           console.log(jwt, '이게 스토어의 토큰');
           const acst = await SecureStore.getItemAsync('access_token')
           console.log(acst, '이게 스토어의 액세스 토큰');
+          console.log(userToken, '이건 유저토큰')
         }}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>저장값꺼내기</Text>
