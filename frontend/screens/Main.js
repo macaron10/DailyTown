@@ -22,14 +22,30 @@ export default function Main({ navigation }) {
   // Axios Header에 들어갈 jwt -> userToken
   const [userToken, setUserToken] = useState('')
   const [accessToken, setAccessToken] = useState('')
-  async function getToken() {
-    const jwt = await SecureStore.getItemAsync('token')
-    setUserToken(jwt)
-    console.log('userToken', jwt);
-    const acst = await SecureStore.getItemAsync('access_token')
-    setAccessToken(acst)
-    console.log('accessToken', acst);
-    axios
+  const [myMission, setMyMission] = useState('')
+
+  async function getToken () {
+      const jwt = await SecureStore.getItemAsync('token')
+      setUserToken(jwt)
+      console.log('userToken', jwt);
+      const acst = await SecureStore.getItemAsync('access_token')
+      setAccessToken(acst)
+      console.log('accessToken',acst);
+
+      // getMyMission List 로직
+      console.log("userToken 들어있니?", userToken)
+      await axios.get(`http://${env.IP_ADDRESS}/account/mymission/`, {
+        headers: {
+          Authorization: "Bearer " + userToken
+        }
+      })
+      .then(res => {
+        // console.log("성공!", res.data)
+        setMyMission(res.data)
+      })
+      .catch(err => console.error("실패!", err))
+      
+      axios
       .get('http://k3b305.p.ssafy.io:8005/account/myitem/',
         {
           'headers': {
@@ -71,7 +87,20 @@ export default function Main({ navigation }) {
         })
       .then(res => setGoldStatus(res.data.gold))
       .catch(err => console.log(err))
-  }
+    }
+  
+  // const [accessToken]
+      // "0": {
+      // "name": "임시1",
+      // "price": 500, 
+      // "image": "test1"
+      // }
+
+  // "0": {
+  // "name": "임시1",
+  // "price": 500,
+  // "image": "test1"
+  // }
 
   const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   const [itemInfo, setItemInfo] = useState(null)
@@ -149,7 +178,7 @@ export default function Main({ navigation }) {
       ></IconButton>
       <View style={styles.containerTop}>
         <View style={styles.infoContainer}>
-          <MissionModal />
+          <MissionModal userToken={ userToken } myMission={ myMission }/>
         </View>
         <MyGold goldStatus={goldStatus} />
         <Board changedIndex={changedIndex} setChangedIndex={setChangedIndex} myItems={myItems} itemInfo={itemInfo} isMove={isMove} setIsMove={setIsMove} data={data} changeDate={changeDate} tiles={tiles} userToken={userToken} isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} />

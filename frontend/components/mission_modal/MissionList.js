@@ -21,7 +21,7 @@ function CheckImage(props) {
   const photoInfo = props.photoInfo
   if ( photoInfo ) {
     // Alert.alert('New Image Detect')
-    return <ImageModal photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } />
+    return <ImageModal photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } userToken={ props.userToken } />
   }
   else {
     return <View/>
@@ -50,10 +50,12 @@ function Camera({ setIsCameraOn }) {
   );
 }
 
-export default function MissionList() {
+export default function MissionList({ userToken, myMission }) {
 
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [photoInfo, setPhotoInfo] = useState(null);
+
+  console.log("MissionList.js 까지 넘어옴!", myMission)
 
   if (isCameraOn) {
     return(
@@ -61,7 +63,7 @@ export default function MissionList() {
     );
   } else if (photoInfo) {
     return(
-      <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } />
+      <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } userToken={ userToken }/>
     )
   } else {
     return (
@@ -70,6 +72,23 @@ export default function MissionList() {
         title="오늘의 미션"
       >
         <ScrollView>
+          {myMission.map(({ id, item, mission, iscleared }) => {
+            if (!iscleared) {
+              return (
+                <List.Accordion
+                  key={id}
+                  title={mission.description}
+                  // left={props => <List.Icon {...props} icon="folder" />}
+                >
+                  <Text>보상</Text>
+                  {/* <Image style={ styles.rewardImg } source={require(`../../assets/itemlist/${item.name}.png`)} /> */}
+                  <Camera setIsCameraOn={ setIsCameraOn } />
+                </List.Accordion>
+              )
+            }
+          })}
+        </ScrollView>
+        {/* <ScrollView>
           {missionData.map(({ title, imgUrl }) => {
             return (
               <List.Accordion
@@ -83,7 +102,7 @@ export default function MissionList() {
               </List.Accordion>
             )
           })}
-        </ScrollView>
+        </ScrollView> */}
       </List.Section>
     );
   }

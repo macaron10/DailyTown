@@ -1,49 +1,10 @@
-import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, TouchableHighlight, View, Image } from 'react-native';
 import axios from 'axios';
-// import {Buffer} from 'buffer'
-// import {decode, encode} from 'base-64'
-// if (!global.btoa) { global.btoa = encode }
-// if (!global.atob) { global.atob = decode }
+import * as env from '../../env';
 
-// function btoa(data) { return new Buffer(data, "binary").toString("base64"); }
-// function atob(data) { return new Buffer(data, "base64").toString("binary"); }
 
-// function b64toBlob(b64Data, contentType, sliceSize) {
-
-//   if( b64Data == "" || b64Data == undefined ) return null;
-  
-// 	contentType = contentType || '';
-// 	sliceSize = sliceSize || 512;
-
-// 	const byteCharacters = atob(b64Data);
-// 	const byteArrays = [];
-
-// 	for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-// 		const slice = byteCharacters.slice(offset, offset + sliceSize);
-// 		const byteNumbers = new Array(slice.length);
-
-// 		for (let i = 0; i < slice.length; i++) {
-// 		    byteNumbers[i] = slice.charCodeAt(i);
-// 		}
-// 		const byteArray = new Uint8Array(byteNumbers);
-// 		byteArrays.push(byteArray);
-//   }
-  
-// 	const blob = new Blob(byteArrays, {type: contentType});
-// 	return blob;
-// }
-
-// function atob(data) { return new Buffer(data, "base64").toString("binary"); }
-
-export default function CameraModal({ photoInfo, setPhotoInfo }) {
-  // let blobBin = atob(photoInfo.uri);
-  // let array = [];
-  // for (var i = 0; i < blobBin.length; i++) {
-    // array.push(blobBin.charCodeAt(i));
-  // }
-  // let file = new Blob([new Uint8Array(array)], { type: "image/jpg" }); // Blob 생성
-  // formData.append("image", b64toBlob(photoInfo, "image/jpg"), "car.jpg");
+export default function CameraModal({ photoInfo, setPhotoInfo, userToken }) {
 
   photoInfo.type = 'image/jpeg'
   photoInfo.name = 'photo' + '-' + Date.now() + '.jpg'
@@ -54,6 +15,7 @@ export default function CameraModal({ photoInfo, setPhotoInfo }) {
   formData.append("title", "car")
   formData.append("image", photoInfo);
   // console.log(formData)
+  // console.log("토큰값!", userToken)
 
   return (
     <View style={styles.centeredView}>
@@ -76,15 +38,15 @@ export default function CameraModal({ photoInfo, setPhotoInfo }) {
               onPress={() => {
                 // setModalVisible(!modalVisible);
                 setPhotoInfo(null)
-                axios.post('http://k3b305.p.ssafy.io:8005/ai-images/predict/', formData, {
+                axios.post(`http://${env.IP_ADDRESS}/ai-images/predict/`, formData, {
                   headers: {
-                    'Accept': 'application/json',
+                    Accept: 'application/json',
                     'Content-Type': 'multipart/form-data',
-                    Authorization: ""
+                    Authorization: "Bearer " + userToken
                   }
                 })
                 .then(res => {
-                  console.log("성공!", res)
+                  console.log("성공!", res.data.ans)
                 })
                 .catch(err => console.error("실패!", err))
               }}
