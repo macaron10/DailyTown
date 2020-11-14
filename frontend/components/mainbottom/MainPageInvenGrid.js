@@ -22,7 +22,6 @@ function ClickStoreItem(props) {
       isInventory={props.isInventory}
       setIsChangeItemPlace={props.setIsChangeItemPlace}
       setChangedIndex={props.setChangedIndex}
-
     />
   }
   else {
@@ -38,7 +37,6 @@ function ShowItem(props) {
   const setMyItems = props.setMyItems
   const index = props.index
   const userToken = props.userToken
-  // console.log(userToken)
   function changeItemPlace(changedIndex) {
     const tempItem = items[index]
     items[index] = items[changedIndex]
@@ -143,7 +141,7 @@ function ItemGridRow({userToken, setIsMove, number1, items, setMyItems, isInvent
     column = [0, 1, 2, 3]
   }
   else {
-    column = [0, 1]
+    column = [0, 1, 2, 3]
 
   }
   return column.map((number2) =>
@@ -172,11 +170,19 @@ export default function MainInvenGrid({userToken, changedIndex, setChangedIndex,
   // const [itemInfo, setItemInfo] = useState(null)
   // const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   // const [changedIndex, setChangedIndex] = useState(null)
+  let column
+  if (isInventory) {
+    column = [0, 1, 2, 3, 4]
+  }
+  else {
+    column = [0, 1, 2, 3, 4, 5, 6]
+
+  }
   return (
     <View style={styles.testGrid}>
       <ScrollView contentContainerStyle={styles.testGridContainer}>
         {/* 여기도 스토어 아이템의 경우 더 늘려야할 듯 합니다. */}
-        {[0, 1, 2, 3, 4].map((number1) =>
+        {column.map((number1) =>
           <View key={number1.toString()} style={styles.testGridRow}>
             <ItemGridRow
               userToken={userToken}

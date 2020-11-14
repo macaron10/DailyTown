@@ -87,19 +87,6 @@ export default function Main({ navigation }) {
       .then(res => setGoldStatus(res.data.gold))
       .catch(err => console.log(err))
     }
-  
-  // const [accessToken]
-      // "0": {
-      // "name": "임시1",
-      // "price": 500, 
-      // "image": "test1"
-      // }
-
-  // "0": {
-  // "name": "임시1",
-  // "price": 500,
-  // "image": "test1"
-  // }
 
   const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   const [itemInfo, setItemInfo] = useState(null)

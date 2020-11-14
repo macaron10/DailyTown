@@ -1,4 +1,3 @@
-import Axios from 'axios';
 import React, { useState } from 'react'
 import { StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback, Alert, Platform } from 'react-native';
 import DynamicItems from "./mainbottom/DynamicItems"
