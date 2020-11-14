@@ -33,7 +33,6 @@ export default function Main({ navigation }) {
       console.log('accessToken',acst);
 
       // getMyMission List 로직
-      console.log("userToken 들어있니?", jwt)
       await axios.get(`http://${env.IP_ADDRESS}/account/mymission/`, {
         headers: {
           Authorization: "Bearer " + jwt

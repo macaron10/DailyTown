@@ -4,7 +4,7 @@ import { List, IconButton } from 'react-native-paper';
 
 import CameraOn from '../cameramodal/CameraOn';
 import ImageModal from '../cameramodal/CameraModal';
-import missionData from "./MissionData";
+import DynamicItems from "../mainbottom/DynamicItems"
 
 
 function CheckCamera(props) {
@@ -81,7 +81,7 @@ export default function MissionList({ userToken, myMission }) {
                   // left={props => <List.Icon {...props} icon="folder" />}
                 >
                   <Text>보상</Text>
-                  {/* <Image style={ styles.rewardImg } source={require(`../../assets/itemlist/${item.name}.png`)} /> */}
+                  <Image style={ styles.rewardImg } source={ DynamicItems[item.name] } />
                   <Camera setIsCameraOn={ setIsCameraOn } />
                 </List.Accordion>
               )
