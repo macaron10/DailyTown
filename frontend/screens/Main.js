@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { IconButton } from 'react-native-paper'
 import * as Google from 'expo-google-app-auth';
 import * as SecureStore from 'expo-secure-store';
@@ -12,6 +12,7 @@ import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
 import InventoryItems from '../components/mainbottom/InventoryItems'
 
+const bgimage = require('../assets/background.png')
 
 export default function Main({ navigation }) {
   const xyCount = 6
@@ -134,6 +135,7 @@ export default function Main({ navigation }) {
   // getToken()
   return (
     <View style={styles.container}>
+      <ImageBackground source={bgimage} style={styles.bgimage}>
       {/* 로그인 페이지로 이동 버튼(임시) */}
       <TouchableOpacity
         style={styles.devbutton}
@@ -184,6 +186,7 @@ export default function Main({ navigation }) {
         <Board changedIndex={changedIndex} setChangedIndex={setChangedIndex} myItems={myItems} itemInfo={itemInfo} isMove={isMove} setIsMove={setIsMove} data={data} changeDate={changeDate} tiles={tiles} userToken={userToken} isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} />
       </View>
       <MainPageInventory changedIndex={changedIndex} setChangedIndex={setChangedIndex} itemInfo={itemInfo} setItemInfo={setItemInfo} userToken={userToken} isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} setIsMove={setIsMove} myItems={myItems} setMyItems={setMyItems} goldStatus={goldStatus} setGoldStatus={setGoldStatus} />
+      </ImageBackground>
     </View>
   );
 }
@@ -195,6 +198,11 @@ const styles = StyleSheet.create({
     // flex: 1,
     // flexDirection: 'column',
     height: '100%',
+  },
+  bgimage: {
+    position: 'absolute',
+    height: '100%',
+    resizeMode: "cover",
   },
   devbutton: {
     position: 'absolute',
@@ -217,5 +225,6 @@ const styles = StyleSheet.create({
   infoContainer: {
     position: "relative",
     // height: "10%",
+    marginBottom: 20
   }
 });
