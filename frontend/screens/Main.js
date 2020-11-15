@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import { IconButton } from 'react-native-paper'
 import * as Google from 'expo-google-app-auth';
 import * as SecureStore from 'expo-secure-store';
@@ -145,7 +145,7 @@ export default function Main({ navigation }) {
       </TouchableOpacity>
       {/* 토큰 저장소 확인버튼(임시) */}
       <TouchableOpacity
-        style={{ position: 'absolute', top: 100, backgroundColor: '#000000', zIndex: 100 }}
+        style={{ position: 'absolute', top: 130, backgroundColor: '#000000', zIndex: 100 }}
         onPress={async () => {
           const jwt = await SecureStore.getItemAsync('token')
           console.log(jwt, '이게 스토어의 토큰');
@@ -157,27 +157,18 @@ export default function Main({ navigation }) {
         <Text style={{ color: '#fff', textAlign: 'center' }}>저장값꺼내기</Text>
       </TouchableOpacity>
       {/* 로그아웃 버튼 */}
-      <IconButton
+      <TouchableOpacity
         style={styles.logoutButton}
         onPress={async () => {
           await Google.logOutAsync({ accessToken, androidClientId: env.AND_KEY, androidStandaloneAppClientId: env.AND_KEY });
-          // ------------------------ access token 만료 확인용 -------------------------------
-          // let userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
-          //   headers: { Authorization: `Bearer ${accessToken}` },
-          // })
-          // .then(
-          //   res => res.json()
-          // )
-          // .then(
-          //   json => {console.log(json)}
-          // );
           await SecureStore.deleteItemAsync('token')
           await SecureStore.deleteItemAsync('access_token')
           navigation.navigate('Login')
         }}
-        icon="logout"
         size={40}
-      ></IconButton>
+      >
+          <Image style={{resizeMode: "contain",}} source={require('../assets/icon/door.png')} />
+      </TouchableOpacity>      
       <View style={styles.containerTop}>
         <View style={styles.infoContainer}>
           <MissionModal userToken={ userToken } myMission={ myMission }/>
@@ -206,15 +197,15 @@ const styles = StyleSheet.create({
   },
   devbutton: {
     position: 'absolute',
-    top: 100,
+    top: 130,
     left: '70%',
     zIndex: 100,
     backgroundColor: 'black',
   },
   logoutButton: {
     position: 'absolute',
-    right: 0,
-    top: 25,
+    right: 10,
+    top: 35,
     zIndex: 100
   },
   containerTop: {
