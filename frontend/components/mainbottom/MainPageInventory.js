@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text, Image } from 'react-native';
 import MainPageInvenGrid from './MainPageInvenGrid'
 import StoreItem from './StoreItem'
 import axios from 'axios'
@@ -32,22 +32,18 @@ export default function Inventory({userToken, changedIndex, setChangedIndex, ite
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
           onPress={() => clickInventory()}
-          style={{ backgroundColor: 'red', width: '50%' }}
+          style={styles.invenTab}
         >
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Inventory</Text>
-
+          <Image style={{resizeMode: "contain", marginLeft: 5, marginTop: 1}} source={require('../../assets/icon/inventory.png')} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => clickStore()}
-          style={{ backgroundColor: 'blue', width: '50%',  }}
+          style={styles.invenTab}
         >
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Store</Text>
-
+          <Image style={{resizeMode: "contain", marginLeft: 5}} source={require('../../assets/icon/shop.png')} />
         </TouchableOpacity>
       </View>
       <CheckInventory userToken={userToken} changedIndex={changedIndex} setChangedIndex={setChangedIndex} itemInfo={itemInfo} setItemInfo={setItemInfo} isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} setIsMove={setIsMove} isInventory={ isInventory } myItems={ myItems } setMyItems={ setMyItems } goldStatus={goldStatus} setGoldStatus={ setGoldStatus } />
-
-
     </View>
   );
 }
@@ -55,8 +51,18 @@ export default function Inventory({userToken, changedIndex, setChangedIndex, ite
 const styles = StyleSheet.create({
   containerUnder: {
     flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
+  invenTab: {
+    width: '50%',
+    backgroundColor:'#bbada0',
+    borderColor: 'gray',
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 5,
+    borderLeftWidth: 2,
+    borderTopWidth: 2,
+    borderRightWidth: 2
+  }
 
 })
 

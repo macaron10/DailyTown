@@ -145,7 +145,7 @@ export default function Main({ navigation }) {
       </TouchableOpacity>
       {/* 토큰 저장소 확인버튼(임시) */}
       <TouchableOpacity
-        style={{ position: 'absolute', top: 130, backgroundColor: '#000000', zIndex: 100 }}
+        style={{ position: 'absolute', top: 130, zIndex: 100 }}
         onPress={async () => {
           const jwt = await SecureStore.getItemAsync('token')
           console.log(jwt, '이게 스토어의 토큰');
@@ -200,7 +200,6 @@ const styles = StyleSheet.create({
     top: 130,
     left: '70%',
     zIndex: 100,
-    backgroundColor: 'black',
   },
   logoutButton: {
     position: 'absolute',
