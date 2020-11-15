@@ -1,29 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, TouchableHighlight, View, Image, Alert } from 'react-native';
 import axios from 'axios';
 
 import * as env from '../../env';
-// import { myItems, setMyItems, myMission, setMyMission } from '../../screens/Main'
 
 
-export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missionInfo, location, myItems, setMyItems, myMission, setMyMission }) {
+export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missionInfo, location, myItems, setMyItems, myMission, setMyMission, navigation }) {
 
   photoInfo.type = 'image/jpeg'
   photoInfo.name = 'photo' + '-' + Date.now() + '.jpg'
   // console.log(photoInfo)
 
   // console.log("missionInfo 넘어왔나??", missionInfo)
-  console.log("location 넘어왔나??", location)
+  // console.log("myItems 넘어왔나??", myItems)
+  // console.log("myMission 넘어왔나??", myMission)
     
   const formData = new FormData();
   formData.append("category", missionInfo.mission.body_category)
   formData.append("title", missionInfo.mission.body_title)
   formData.append("image", photoInfo);
-  // formData.append("category", "general")
-  // formData.append("title", "car")
-  // formData.append("image", photoInfo);
   // console.log(formData)
   // console.log("토큰값!", userToken)
+
+  useEffect(() => {
+    setMyItems(myItems)
+    setMyMission(myMission)
+  }, [myItems, myMission])
 
   return (
     <View style={styles.centeredView}>
@@ -64,8 +66,16 @@ export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missio
                       })
                       .then(res => {
                         console.log(res.data)
-                        setMyItems(myItems)
-                        setMyMission(myMission)
+                        myItems[location - 1] = {
+                          id: res.data.id,
+                          location: res.data.location,
+                          name: res.data.item.name,
+                          price: res.data.item.sell_price
+                        }
+                        // setMyItems(myItems)
+                        // setMyMission(myMission)
+                        navigation.navigate('Login')
+                        navigation.navigate('Main')
                       })
                       .catch(err => console.error(err))
                     } else {
@@ -76,6 +86,9 @@ export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missio
                   }
                 })
                 .catch(err => console.error(err))
+
+                setMyItems(myItems)
+                setMyMission(myMission)
               }}
             >
               <Text style={styles.textStyle}>미션 수행</Text>

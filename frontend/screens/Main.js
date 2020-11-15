@@ -11,13 +11,13 @@ import MainPageInventory from '../components/mainbottom/MainPageInventory'
 import MissionModal from '../components/mission_modal/MissionModal';
 import MyGold from '../components/MyGold';
 import InventoryItems from '../components/mainbottom/InventoryItems'
+import { set } from 'react-native-reanimated';
 
 
 export default function Main({ navigation }) {
   const xyCount = 6
   const [goldStatus, setGoldStatus] = useState(0)
   const [myItems, setMyItems] = useState(InventoryItems)
-  
   // Axios Header에 들어갈 jwt -> userToken
   const [userToken, setUserToken] = useState('')
   const [accessToken, setAccessToken] = useState('')
@@ -73,6 +73,7 @@ export default function Main({ navigation }) {
             }
           }
         })
+        setMyItems(myItems)
         changeDate(tempData)
       })
       .catch(err => console.log(err))
@@ -177,7 +178,7 @@ export default function Main({ navigation }) {
       ></IconButton>
       <View style={styles.containerTop}>
         <View style={styles.infoContainer}>
-          <MissionModal userToken={ userToken } myMission={ myMission } setMyMission={ setMyMission } myItems={ myItems } setMyItems={ setMyItems } />
+          <MissionModal navigation={navigation} userToken={ userToken } myMission={ myMission } setMyMission={ setMyMission } myItems={ myItems } setMyItems={ setMyItems } />
         </View>
         <MyGold goldStatus={goldStatus} />
         <Board changedIndex={changedIndex} setChangedIndex={setChangedIndex} myItems={myItems} itemInfo={itemInfo} isMove={isMove} setIsMove={setIsMove} data={data} changeDate={changeDate} tiles={tiles} userToken={userToken} isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} />

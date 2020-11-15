@@ -6,7 +6,7 @@ import { set } from "react-native-reanimated";
 import MissionList from "./MissionList";
 
 
-export default function MissionModal({ userToken, myMission, setMyMission, myItems, setMyItems }) {
+export default function MissionModal({ userToken, myMission, setMyMission, myItems, setMyItems, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   // console.log("MyMission 넘어옴!", myMission)
 
@@ -30,7 +30,7 @@ export default function MissionModal({ userToken, myMission, setMyMission, myIte
               }}
               size={30}
             ></IconButton>
-            <MissionList userToken={ userToken } myMission={ myMission } setMyMission={ setMyMission } myItems={ myItems } setMyItems={ setMyItems }/>
+            <MissionList navigation={navigation} userToken={ userToken } myMission={ myMission } setMyMission={ setMyMission } myItems={ myItems } setMyItems={ setMyItems }/>
             {/* <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
