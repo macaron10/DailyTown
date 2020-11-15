@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, Image } from 'react-native';
-import { IconButton } from 'react-native-paper'
+import { Audio } from 'expo-av';
 import * as Google from 'expo-google-app-auth';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios'
@@ -13,6 +13,8 @@ import MyGold from '../components/MyGold';
 import InventoryItems from '../components/mainbottom/InventoryItems'
 
 const bgimage = require('../assets/background.png')
+const soundObject = new Audio.Sound();
+let isSoundOn = false
 
 export default function Main({ navigation }) {
   const xyCount = 6
@@ -88,19 +90,18 @@ export default function Main({ navigation }) {
       .then(res => setGoldStatus(res.data.gold))
       .catch(err => console.log(err))
     }
-  
-  // const [accessToken]
-      // "0": {
-      // "name": "임시1",
-      // "price": 500, 
-      // "image": "test1"
-      // }
-
-  // "0": {
-  // "name": "임시1",
-  // "price": 500,
-  // "image": "test1"
-  // }
+  // BGM 파트
+  async function playSound() {
+    await soundObject.loadAsync(require('../assets/bgm/bgm.mp3'));
+    await soundObject.playAsync();
+    await soundObject.setStatusAsync({ isLooping: true })
+    isSoundOn = true
+  }
+  async function stopSound() {
+    await soundObject.stopAsync(); // 음악 stop
+    await soundObject.unloadAsync(); // 음악 unload(메모리에서)
+    isSoundOn = false
+  }
 
   const [isChangeItemPlace, setIsChangeItemPlace] = useState(false)
   const [itemInfo, setItemInfo] = useState(null)
@@ -130,7 +131,6 @@ export default function Main({ navigation }) {
     // 비로그인시 접속 가능(개발용, 배포시에 막아놓을 것)
     getToken()
     // console.log(jwt)
-
   }, [])
   // getToken()
   return (
@@ -169,13 +169,15 @@ export default function Main({ navigation }) {
       >
           <Image style={{resizeMode: "contain"}} source={require('../assets/icon/door.png')} />
       </TouchableOpacity>
+      {/* 음악 ON OFF 버튼 */}
       <TouchableOpacity
         style={styles.musicButton}
-        onPress={async () => {
+        onPress={() => {
+          isSoundOn ? stopSound() : playSound()
         }}
         size={40}
       >
-          <Image style={{resizeMode: "contain"}} source={require('../assets/icon/music.png')} />
+        <Image style={{resizeMode: "contain"}} source={require('../assets/icon/music.png')} />        
       </TouchableOpacity>   
       <View style={styles.containerTop}>
         <View style={styles.infoContainer}>
