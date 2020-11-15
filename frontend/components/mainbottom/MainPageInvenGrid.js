@@ -258,6 +258,9 @@ const styles = StyleSheet.create({
     color: '#776e65',
     position: 'relative',
     backgroundColor: '#bbada0',
+    borderLeftWidth: 2,
+    borderRightWidth: 2,
+    borderColor: 'gray'
     // width: '100%',
     // height: '50%',
   },

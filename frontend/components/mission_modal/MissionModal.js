@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { Modal, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import { IconButton } from 'react-native-paper';
 import { set } from "react-native-reanimated";
 
@@ -42,14 +42,15 @@ export default function MissionModal({ userToken, myMission, setMyMission, myIte
           </View>
         </View>
       </Modal>
-      <IconButton
-        icon="email-outline"
+      <TouchableOpacity
         style={styles.showButton}
         onPress={() => {
           setModalVisible(true);
         }}
         size={40}
-      ></IconButton>
+      >
+          <Image style={{resizeMode: "contain",}} source={require('../../assets/icon/envelope.png')} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -95,8 +96,8 @@ const styles = StyleSheet.create({
   },
   showButton: {
     position: "absolute",
-    top: 5,
-    left: 5,
+    top: 15,
+    right: 105,
     zIndex: 1,
   },
   closeModal: {
