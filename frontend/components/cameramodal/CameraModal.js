@@ -39,10 +39,9 @@ export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missio
         <View style={styles.centeredView}>
           {/* <View style={styles.modalView}> */}
             <Image
-              style={{ width: 300, height: 500, resizeMode: 'contain' }}
+              style={{ width: 300, height: 410, resizeMode: 'contain' }}
               source={{ uri: photoInfo.uri }}
             />
-
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
               onPress={() => {
@@ -107,6 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
+    zIndex: 50,
   },
   modalView: {
     margin: 20,
@@ -122,12 +122,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    zIndex: 90,
   },
   openButton: {
     backgroundColor: '#F194FF',
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+    zIndex: 200,
   },
   textStyle: {
     color: 'white',
