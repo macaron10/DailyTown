@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
   },
   showButton: {
     position: "absolute",
-    top: 30,
-    left: 15,
+    top: 15,
+    right: 105,
     zIndex: 1,
   },
   closeModal: {

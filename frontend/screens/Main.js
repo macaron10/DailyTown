@@ -211,14 +211,14 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     position: 'absolute',
-    right: 20,
-    top: 50,
+    right: 0,
+    top: 40,
     zIndex: 100
   },
   musicButton: {
     position: 'absolute',
-    left: 160,
-    top: 50,
+    right: 55,
+    top: 40,
     zIndex: 100
   },
   containerTop: {
