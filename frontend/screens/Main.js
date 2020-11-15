@@ -137,14 +137,14 @@ export default function Main({ navigation }) {
     <View style={styles.container}>
       <ImageBackground source={bgimage} style={styles.bgimage}>
       {/* 로그인 페이지로 이동 버튼(임시) */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.devbutton}
         onPress={() => navigation.navigate('Login')}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>LoginPage(for Dev)</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       {/* 토큰 저장소 확인버튼(임시) */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{ position: 'absolute', top: 130, zIndex: 100 }}
         onPress={async () => {
           const jwt = await SecureStore.getItemAsync('token')
@@ -155,7 +155,7 @@ export default function Main({ navigation }) {
         }}
       >
         <Text style={{ color: '#fff', textAlign: 'center' }}>저장값꺼내기</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       {/* 로그아웃 버튼 */}
       <TouchableOpacity
         style={styles.logoutButton}
@@ -168,7 +168,15 @@ export default function Main({ navigation }) {
         size={40}
       >
           <Image style={{resizeMode: "contain"}} source={require('../assets/icon/door.png')} />
-      </TouchableOpacity>      
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.musicButton}
+        onPress={async () => {
+        }}
+        size={40}
+      >
+          <Image style={{resizeMode: "contain"}} source={require('../assets/icon/music.png')} />
+      </TouchableOpacity>   
       <View style={styles.containerTop}>
         <View style={styles.infoContainer}>
           <MissionModal userToken={ userToken } myMission={ myMission }/>
@@ -203,8 +211,14 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     position: 'absolute',
-    right: 10,
-    top: 35,
+    right: 20,
+    top: 50,
+    zIndex: 100
+  },
+  musicButton: {
+    position: 'absolute',
+    left: 160,
+    top: 50,
     zIndex: 100
   },
   containerTop: {
