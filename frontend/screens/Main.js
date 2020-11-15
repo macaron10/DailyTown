@@ -177,7 +177,7 @@ export default function Main({ navigation }) {
       ></IconButton>
       <View style={styles.containerTop}>
         <View style={styles.infoContainer}>
-          <MissionModal userToken={ userToken } myMission={ myMission } myItems={ myItems }/>
+          <MissionModal userToken={ userToken } myMission={ myMission } setMyMission={ setMyMission } myItems={ myItems } setMyItems={ setMyItems } />
         </View>
         <MyGold goldStatus={goldStatus} />
         <Board changedIndex={changedIndex} setChangedIndex={setChangedIndex} myItems={myItems} itemInfo={itemInfo} isMove={isMove} setIsMove={setIsMove} data={data} changeDate={changeDate} tiles={tiles} userToken={userToken} isChangeItemPlace={isChangeItemPlace} setIsChangeItemPlace={setIsChangeItemPlace} />
