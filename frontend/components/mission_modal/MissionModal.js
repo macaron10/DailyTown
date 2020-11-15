@@ -31,14 +31,6 @@ export default function MissionModal({ userToken, myMission, setMyMission, myIte
               size={30}
             ></IconButton>
             <MissionList navigation={navigation} userToken={ userToken } myMission={ myMission } setMyMission={ setMyMission } myItems={ myItems } setMyItems={ setMyItems }/>
-            {/* <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </TouchableHighlight> */}
           </View>
         </View>
       </Modal>
@@ -64,7 +56,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "#e4f5e8",
     borderRadius: 20,
     padding: 35,  
     // alignItems: "center",
