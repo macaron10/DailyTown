@@ -21,7 +21,7 @@ def predict(request):
 		keyword = request.data['category']
 		target = request.data['title']
 	except Exception as e:
-		MM.send(e, "ai/")
+		MM.send(e, '\nform-data 확인 필요',"ai-images/predict/")
 
 		# 물건 종류에 따라 if문 model 분기
 	if keyword == 'fruit':
