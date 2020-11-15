@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, Image, Text, Alert } from 'react-native';
-import { List, IconButton } from 'react-native-paper';
+import { StyleSheet, View, ScrollView, Image, Text, TouchableOpacity } from 'react-native';
+import { List, Button, IconButton } from 'react-native-paper';
 
 import CameraOn from '../cameramodal/CameraOn';
 import ImageModal from '../cameramodal/CameraModal';
@@ -33,9 +33,24 @@ function Camera({ setIsCameraOn, setMissionInfo, missionInfo, location }) {
   // console.log("여긴 넘어왔나?", missionInfo)
 
   return (
-    <IconButton
+    // <IconButton
+    //   icon="camera"
+    //   style={styles.cameraIcon}
+    //   onPress={() => {
+    //     if (!!location) {
+    //       clickCameraOn();
+    //       setMissionInfo(missionInfo)
+    //     } else {
+    //       Alert.alert('인벤토리가 가득 찼습니다. 보상을 받으려면 인벤토리를 비워주세요.')
+    //     }
+    //   }}
+    //   size={40}
+    // ></IconButton>
+    <Button
       icon="camera"
+      mode="outlined"
       style={styles.cameraIcon}
+      size={40}
       onPress={() => {
         if (!!location) {
           clickCameraOn();
@@ -44,16 +59,9 @@ function Camera({ setIsCameraOn, setMissionInfo, missionInfo, location }) {
           Alert.alert('인벤토리가 가득 찼습니다. 보상을 받으려면 인벤토리를 비워주세요.')
         }
       }}
-      size={40}
-    ></IconButton>
-    // <TouchableOpacity
-    //   onPress={() => {
-    //     clickCameraOn()
-    //   }}
-    //   style={{ backgroundColor: 'blue', }}
-    // >
-    //   <Text style={{ color: '#fff', textAlign: 'center' }}>Picture</Text>
-    // </TouchableOpacity>
+    >
+      미션 수행
+    </Button>
   );
 }
 
@@ -96,9 +104,21 @@ export default function MissionList({ userToken, myMission, setMyMission,  myIte
                   title={missionInfo.mission.description}
                   // left={props => <List.Icon {...props} icon="folder" />}
                 >
-                  <Text>보상</Text>
+                  <Text style={ styles.rewardText } >보상</Text>
                   <Image style={ styles.rewardImg } source={ DynamicItems[missionInfo.item.name] } />
                   <Camera setIsCameraOn={ setIsCameraOn } setMissionInfo={ setMissionInfo } missionInfo={ missionInfo } location={ location }/>
+                </List.Accordion>
+              )
+            } else {
+              return (
+                <List.Accordion
+                  key={missionInfo.id}
+                  title={missionInfo.mission.description}
+                  // left={props => <List.Icon {...props} icon="folder" />}
+                >
+                  <Text style={ styles.rewardText } >보상</Text>
+                  <Image style={ styles.rewardImg } source={ DynamicItems[missionInfo.item.name] } />
+                  <Image style={ styles.clearImg } source={require('../../assets/clear.png')} />
                 </List.Accordion>
               )
             }
@@ -121,8 +141,25 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     left: "50%",
-    marginLeft: -100
+    marginLeft: -100,
+    marginBottom: 15,
+  },
+  clearImg: {
+    position: "absolute",
+    width: 250,
+    height: 250,
+    left: "50%",
+    marginLeft: -135,
+    marginTop: 40
+  },
+  rewardText: {
+    marginLeft: 30,
   },
   cameraIcon: {
+    // backgroundColor: "blue",
+    // marginTop: 15,
+    marginBottom: 15,
+    marginLeft: 50,
+    marginRight: 50,
   }
 });
