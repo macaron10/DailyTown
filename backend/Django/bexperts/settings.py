@@ -170,7 +170,7 @@ JWT_AUTH = {
 #CronTab
 CRONJOBS = [
     # ('* 0 * * *', 'accounts.cron.DailyUpdateMission')
-    ('* * * * *', 'accounts.cron.test_print', '>> /code/bexports/test_con.log')
+    ('*/1 * * * *', 'bexperts.cron.test_print', '>> /code/bexperts/test_con.log 2>&1')
 ]
 
 ROOT_URLCONF = 'bexperts.urls'
