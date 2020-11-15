@@ -4,7 +4,7 @@ const DynamicItems = {
   'test1': require(`../../assets/test_img/cat.png`),
   'test2': require(`../../assets/test_img/lion.png`),
   // -------------store itme----------------------------
-  'animal1' : require(`../../assets/itemlist/field1.png`),
+  'animal1' : require(`../../assets/itemlist/animal1.png`),
   'animal2' : require('../../assets/itemlist/animal2.png'),
   'animal4' : require('../../assets/itemlist/animal4.png'),
   'field1' : require('../../assets/itemlist/field1.png'),
