@@ -16,4 +16,6 @@ def check_fruit(request, target):
   # 결과값 바탕으로 T/F 반환
   output = { 0:'apple',1:'banana',2:'mixed',3:'orange'}
   predict = reconstructed_model.predict(img)
+  print('target:', target)
+  print('real:', output[np.argmax(predict)])
   return output[np.argmax(predict)] == target

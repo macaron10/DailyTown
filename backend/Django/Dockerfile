@@ -8,4 +8,5 @@ RUN pip install mysqlclient
 RUN pip install -r requirements.txt
 COPY . /code/
 RUN apt-get update
+RUN apt-get install cron -y
 RUN apt-get install 'ffmpeg' 'libsm6' 'libxext6'  -y
