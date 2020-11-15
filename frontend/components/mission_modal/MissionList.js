@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, Image, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, Image, Text, Alert } from 'react-native';
 import { List, IconButton } from 'react-native-paper';
 
 import CameraOn from '../cameramodal/CameraOn';
@@ -21,14 +21,14 @@ function CheckImage(props) {
   const photoInfo = props.photoInfo
   if ( photoInfo ) {
     // Alert.alert('New Image Detect')
-    return <ImageModal photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } userToken={ props.userToken } missionInfo={ props.missionInfo } myItems={ props.myItems } />
+    return <ImageModal photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } userToken={ props.userToken } missionInfo={ props.missionInfo } location={ props.location } />
   }
   else {
     return <View/>
   }
 }
 
-function Camera({ setIsCameraOn, setMissionInfo, missionInfo }) {
+function Camera({ setIsCameraOn, setMissionInfo, missionInfo, location }) {
   const clickCameraOn = () => setIsCameraOn(prevStatus => !prevStatus);
   // console.log("여긴 넘어왔나?", missionInfo)
 
@@ -37,8 +37,12 @@ function Camera({ setIsCameraOn, setMissionInfo, missionInfo }) {
       icon="camera"
       style={styles.cameraIcon}
       onPress={() => {
-        clickCameraOn();
-        setMissionInfo(missionInfo)
+        if (!!location) {
+          clickCameraOn();
+          setMissionInfo(missionInfo)
+        } else {
+          Alert.alert('인벤토리가 가득 찼습니다. 보상을 받으려면 인벤토리를 비워주세요.')
+        }
       }}
       size={40}
     ></IconButton>
@@ -59,6 +63,14 @@ export default function MissionList({ userToken, myMission, myItems }) {
   const [photoInfo, setPhotoInfo] = useState(null);
   const [missionInfo, setMissionInfo] = useState(null);
 
+  let location = 0
+  for (let i = 0; i < 20; i++) {
+    if (myItems[i]['name'] === "") {
+      location = myItems[i]['location']
+      break
+    }
+  }
+
   // console.log("MissionList.js 까지 넘어옴!", myMission)
 
   if (isCameraOn) {
@@ -67,7 +79,7 @@ export default function MissionList({ userToken, myMission, myItems }) {
     );
   } else if (photoInfo) {
     return(
-      <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } userToken={ userToken } missionInfo={ missionInfo } myItems={ myItems }/>
+      <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } userToken={ userToken } missionInfo={ missionInfo } location={ location }/>
     )
   } else {
     return (
@@ -86,7 +98,7 @@ export default function MissionList({ userToken, myMission, myItems }) {
                 >
                   <Text>보상</Text>
                   <Image style={ styles.rewardImg } source={ DynamicItems[missionInfo.item.name] } />
-                  <Camera setIsCameraOn={ setIsCameraOn } setMissionInfo={ setMissionInfo } missionInfo={ missionInfo }/>
+                  <Camera setIsCameraOn={ setIsCameraOn } setMissionInfo={ setMissionInfo } missionInfo={ missionInfo } location={ location }/>
                 </List.Accordion>
               )
             }

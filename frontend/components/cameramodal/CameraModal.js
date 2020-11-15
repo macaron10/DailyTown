@@ -4,14 +4,14 @@ import axios from 'axios';
 import * as env from '../../env';
 
 
-export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missionInfo, myItems }) {
+export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missionInfo, location }) {
 
   photoInfo.type = 'image/jpeg'
   photoInfo.name = 'photo' + '-' + Date.now() + '.jpg'
   // console.log(photoInfo)
 
   // console.log("missionInfo 넘어왔나??", missionInfo)
-  console.log("myItems 넘어왔나??", myItems)
+  console.log("location 넘어왔나??", location)
     
   const formData = new FormData();
   formData.append("category", missionInfo.mission.body_category)
@@ -54,20 +54,17 @@ export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missio
                 .then(res => {
                   console.log("성공!", res.data.ans)
                   if (res.data.ans) {
-                    let location
-                    for (let i = 0; i < 20; i++) {
-                      if (myItems[i]['name'] === "") {
-                        location = myItems[i]['location']
-                        break
-                      }
+                    if (!!location) {
+                      axios.put(`http://${env.IP_ADDRESS}/account/mymission/${missionInfo.id}/`, { "location": location }, {
+                        headers: {
+                          Authorization: "Bearer " + userToken
+                        }
+                      })
+                      .then(res => console.log(res.data))
+                      .catch(err => console.error(err))
+                    } else {
+                      Alert.alert('인벤토리가 가득 찼습니다. 보상을 받으려면 인벤토리를 비워주세요.')
                     }
-                    axios.put(`http://${env.IP_ADDRESS}/account/mymission/${missionInfo.id}/`, { "location": location }, {
-                      headers: {
-                        Authorization: "Bearer " + userToken
-                      }
-                    })
-                    .then(res => console.log(res))
-                    .catch(err => console.error(err))
                   } else {
                     Alert.alert('사진을 다시 찍어 주세요.')
                   }
