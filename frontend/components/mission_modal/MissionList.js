@@ -21,21 +21,24 @@ function CheckImage(props) {
   const photoInfo = props.photoInfo
   if ( photoInfo ) {
     // Alert.alert('New Image Detect')
-    return <ImageModal photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } userToken={ props.userToken } />
+    return <ImageModal photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } userToken={ props.userToken } missionInfo={ props.missionInfo } myItems={ props.myItems } />
   }
   else {
     return <View/>
   }
 }
 
-function Camera({ setIsCameraOn }) {
+function Camera({ setIsCameraOn, setMissionInfo, missionInfo }) {
   const clickCameraOn = () => setIsCameraOn(prevStatus => !prevStatus);
+  // console.log("여긴 넘어왔나?", missionInfo)
+
   return (
     <IconButton
       icon="camera"
       style={styles.cameraIcon}
       onPress={() => {
         clickCameraOn();
+        setMissionInfo(missionInfo)
       }}
       size={40}
     ></IconButton>
@@ -50,10 +53,11 @@ function Camera({ setIsCameraOn }) {
   );
 }
 
-export default function MissionList({ userToken, myMission }) {
+export default function MissionList({ userToken, myMission, myItems }) {
 
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [photoInfo, setPhotoInfo] = useState(null);
+  const [missionInfo, setMissionInfo] = useState(null);
 
   // console.log("MissionList.js 까지 넘어옴!", myMission)
 
@@ -63,7 +67,7 @@ export default function MissionList({ userToken, myMission }) {
     );
   } else if (photoInfo) {
     return(
-      <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } userToken={ userToken }/>
+      <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } userToken={ userToken } missionInfo={ missionInfo } myItems={ myItems }/>
     )
   } else {
     return (
@@ -72,17 +76,17 @@ export default function MissionList({ userToken, myMission }) {
         title="오늘의 미션"
       >
         <ScrollView>
-          {myMission.map(({ id, item, mission, iscleared }) => {
-            if (!iscleared) {
+          {myMission.map( missionInfo => {
+            if (!missionInfo.iscleared) {
               return (
                 <List.Accordion
-                  key={id}
-                  title={mission.description}
+                  key={missionInfo.id}
+                  title={missionInfo.mission.description}
                   // left={props => <List.Icon {...props} icon="folder" />}
                 >
                   <Text>보상</Text>
-                  <Image style={ styles.rewardImg } source={ DynamicItems[item.name] } />
-                  <Camera setIsCameraOn={ setIsCameraOn } />
+                  <Image style={ styles.rewardImg } source={ DynamicItems[missionInfo.item.name] } />
+                  <Camera setIsCameraOn={ setIsCameraOn } setMissionInfo={ setMissionInfo } missionInfo={ missionInfo }/>
                 </List.Accordion>
               )
             }

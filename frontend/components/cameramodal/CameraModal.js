@@ -4,16 +4,22 @@ import axios from 'axios';
 import * as env from '../../env';
 
 
-export default function CameraModal({ photoInfo, setPhotoInfo, userToken }) {
+export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missionInfo, myItems }) {
 
   photoInfo.type = 'image/jpeg'
   photoInfo.name = 'photo' + '-' + Date.now() + '.jpg'
   // console.log(photoInfo)
+
+  // console.log("missionInfo 넘어왔나??", missionInfo)
+  console.log("myItems 넘어왔나??", myItems)
     
   const formData = new FormData();
-  formData.append("category", "general")
-  formData.append("title", "car")
+  formData.append("category", missionInfo.mission.body_category)
+  formData.append("title", missionInfo.mission.body_title)
   formData.append("image", photoInfo);
+  // formData.append("category", "general")
+  // formData.append("title", "car")
+  // formData.append("image", photoInfo);
   // console.log(formData)
   // console.log("토큰값!", userToken)
 
@@ -48,7 +54,14 @@ export default function CameraModal({ photoInfo, setPhotoInfo, userToken }) {
                 .then(res => {
                   console.log("성공!", res.data.ans)
                   if (res.data.ans) {
-                    axios.put(`http://${env.IP_ADDRESS}/ai-images/predict/`,{ "iscleared": True }, {
+                    let location
+                    for (let i = 0; i < 20; i++) {
+                      if (myItems[i]['name'] === "") {
+                        location = myItems[i]['location']
+                        break
+                      }
+                    }
+                    axios.put(`http://${env.IP_ADDRESS}/account/mymission/${missionInfo.id}/`, { "location": location }, {
                       headers: {
                         Authorization: "Bearer " + userToken
                       }
