@@ -167,7 +167,7 @@ export default function Main({ navigation }) {
         }}
         size={40}
       >
-          <Image style={{resizeMode: "contain",}} source={require('../assets/icon/door.png')} />
+          <Image style={{resizeMode: "contain"}} source={require('../assets/icon/door.png')} />
       </TouchableOpacity>      
       <View style={styles.containerTop}>
         <View style={styles.infoContainer}>
