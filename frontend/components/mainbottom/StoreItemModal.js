@@ -230,6 +230,8 @@ export default function StoreItemModal({
   setIsChangeItemPlace,
   setChangedIndex
 }) {
+
+
   const [modalVisible, setModalVisible] = useState(true);
 
   return (
@@ -265,6 +267,31 @@ export default function StoreItemModal({
 
     </View>
   );
+    // Alert.alert(
+    //   "어떤 작업을 하시겠습니까?",
+    //   "",
+    //   [
+    //     { text: "취소" },
+    //     {
+    //       text: "이동하기",
+    //       onPress: () => {
+    //         setModalVisible(prev => !prev);
+    //         setItemInfo(null)
+    //         setIsChangeItemPlace(true);
+    //         setChangedIndex(index);
+    //         setIsMove(true)
+    //       }
+    //     },
+    //     {
+    //       text: "판매하기",
+    //       onPress: () => {
+    //         setSellingItem(itemInfo)
+    //         setItemInfo([itemInfo, index])
+    //       }
+    //     },
+    //   ],
+    //   { cancelable: true }
+    // )
 };
 
 const styles = StyleSheet.create({

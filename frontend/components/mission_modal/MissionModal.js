@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { Modal, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import { IconButton } from 'react-native-paper';
-import { set } from "react-native-reanimated";
 
 import MissionList from "./MissionList";
 
 
 export default function MissionModal({ userToken, myMission, setMyMission, myItems, setMyItems, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
-  // console.log("MyMission 넘어옴!", myMission)
 
   return (
     <View style={styles.centeredView}>
