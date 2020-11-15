@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, Image, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, Image, Text, Alert } from 'react-native';
 import { List, IconButton } from 'react-native-paper';
 
 import CameraOn from '../cameramodal/CameraOn';
@@ -21,21 +21,28 @@ function CheckImage(props) {
   const photoInfo = props.photoInfo
   if ( photoInfo ) {
     // Alert.alert('New Image Detect')
-    return <ImageModal photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } userToken={ props.userToken } />
+    return <ImageModal navigation={props.navigation} photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } userToken={ props.userToken } missionInfo={ props.missionInfo } location={ props.location } myItems={props.myItems} setMyItems={props.setMyItems} myMission={props.myMission} setMyMission={props.setMyMission} />
   }
   else {
     return <View/>
   }
 }
 
-function Camera({ setIsCameraOn }) {
+function Camera({ setIsCameraOn, setMissionInfo, missionInfo, location }) {
   const clickCameraOn = () => setIsCameraOn(prevStatus => !prevStatus);
+  // console.log("여긴 넘어왔나?", missionInfo)
+
   return (
     <IconButton
       icon="camera"
       style={styles.cameraIcon}
       onPress={() => {
-        clickCameraOn();
+        if (!!location) {
+          clickCameraOn();
+          setMissionInfo(missionInfo)
+        } else {
+          Alert.alert('인벤토리가 가득 찼습니다. 보상을 받으려면 인벤토리를 비워주세요.')
+        }
       }}
       size={40}
     ></IconButton>
@@ -50,12 +57,21 @@ function Camera({ setIsCameraOn }) {
   );
 }
 
-export default function MissionList({ userToken, myMission }) {
+export default function MissionList({ userToken, myMission, setMyMission,  myItems, setMyItems, navigation }) {
 
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [photoInfo, setPhotoInfo] = useState(null);
+  const [missionInfo, setMissionInfo] = useState(null);
 
-  console.log("MissionList.js 까지 넘어옴!", myMission)
+  let location = 0
+  for (let i = 0; i < 20; i++) {
+    if (myItems[i]['name'] === "") {
+      location = myItems[i]['location']
+      break
+    }
+  }
+
+  // console.log("MissionList.js 까지 넘어옴!", myMission)
 
   if (isCameraOn) {
     return(
@@ -63,7 +79,7 @@ export default function MissionList({ userToken, myMission }) {
     );
   } else if (photoInfo) {
     return(
-      <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } userToken={ userToken }/>
+      <CheckImage navigation={navigation} photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } userToken={ userToken } missionInfo={ missionInfo } location={ location } myItems={myItems} setMyItems={setMyItems} myMission={myMission} setMyMission={setMyMission} />
     )
   } else {
     return (
@@ -72,37 +88,22 @@ export default function MissionList({ userToken, myMission }) {
         title="오늘의 미션"
       >
         <ScrollView>
-          {myMission.map(({ id, item, mission, iscleared }) => {
-            if (!iscleared) {
+          {myMission.map( missionInfo => {
+            if (!missionInfo.iscleared) {
               return (
                 <List.Accordion
-                  key={id}
-                  title={mission.description}
+                  key={missionInfo.id}
+                  title={missionInfo.mission.description}
                   // left={props => <List.Icon {...props} icon="folder" />}
                 >
                   <Text>보상</Text>
-                  <Image style={ styles.rewardImg } source={ DynamicItems[item.name] } />
-                  <Camera setIsCameraOn={ setIsCameraOn } />
+                  <Image style={ styles.rewardImg } source={ DynamicItems[missionInfo.item.name] } />
+                  <Camera setIsCameraOn={ setIsCameraOn } setMissionInfo={ setMissionInfo } missionInfo={ missionInfo } location={ location }/>
                 </List.Accordion>
               )
             }
           })}
         </ScrollView>
-        {/* <ScrollView>
-          {missionData.map(({ title, imgUrl }) => {
-            return (
-              <List.Accordion
-                key={title}
-                title={title}
-                // left={props => <List.Icon {...props} icon="folder" />}
-              >
-                <Text>보상</Text>
-                <Image style={ styles.rewardImg } source={imgUrl} />
-                <Camera setIsCameraOn={ setIsCameraOn } />
-              </List.Accordion>
-            )
-          })}
-        </ScrollView> */}
       </List.Section>
     );
   }
