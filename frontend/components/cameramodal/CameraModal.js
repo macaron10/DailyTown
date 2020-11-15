@@ -91,7 +91,7 @@ export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missio
                 setMyMission(myMission)
               }}
             >
-              <Text style={styles.textStyle}>미션 수행</Text>
+              <Text style={styles.textStyle}>미션 완료</Text>
             </TouchableHighlight>
           {/* </View> */}
         </View>

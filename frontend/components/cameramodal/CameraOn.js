@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TouchableOpacity, Alert } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
+import { IconButton } from 'react-native-paper';
 // import * as MediaLibrary from 'expo-media-library';
 
 
@@ -53,7 +54,7 @@ export default function CameraOn({ setIsCameraOn, setPhotoInfo }) {
     return <Text>No access to camera</Text>;
   }
   return (
-    <View style={{ height: "100%" }}>
+    <View style={{ height: "100%", paddingTop: 10 }}>
       <Camera style={{ flex: 1 }} type={type}
         ref={camera}      
       >
@@ -65,9 +66,23 @@ export default function CameraOn({ setIsCameraOn, setPhotoInfo }) {
           }}>
           <TouchableOpacity
             style={{
-              flex: 0.1,
+              flex: 0.3,
               alignSelf: 'flex-end',
               alignItems: 'center',
+              backgroundColor: 'blue'
+            }}
+            onPress={() => clickCameraOn()}>
+            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
+              {' '}
+              Goback{' '}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 0.3,
+              alignSelf: 'flex-end',
+              alignItems: 'center',
+              backgroundColor: 'blue'
             }}
             onPress={() => {
               setType(
@@ -83,21 +98,10 @@ export default function CameraOn({ setIsCameraOn, setPhotoInfo }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              flex: 0.1,
-              alignSelf: 'flex-end',
-              alignItems: 'center',
-            }}
-            onPress={() => clickCameraOn()}>
-            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-              {' '}
-              Goback{' '}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
             flex: 0.5,
             alignSelf: 'flex-end',
             alignItems: 'center',
+            backgroundColor: 'blue'
             }}
             onPress={() => snap()}
         >
