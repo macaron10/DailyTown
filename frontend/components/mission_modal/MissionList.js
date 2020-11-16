@@ -75,8 +75,8 @@ export default function MissionList({ userToken, myMission, setMyMission,  myIte
     return (
       <List.Section
         style={ styles.container }
-        title="오늘의 미션"
       >
+        <Text style={{margin: 9, marginLeft: 20, fontSize: 20, fontWeight:'bold'}}>오늘의 미션</Text>
         <ScrollView>
           {myMission.map( missionInfo => {
             if (!missionInfo.iscleared) {
@@ -111,11 +111,13 @@ export default function MissionList({ userToken, myMission, setMyMission,  myIte
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
+    marginTop: 20,
     // flex: 1,
     // backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
+    margin: 20,
+    paddingBottom: 50,
   },
   rewardImg: {
     width: 200,

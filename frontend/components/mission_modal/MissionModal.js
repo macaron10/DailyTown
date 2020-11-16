@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Modal, StyleSheet, View, TouchableOpacity, Image } from "react-native";
+import { Modal, StyleSheet, View, TouchableOpacity, Image, ImageBackground } from "react-native";
 import { IconButton } from 'react-native-paper';
 
 import MissionList from "./MissionList";
 
-
+const bgimage = require('../../assets/modalbackground.png')
 export default function MissionModal({ userToken, myMission, setMyMission, myItems, setMyItems, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -20,6 +20,7 @@ export default function MissionModal({ userToken, myMission, setMyMission, myIte
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <ImageBackground source={bgimage} style={styles.bgimage}>
             <IconButton
               icon="close"
               style={styles.closeModal}
@@ -29,6 +30,15 @@ export default function MissionModal({ userToken, myMission, setMyMission, myIte
               size={30}
             ></IconButton>
             <MissionList navigation={navigation} userToken={ userToken } myMission={ myMission } setMyMission={ setMyMission } myItems={ myItems } setMyItems={ setMyItems }/>
+            {/* <TouchableHighlight
+              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </TouchableHighlight> */}
+            </ImageBackground>
           </View>
         </View>
       </Modal>
@@ -46,6 +56,9 @@ export default function MissionModal({ userToken, myMission, setMyMission, myIte
 }
 
 const styles = StyleSheet.create({
+  bgimage: {
+    height: 500
+  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -54,9 +67,8 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "#e4f5e8",
-    borderRadius: 20,
-    padding: 35,  
+    backgroundColor: "white",
+    padding: 0,
     // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -66,7 +78,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    height: "95%",
+    height: "83%",
     width: "90%"
   },
   openButton: {
@@ -92,6 +104,8 @@ const styles = StyleSheet.create({
   },
   closeModal: {
     position: "absolute",
-    right: 3,
+    top: 15,
+    right: 20,
+    zIndex: 100,
   }
 });

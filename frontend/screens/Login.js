@@ -18,9 +18,13 @@ export default function LoginSample({ navigation }) {
     }
   }
   useEffect(() => {
-    check()
-    return () => {}
-})
+    const unsubscribe = navigation.addListener('focus', () => {
+      // The screen is focused
+      // Call any action
+      check()
+    });
+    return unsubscribe;
+}, [navigation])
 
   const onPress = async () => {
     const res = await Google.logInAsync(

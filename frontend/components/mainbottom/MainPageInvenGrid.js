@@ -99,7 +99,7 @@ function ShowItem(props) {
         resizeMode="contain"
         source={image}
       />
-      {!isInventory ? <Text style={{}}>금액: {itemPrice} </Text> : <Text></Text>}      
+      {!isInventory ? <Text style={{}}> <Image style={{resizeMode: "contain"}} source={require('../../assets/icon/coin2.png')}/>{itemPrice} </Text> : <Text></Text>}      
       {/* 아래처럼 하면 안됩니다. react는 되는데 native는 동적할당이 불가능합니다 */}
       {/* <Image style={styles.tinyLogo} source={require(`../../assets/` + item.image)} /> */}
       {/* <Image style={styles.tinyLogo} source={require(`../../assets/` + ( item.image ? item.image : 'splash.png' ))} /> */}
