@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, Image, Text, TouchableOpacity } from 'react-native';
-import { List, Button, IconButton } from 'react-native-paper';
+import { StyleSheet, View, ScrollView, Image, Text } from 'react-native';
+import { List, Button } from 'react-native-paper';
 
 import CameraOn from '../cameramodal/CameraOn';
 import ImageModal from '../cameramodal/CameraModal';
@@ -20,7 +20,6 @@ function CheckCamera(props) {
 function CheckImage(props) {
   const photoInfo = props.photoInfo
   if ( photoInfo ) {
-    // Alert.alert('New Image Detect')
     return <ImageModal navigation={props.navigation} photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } userToken={ props.userToken } missionInfo={ props.missionInfo } location={ props.location } myItems={props.myItems} setMyItems={props.setMyItems} myMission={props.myMission} setMyMission={props.setMyMission} />
   }
   else {
@@ -30,27 +29,12 @@ function CheckImage(props) {
 
 function Camera({ setIsCameraOn, setMissionInfo, missionInfo, location }) {
   const clickCameraOn = () => setIsCameraOn(prevStatus => !prevStatus);
-  // console.log("여긴 넘어왔나?", missionInfo)
 
   return (
-    // <IconButton
-    //   icon="camera"
-    //   style={styles.cameraIcon}
-    //   onPress={() => {
-    //     if (!!location) {
-    //       clickCameraOn();
-    //       setMissionInfo(missionInfo)
-    //     } else {
-    //       Alert.alert('인벤토리가 가득 찼습니다. 보상을 받으려면 인벤토리를 비워주세요.')
-    //     }
-    //   }}
-    //   size={40}
-    // ></IconButton>
     <Button
       icon="camera"
       mode="outlined"
       style={styles.cameraIcon}
-      size={40}
       onPress={() => {
         if (!!location) {
           clickCameraOn();
@@ -79,8 +63,6 @@ export default function MissionList({ userToken, myMission, setMyMission,  myIte
     }
   }
 
-  // console.log("MissionList.js 까지 넘어옴!", myMission)
-
   if (isCameraOn) {
     return(
       <CheckCamera isCameraOn={ isCameraOn } setIsCameraOn={ setIsCameraOn } setPhotoInfo={ setPhotoInfo } />
@@ -102,7 +84,6 @@ export default function MissionList({ userToken, myMission, setMyMission,  myIte
                 <List.Accordion
                   key={missionInfo.id}
                   title={missionInfo.mission.description}
-                  // left={props => <List.Icon {...props} icon="folder" />}
                 >
                   <Text style={ styles.rewardText } >보상</Text>
                   <Image style={ styles.rewardImg } source={ DynamicItems[missionInfo.item.name] } />
@@ -114,7 +95,6 @@ export default function MissionList({ userToken, myMission, setMyMission,  myIte
                 <List.Accordion
                   key={missionInfo.id}
                   title={missionInfo.mission.description}
-                  // left={props => <List.Icon {...props} icon="folder" />}
                 >
                   <Text style={ styles.rewardText } >보상</Text>
                   <Image style={ styles.rewardImg } source={ DynamicItems[missionInfo.item.name] } />
@@ -158,8 +138,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   cameraIcon: {
-    // backgroundColor: "blue",
-    // marginTop: 15,
     marginBottom: 15,
     marginLeft: 50,
     marginRight: 50,

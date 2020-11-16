@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, View, TouchableOpacity, Alert } from 'react-native';
+import { Text, View } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import { IconButton } from 'react-native-paper';
@@ -64,33 +64,23 @@ export default function CameraOn({ setIsCameraOn, setPhotoInfo }) {
             backgroundColor: 'transparent',
             flexDirection: 'row',
           }}>
-          {/* <IconButton
-            icon='autorenew'
-            style={{zIndex:5}}
-          ></IconButton> */}
           <IconButton
             icon='arrow-left-bold-box-outline'
-            size={40}
+            size={50}
             style={{
               flex: 0.33333,
               alignSelf: 'flex-end',
               alignItems: 'center',
-              // backgroundColor: 'blue'
             }}
-            onPress={() => clickCameraOn()}>
-            {/* <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> */}
-              {/* {' '} */}
-              {/* Goback{' '} */}
-            {/* </Text> */}
-          </IconButton>
+            onPress={() => clickCameraOn()}
+          ></IconButton>
           <IconButton
             icon='camera-retake-outline'
-            size={40}
+            size={50}
             style={{
               flex: 0.33333,
               alignSelf: 'flex-end',
               alignItems: 'center',
-              // backgroundColor: 'blue'
             }}
             onPress={() => {
               setType(
@@ -98,27 +88,18 @@ export default function CameraOn({ setIsCameraOn, setPhotoInfo }) {
                   ? Camera.Constants.Type.front
                   : Camera.Constants.Type.back
               );
-            }}>
-            {/* <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-              {' '}
-              Flip{' '}
-            </Text> */}
-          </IconButton>
+            }}
+          ></IconButton>
           <IconButton
             icon='camera-outline'
-            size={40}
+            size={50}
             style={{
               flex: 0.33333,
               alignSelf: 'flex-end',
               alignItems: 'center',
-              // backgroundColor: 'blue'
             }}
             onPress={() => snap()}
-        >
-            {/* <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }} >
-              Take a Picture
-            </Text> */}
-        </IconButton>
+          ></IconButton>
         </View>
       </Camera>
     </View>

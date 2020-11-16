@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { Modal, StyleSheet, View, TouchableOpacity, Image, ImageBackground } from "react-native";
 import { IconButton } from 'react-native-paper';
-import { set } from "react-native-reanimated";
 
 import MissionList from "./MissionList";
 
 const bgimage = require('../../assets/modalbackground.png')
 export default function MissionModal({ userToken, myMission, setMyMission, myItems, setMyItems, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
-  // console.log("MyMission 넘어옴!", myMission)
 
   return (
     <View style={styles.centeredView}>
@@ -51,7 +49,7 @@ export default function MissionModal({ userToken, myMission, setMyMission, myIte
         }}
         size={40}
       >
-          <Image style={{resizeMode: "contain",}} source={require('../../assets/icon/envelope.png')} />
+        <Image style={{resizeMode: "contain",}} source={require('../../assets/icon/envelope.png')} />
       </TouchableOpacity>
     </View>
   );
