@@ -324,12 +324,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
     borderRadius: 10,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    marginLeft: 5,
+    marginRight: 5
   },
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,

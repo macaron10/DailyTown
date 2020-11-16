@@ -57,7 +57,7 @@ export default function MissionModal({ userToken, myMission, setMyMission, myIte
 
 const styles = StyleSheet.create({
   bgimage: {
-    height: 500
+    height: "100%"
   },
   centeredView: {
     flex: 1,

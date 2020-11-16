@@ -25,7 +25,7 @@ export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missio
     <View style={styles.centeredView}>
       <View style={styles.centeredView}>
         <Image
-          style={{ width: 300, height: 500, resizeMode: 'contain' }}
+          style={{ width: 300, height: 450, resizeMode: 'contain' }}
           source={{ uri: photoInfo.uri }}
         />
         <Button
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    // marginTop: 22,
     zIndex: 50,
   },
   modalView: {
