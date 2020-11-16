@@ -39,7 +39,7 @@ export default function MissionModal({ userToken, myMission, setMyMission, myIte
         }}
         size={40}
       >
-          <Image style={{resizeMode: "contain",}} source={require('../../assets/icon/envelope.png')} />
+        <Image style={{resizeMode: "contain",}} source={require('../../assets/icon/envelope.png')} />
       </TouchableOpacity>
     </View>
   );
