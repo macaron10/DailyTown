@@ -97,11 +97,11 @@ export default function LoginSample({ navigation }) {
       <TouchableOpacity onPress={onPress} style={styles.loginBtn}>
         <Text style={styles.loginText}>Google LOGIN</Text>
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{ position: 'absolute', bottom: 50, backgroundColor: '#66e0ff', zIndex: 100 }}
         title="NextPage(for Dev)"
         onPress={() => navigation.navigate('Main')}
-      ><Text style={styles.loginText}>Next Page(dev)</Text></TouchableOpacity>
+      ><Text style={styles.loginText}>Next Page(dev)</Text></TouchableOpacity> */}
       </ImageBackground>
     </View>
   );
