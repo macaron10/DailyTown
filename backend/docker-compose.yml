@@ -15,22 +15,6 @@ services:
       - db
     restart: always
   
-  backend2:
-    image: void_back:0.1
-    command: bash -c "pip install -r requirements.txt
-      && python manage.py makemigrations
-      && python manage.py migrate
-      && python manage.py crontab add
-      && service cron start 
-      && python manage.py runserver 0.0.0.0:8002"
-    volumes:
-      - ./Django:/code
-    expose:
-      - "8002"
-    depends_on:
-      - db
-    restart: always
-
   db:
     image: mysql
     
@@ -65,5 +49,4 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - backend1
-      - backend2
     restart: always
