@@ -20,6 +20,8 @@ services:
     command: bash -c "pip install -r requirements.txt
       && python manage.py makemigrations
       && python manage.py migrate
+      && python manage.py crontab add
+      && service cron start 
       && python manage.py runserver 0.0.0.0:8002"
     volumes:
       - ./Django:/code
@@ -45,7 +47,7 @@ services:
     expose:
       - "3306"
     volumes:
-       - ./mysql:/var/lib/mysql/
+        - ./mysql:/var/lib/mysql/
     restart: always
 
   adminer:
@@ -65,4 +67,3 @@ services:
       - backend1
       - backend2
     restart: always
-    

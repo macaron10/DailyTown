@@ -1,100 +1,84 @@
-import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Image, Alert } from 'react-native';
+import { Button } from 'react-native-paper';
 import axios from 'axios';
-// import {Buffer} from 'buffer'
-// import {decode, encode} from 'base-64'
-// if (!global.btoa) { global.btoa = encode }
-// if (!global.atob) { global.atob = decode }
 
-// function btoa(data) { return new Buffer(data, "binary").toString("base64"); }
-// function atob(data) { return new Buffer(data, "base64").toString("binary"); }
+import * as env from '../../env';
 
-// function b64toBlob(b64Data, contentType, sliceSize) {
 
-//   if( b64Data == "" || b64Data == undefined ) return null;
-  
-// 	contentType = contentType || '';
-// 	sliceSize = sliceSize || 512;
-
-// 	const byteCharacters = atob(b64Data);
-// 	const byteArrays = [];
-
-// 	for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-// 		const slice = byteCharacters.slice(offset, offset + sliceSize);
-// 		const byteNumbers = new Array(slice.length);
-
-// 		for (let i = 0; i < slice.length; i++) {
-// 		    byteNumbers[i] = slice.charCodeAt(i);
-// 		}
-// 		const byteArray = new Uint8Array(byteNumbers);
-// 		byteArrays.push(byteArray);
-//   }
-  
-// 	const blob = new Blob(byteArrays, {type: contentType});
-// 	return blob;
-// }
-
-// function atob(data) { return new Buffer(data, "base64").toString("binary"); }
-
-export default function CameraModal({ photoInfo, setPhotoInfo }) {
-  // let blobBin = atob(photoInfo.uri);
-  // let array = [];
-  // for (var i = 0; i < blobBin.length; i++) {
-    // array.push(blobBin.charCodeAt(i));
-  // }
-  // let file = new Blob([new Uint8Array(array)], { type: "image/jpg" }); // Blob 생성
-  // formData.append("image", b64toBlob(photoInfo, "image/jpg"), "car.jpg");
+export default function CameraModal({ photoInfo, setPhotoInfo, userToken, missionInfo, location, myItems, setMyItems, myMission, setMyMission, navigation }) {
 
   photoInfo.type = 'image/jpeg'
   photoInfo.name = 'photo' + '-' + Date.now() + '.jpg'
-  // console.log(photoInfo)
     
   const formData = new FormData();
-  formData.append("category", "general")
-  formData.append("title", "car")
+  formData.append("category", missionInfo.mission.body_category)
+  formData.append("title", missionInfo.mission.body_title)
   formData.append("image", photoInfo);
-  // console.log(formData)
+
+  // useEffect(() => {
+  //   setMyItems(myItems)
+  //   setMyMission(myMission)
+  // }, [myItems, myMission])
 
   return (
     <View style={styles.centeredView}>
-      {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}> */}
-        <View style={styles.centeredView}>
-          {/* <View style={styles.modalView}> */}
-            <Image
-              style={{ width: 300, height: 500, resizeMode: 'contain' }}
-              source={{ uri: photoInfo.uri }}
-            />
+      <View style={styles.centeredView}>
+        <Image
+          style={{ width: 300, height: 450, resizeMode: 'contain' }}
+          source={{ uri: photoInfo.uri }}
+        />
+        <Button
+          icon="camera"
+          mode="outlined"
+          onPress={() => {
+            setPhotoInfo(null)
+            axios.post(`http://${env.IP_ADDRESS}/ai-images/predict/`, formData, {
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data',
+                Authorization: "Bearer " + userToken
+              }
+            })
+            .then(res => {
+              console.log(res.data.ans)
+              if (res.data.ans) {
+                if (!!location) {
+                  axios.put(`http://${env.IP_ADDRESS}/account/mymission/${missionInfo.id}/`, { "location": location }, {
+                    headers: {
+                      Authorization: "Bearer " + userToken
+                    }
+                  })
+                  .then(res => {
+                    console.log(res.data)
+                    myItems[location - 1] = {
+                      id: res.data.id,
+                      location: res.data.location,
+                      name: res.data.item.name,
+                      price: res.data.item.sell_price
+                    }
+                    // setMyItems(myItems)
+                    // setMyMission(myMission)
+                    navigation.navigate('Login')
+                    navigation.navigate('Main')
+                  })
+                  .catch(err => console.error(err))
+                } else {
+                  Alert.alert('인벤토리가 가득 찼습니다. 보상을 받으려면 인벤토리를 비워주세요.')
+                }
+              } else {
+                Alert.alert('사진을 다시 찍어 주세요.')
+              }
+            })
+            .catch(err => console.error(err))
 
-            <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-              onPress={() => {
-                // setModalVisible(!modalVisible);
-                setPhotoInfo(null)
-                axios.post('http://k3b305.p.ssafy.io:8005/ai-images/predict/', formData, {
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: ""
-                  }
-                })
-                .then(res => {
-                  console.log("성공!", res)
-                })
-                .catch(err => console.error("실패!", err))
-              }}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </TouchableHighlight>
-          {/* </View> */}
-        </View>
-      {/* </Modal> */}
-
+            setMyItems(myItems)
+            setMyMission(myMission)
+          }}
+        >
+          미션 완료
+        </Button>
+      </View>
     </View>
   );
 }
@@ -104,7 +88,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    // marginTop: 22,
+    zIndex: 50,
   },
   modalView: {
     margin: 20,
@@ -120,12 +105,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    zIndex: 90,
   },
   openButton: {
     backgroundColor: '#F194FF',
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+    zIndex: 200,
   },
   textStyle: {
     color: 'white',

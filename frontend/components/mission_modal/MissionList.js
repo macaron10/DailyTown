@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, ScrollView, Image, Text } from 'react-native';
-import { List, IconButton } from 'react-native-paper';
+import { List, Button } from 'react-native-paper';
 
 import CameraOn from '../cameramodal/CameraOn';
 import ImageModal from '../cameramodal/CameraModal';
-import missionData from "./MissionData";
+import DynamicItems from "../mainbottom/DynamicItems"
 
 
 function CheckCamera(props) {
@@ -20,40 +20,48 @@ function CheckCamera(props) {
 function CheckImage(props) {
   const photoInfo = props.photoInfo
   if ( photoInfo ) {
-    // Alert.alert('New Image Detect')
-    return <ImageModal photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } />
+    return <ImageModal navigation={props.navigation} photoInfo={ photoInfo } setPhotoInfo={ props.setPhotoInfo } userToken={ props.userToken } missionInfo={ props.missionInfo } location={ props.location } myItems={props.myItems} setMyItems={props.setMyItems} myMission={props.myMission} setMyMission={props.setMyMission} />
   }
   else {
     return <View/>
   }
 }
 
-function Camera({ setIsCameraOn }) {
+function Camera({ setIsCameraOn, setMissionInfo, missionInfo, location }) {
   const clickCameraOn = () => setIsCameraOn(prevStatus => !prevStatus);
+
   return (
-    <IconButton
+    <Button
       icon="camera"
+      mode="outlined"
       style={styles.cameraIcon}
       onPress={() => {
-        clickCameraOn();
+        if (!!location) {
+          clickCameraOn();
+          setMissionInfo(missionInfo)
+        } else {
+          Alert.alert('인벤토리가 가득 찼습니다. 보상을 받으려면 인벤토리를 비워주세요.')
+        }
       }}
-      size={40}
-    ></IconButton>
-    // <TouchableOpacity
-    //   onPress={() => {
-    //     clickCameraOn()
-    //   }}
-    //   style={{ backgroundColor: 'blue', }}
-    // >
-    //   <Text style={{ color: '#fff', textAlign: 'center' }}>Picture</Text>
-    // </TouchableOpacity>
+    >
+      미션 수행
+    </Button>
   );
 }
 
-export default function MissionList() {
+export default function MissionList({ userToken, myMission, setMyMission,  myItems, setMyItems, navigation }) {
 
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [photoInfo, setPhotoInfo] = useState(null);
+  const [missionInfo, setMissionInfo] = useState(null);
+
+  let location = 0
+  for (let i = 0; i < 20; i++) {
+    if (myItems[i]['name'] === "") {
+      location = myItems[i]['location']
+      break
+    }
+  }
 
   if (isCameraOn) {
     return(
@@ -61,27 +69,39 @@ export default function MissionList() {
     );
   } else if (photoInfo) {
     return(
-      <CheckImage photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } />
+      <CheckImage navigation={navigation} photoInfo={ photoInfo } setPhotoInfo={ setPhotoInfo } userToken={ userToken } missionInfo={ missionInfo } location={ location } myItems={myItems} setMyItems={setMyItems} myMission={myMission} setMyMission={setMyMission} />
     )
   } else {
     return (
       <List.Section
         style={ styles.container }
-        title="오늘의 미션"
       >
+        <Text style={{margin: 9, marginLeft: 20, fontSize: 20, fontWeight:'bold'}}>오늘의 미션</Text>
         <ScrollView>
-          {missionData.map(({ title, imgUrl }) => {
-            return (
-              <List.Accordion
-                key={title}
-                title={title}
-                // left={props => <List.Icon {...props} icon="folder" />}
-              >
-                <Text>보상</Text>
-                <Image style={ styles.rewardImg } source={imgUrl} />
-                <Camera setIsCameraOn={ setIsCameraOn } />
-              </List.Accordion>
-            )
+          {myMission.map( missionInfo => {
+            if (!missionInfo.iscleared) {
+              return (
+                <List.Accordion
+                  key={missionInfo.id}
+                  title={missionInfo.mission.description}
+                >
+                  <Text style={ styles.rewardText } >보상</Text>
+                  <Image style={ styles.rewardImg } source={ DynamicItems[missionInfo.item.name] } />
+                  <Camera setIsCameraOn={ setIsCameraOn } setMissionInfo={ setMissionInfo } missionInfo={ missionInfo } location={ location }/>
+                </List.Accordion>
+              )
+            } else {
+              return (
+                <List.Accordion
+                  key={missionInfo.id}
+                  title={missionInfo.mission.description}
+                >
+                  <Text style={ styles.rewardText } >보상</Text>
+                  <Image style={ styles.rewardImg } source={ DynamicItems[missionInfo.item.name] } />
+                  <Image style={ styles.clearImg } source={require('../../assets/clear.png')} />
+                </List.Accordion>
+              )
+            }
           })}
         </ScrollView>
       </List.Section>
@@ -91,18 +111,35 @@ export default function MissionList() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
+    marginTop: 20,
     // flex: 1,
     // backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
+    margin: 20,
+    paddingBottom: 50,
   },
   rewardImg: {
     width: 200,
     height: 200,
     left: "50%",
-    marginLeft: -100
+    marginLeft: -100,
+    marginBottom: 15,
+  },
+  clearImg: {
+    position: "absolute",
+    width: 250,
+    height: 250,
+    left: "50%",
+    marginLeft: -135,
+    marginTop: 40
+  },
+  rewardText: {
+    marginLeft: 30,
   },
   cameraIcon: {
+    marginBottom: 15,
+    marginLeft: 50,
+    marginRight: 50,
   }
 });
