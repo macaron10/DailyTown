@@ -233,3 +233,4 @@ pip-selfcheck.json
 */docker-compose.yml
 docker-compose.yml
 backend/docker-compose.yml
+secrets.json
