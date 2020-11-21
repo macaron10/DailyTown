@@ -225,14 +225,15 @@ WSGI_APPLICATION = 'bexperts.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# get_secret("SECRET_KEY")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bexperts_mysql',
-        'USER': 'bexperts',
-        'PASSWORD': 'deploy_ssafy!',
-        'HOST': 'mysql_service',
-        'PORT': '3306',
+        'NAME': get_secret("DB_DATABASE"),
+        'USER': get_secret("DB_USER"),
+        'PASSWORD': get_secret("DB_PASSWORD"),
+        'HOST': get_secret("HOST"),
+        'PORT': get_secret("PORT"),
     }
 }
 
