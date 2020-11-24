@@ -75,7 +75,6 @@ function SellingMode({userToken, itemInfo, index, items, itemForSell, setMyItems
             name: name,
             price: price
           }
-          
         }
         setMyItems(itemForSell)
       })
@@ -95,7 +94,6 @@ function SellingMode({userToken, itemInfo, index, items, itemForSell, setMyItems
           resizeMode="contain"
           source={image}
         />
-        <Text>{itemInfo['price']}</Text>
       </View>
       {isSellingMode ? <View /> :
         <View style={{ display: 'flex' }}>
@@ -123,7 +121,7 @@ function SellingMode({userToken, itemInfo, index, items, itemForSell, setMyItems
       }
       <View>
         <Text>{count}개</Text>
-        <Text>총 가격표시: {itemInfo['price'] * count} </Text>
+        <Text>총 가격: {itemInfo['price'] * count} </Text>
       </View>
 
       {/* <Text style={styles.modalText}> 이름: { itemInfo['name'] } </Text>
