@@ -129,8 +129,8 @@ const Tile = (props) => {
               const id = props.myItems[props.changedIndex]['id']
               const name = props.myItems[props.changedIndex]['name']
               const newData = [...props.data]
+              const price = props.myItems[props.changedIndex].price
               const tempLocation = props.myItems[props.changedIndex]['location']
-              
               props.myItems[props.changedIndex] ={
                 name: '',
                 location: tempLocation
@@ -140,7 +140,7 @@ const Tile = (props) => {
                 x: props.x,
                 y: props.y,
                 id: id,
-                price: props.myItems[props.changedIndex].price
+                price: price
               })
               const location = props.x + props.y * 6 + 1
 
