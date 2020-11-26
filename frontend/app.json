@@ -12,8 +12,11 @@
     },
     "android": {
       "package": "host.exp.exponent",
-      "versionCode": 1
-    },    
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA"
+      ]
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
