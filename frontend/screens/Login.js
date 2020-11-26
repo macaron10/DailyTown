@@ -28,7 +28,7 @@ export default function LoginSample({ navigation }) {
 
   const onPress = async () => {
     const res = await Google.logInAsync(
-      {androidClientId: env.AND_KEY, androidStandaloneAppClientId: env.AND_KEY}).catch(error => {console.log(error)});
+      {androidClientId: env.AND_KEY, androidStandaloneAppClientId: env.AND_APP_KEY}).catch(error => {console.log(error)});
     console.log(res);
     const secure_available = await SecureStore.isAvailableAsync()
     if (res.type === 'success') {
